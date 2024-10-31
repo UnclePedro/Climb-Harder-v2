@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #010101;
+        fill-rule: evenodd;
+      }
+
+      .cls-1, .cls-2 {
+        stroke-width: 0px;
+      }
+
+      .cls-2 {
+        fill: #cf5630;
+      }
+    </style>
+  </defs>
+  <circle class="cls-2" cx="250" cy="250" r="247.69"/>
+  <g id="Page-1">
+    <g id="Dribbble-Light-Preview">
+      <g id="icons">
+        <path id="delete-_1487_" data-name="delete-[#1487]" class="cls-1" d="M217.97,311.01h21.35v-81.35h-21.35v81.35ZM260.68,311.01h21.35v-81.35h-21.35v81.35ZM196.61,331.35h106.77v-122.02h-106.77v122.02ZM217.97,188.99h64.06v-20.34h-64.06v20.34ZM303.39,188.99v-40.67h-106.77v40.67h-53.39v20.34h32.03v142.36h149.48v-142.36h32.03v-20.34h-53.39Z"/>
+      </g>
+    </g>
+  </g>
+</svg>
