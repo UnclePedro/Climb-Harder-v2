@@ -1,15 +1,21 @@
 import { Season } from "../models/Season";
 import { newId } from "../utils/helpers";
+import axios from "axios";
+import { getUser } from "./userHelper";
+
+// https://climb-harder-api.vercel.app
+// http://localhost:8080
+const url = "https://random-quote-generator-api.vercel.app";
 
 // Returns seasons array if exists, if null creates new empty season
-export const getSeasons = (): Season[] => {
-  if (localStorage.getItem("seasons") === null) {
-    localStorage.setItem("seasons", JSON.stringify(defaultSeasons));
-  }
-  const seasonsLocal = localStorage.getItem("seasons") as string;
-  const seasons = JSON.parse(seasonsLocal) as Season[];
-  return seasons;
-};
+// export const getSeasons = (): Season[] => {
+//   if (localStorage.getItem("seasons") === null) {
+//     localStorage.setItem("seasons", JSON.stringify(defaultSeasons));
+//   }
+//   const seasonsLocal = localStorage.getItem("seasons") as string;
+//   const seasons = JSON.parse(seasonsLocal) as Season[];
+//   return seasons;
+// };
 
 const defaultSeasons: Season[] = [
   {
@@ -26,9 +32,25 @@ const defaultSeasons: Season[] = [
   },
 ];
 
+export const getSeasons = async (): Promise<Season[]> => {
+  const user = await getUser();
+
+  // try to set axios headers with API key instead of doing it in this request
+  const seasons: Season[] = await axios.post(`${url}/getSeasons`, {
+    id: user.id,
+    apiKey: user.apiKey,
+  });
+
+  if (!seasons) {
+    throw new Error("Failed to fetch seasons");
+  }
+
+  return seasons;
+};
+
 // Selects specific season within the seasons array by filtering by ID
-export const getSeason = (seasonId: string): Season => {
-  return getSeasons().find((season) => season.id === seasonId) as Season;
+export const getSeason = async (seasonId: string) => {
+  return (await getSeasons()).find((season) => season.id === seasonId);
 };
 
 // Called when user updates data within the season

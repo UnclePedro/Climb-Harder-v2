@@ -10,6 +10,7 @@ import {
 import { Season } from "./models/Season.ts";
 import { Analytics } from "@vercel/analytics/react";
 import { useQuery } from "@tanstack/react-query";
+import { getWorkouts } from "./helpers/workoutStorageHelper.ts";
 
 function App() {
   const [seasons, setSeasons] = useState(getSeasons());
@@ -25,7 +26,10 @@ function App() {
   const workouts = viewingSeason.workouts;
   const seasonNotes = viewingSeason.seasonNotes;
 
-  const {} = useQuery({ queryKey: ["workouts"], queryFn:  });
+  const { data } = useQuery({
+    queryKey: ["workouts"],
+    queryFn: getWorkouts(viewingSeason),
+  });
 
   if (displaySeasonNotes)
     return (

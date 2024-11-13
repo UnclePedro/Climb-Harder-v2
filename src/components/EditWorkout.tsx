@@ -46,6 +46,8 @@ const EditWorkout = ({
 
   // Used to hold data of the new or existing workout being edited, then passed to onSave
   const [workoutData, setWorkoutData] = useState<Workout>(workoutToEdit);
+
+  // Controls user action confirmation modal
   const [displayUserConfirmation, setDisplayUserConfirmation] = useState(false);
 
   return (
