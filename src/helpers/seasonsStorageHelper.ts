@@ -3,10 +3,6 @@ import { newId } from "../utils/helpers";
 import axios from "axios";
 import { getUser } from "./userHelper";
 
-// https://climb-harder-api.vercel.app
-// http://localhost:8080
-const url = "https://random-quote-generator-api.vercel.app";
-
 // Returns seasons array if exists, if null creates new empty season
 // export const getSeasons = (): Season[] => {
 //   if (localStorage.getItem("seasons") === null) {
@@ -17,6 +13,7 @@ const url = "https://random-quote-generator-api.vercel.app";
 //   return seasons;
 // };
 
+// I think this needs to be used on the backend now... if getSeasons returns no season, initialise a default season to the new user
 const defaultSeasons: Season[] = [
   {
     id: newId(),
@@ -36,8 +33,8 @@ const defaultSeasons: Season[] = [
 export const getSeasons = async (): Promise<Season[]> => {
   const user = await getUser();
 
-  // try to set axios headers with API key instead of doing it in this request
-  const seasons: Season[] = await axios.post(`${url}/getSeasons`, {
+  // try to set axios default headers with API key instead of doing it in this request
+  const seasons: Season[] = await axios.post(`/getSeasons`, {
     id: user.id,
     apiKey: user.apiKey,
   });
@@ -49,24 +46,17 @@ export const getSeasons = async (): Promise<Season[]> => {
   return seasons;
 };
 
-// Selects specific season within the seasons array by filtering by ID
-export const getSeason = async (seasonId: string) => {
-  return (await getSeasons()).find((season) => season.id === seasonId);
-};
-
-// Called when user updates data within the season
-// I don't think this function is necessary
-export const updateSeason = async (seasonId: number, updatedSeason: Season) => {
-  await axios.put(`${url}/updateSeason/${seasonId}`, {
-    updatedSeason,
-  });
+// Selects specific season within the seasons array by filtering by ID, used for season selection dropdown in Home
+// How is this function used within the app? Can instead of calling getSeasons inside it, I feed the already grabbed seasons data.
+export const getSeason = (seasons: Season[], seasonId: string) => {
+  return seasons.find((season) => season.id === seasonId);
 };
 
 // Creates new blank season for the user
 export const addSeason = async () => {
   const user = await getUser();
 
-  const seasons: Season[] = await axios.post(`${url}/addSeason`, {
+  const seasons: Season[] = await axios.post(`/addSeason`, {
     id: user.id,
     apiKey: user.apiKey,
   });
