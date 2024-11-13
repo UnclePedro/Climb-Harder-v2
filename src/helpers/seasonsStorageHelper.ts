@@ -63,28 +63,19 @@ export const updateSeason = async (seasonId: number, updatedSeason: Season) => {
 };
 
 // Creates new blank season for the user
-export const addSeason = () => {
-  const newSeason: Season = {
-    id: newId(),
-    name: `Season ${getSeasons().number} - ${new Date().toLocaleString(
-      "default",
-      { month: "long" }
-    )} ${new Date().getFullYear()}`,
-    workouts: [],
-    seasonNotes: {
-      trainingFocuses: "",
-      goals: "",
-      achievements: "",
-    },
-  };
+export const addSeason = async () => {
+  const user = await getUser();
 
-  const updatedSeasons = [...getSeasons(), newSeason];
-  localStorage.setItem("seasons", JSON.stringify(updatedSeasons));
-  return updatedSeasons;
+  const seasons: Season[] = await axios.post(`${url}/addSeason`, {
+    id: user.id,
+    apiKey: user.apiKey,
+  });
+
+  return seasons;
 };
 
-export const deleteSeason = (seasonId: string) => {
-  let updatedSeasons = getSeasons().filter(
+export const deleteSeason = async (seasonId: string) => {
+  let updatedSeasons = (await getSeasons()).filter(
     (existingSeason: Season) => existingSeason.id !== seasonId
   );
   if (updatedSeasons.length === 0) {
