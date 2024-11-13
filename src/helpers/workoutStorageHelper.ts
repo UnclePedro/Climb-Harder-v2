@@ -7,6 +7,7 @@ export const getWorkouts = (currentSeason: Season): Workout[] => {
   return workouts;
 };
 
+// WHen you create the api function for saveWorkout, include the workoutId in the URL
 export const saveWorkout = (updatedWorkout: Workout, currentSeason: Season) =>
   updateSeason({
     ...currentSeason,

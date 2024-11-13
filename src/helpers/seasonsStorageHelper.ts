@@ -23,6 +23,7 @@ const defaultSeasons: Season[] = [
     name: `Season 1 - ${new Date().toLocaleString("default", {
       month: "long",
     })} ${new Date().getFullYear()}`,
+    number: 0,
     workouts: [],
     seasonNotes: {
       trainingFocuses: "",
@@ -54,20 +55,18 @@ export const getSeason = async (seasonId: string) => {
 };
 
 // Called when user updates data within the season
-export const updateSeason = (updatedSeason: Season) => {
-  const updatedSeasons = getSeasons().map((season) => {
-    if (season.id === updatedSeason.id) {
-      return updatedSeason;
-    } else return season;
+// I don't think this function is necessary
+export const updateSeason = async (seasonId: number, updatedSeason: Season) => {
+  await axios.put(`${url}/updateSeason/${seasonId}`, {
+    updatedSeason,
   });
-  localStorage.setItem("seasons", JSON.stringify(updatedSeasons));
 };
 
 // Creates new blank season for the user
 export const addSeason = () => {
   const newSeason: Season = {
     id: newId(),
-    name: `Season ${getSeasons().length + 1} - ${new Date().toLocaleString(
+    name: `Season ${getSeasons().number} - ${new Date().toLocaleString(
       "default",
       { month: "long" }
     )} ${new Date().getFullYear()}`,
