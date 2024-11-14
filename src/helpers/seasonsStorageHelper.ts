@@ -1,7 +1,6 @@
 import { Season } from "../models/Season";
 import { newId } from "../utils/helpers";
 import axios from "axios";
-import { getUser } from "./userHelper";
 
 // Returns seasons array if exists, if null creates new empty season
 // export const getSeasons = (): Season[] => {
@@ -31,37 +30,27 @@ const defaultSeasons: Season[] = [
 ];
 
 export const getSeasons = async (): Promise<Season[]> => {
-  const user = await getUser();
-
-  // try to set axios default headers with API key instead of doing it in this request
-  const seasons: Season[] = await axios.post(`/getSeasons`, {
-    id: user.id,
-    apiKey: user.apiKey,
-  });
-
-  if (!seasons) {
+  try {
+    const seasons = await axios.get<Season[]>("/getSeasons");
+    return seasons.data;
+  } catch {
     throw new Error("Failed to fetch seasons");
   }
-
-  return seasons;
 };
 
-// Selects specific season within the seasons array by filtering by ID, used for season selection dropdown in Home
-// How is this function used within the app? Can instead of calling getSeasons inside it, I feed the already grabbed seasons data.
+// Selects specific season within the seasons array by filtering by ID, used to setViewingSeason in App.tsx, which is then used in Home in the seasons dropdown list
 export const getSeason = (seasons: Season[], seasonId: string) => {
   return seasons.find((season) => season.id === seasonId);
 };
 
 // Creates new blank season for the user
 export const addSeason = async () => {
-  const user = await getUser();
-
-  const seasons: Season[] = await axios.post(`/addSeason`, {
-    id: user.id,
-    apiKey: user.apiKey,
-  });
-
-  return seasons;
+  try {
+    const seasons = await axios.post<Season[]>("/addSeason");
+    return seasons.data;
+  } catch {
+    throw new Error("Failed to add season");
+  }
 };
 
 export const deleteSeason = async (seasonId: string) => {

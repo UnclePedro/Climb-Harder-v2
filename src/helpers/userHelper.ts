@@ -1,6 +1,5 @@
 import axios from "axios";
 import { emptyUser, User } from "../models/User";
-import { endpointUrl } from "./urlHelper";
 
 export const getUserFromLocalStorage = (): User => {
   const existingUser = localStorage.getItem("user");
@@ -12,9 +11,9 @@ export const getUser = async (): Promise<User> => {
 
   if (user.id === 0) {
     try {
-      const newUser: User = await axios.get(`${endpointUrl}/generateUser`);
+      const newUser = await axios.get<User>("/generateUser");
       localStorage.setItem("user", JSON.stringify(newUser));
-      return newUser;
+      return newUser.data;
     } catch (error) {
       console.error("Failed to create new user");
       return emptyUser;
