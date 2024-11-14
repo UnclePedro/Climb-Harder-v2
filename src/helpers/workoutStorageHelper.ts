@@ -1,32 +1,36 @@
-import { Season } from "../models/Season";
+import axios from "axios";
 import { TrainingType, Workout } from "../models/Workout";
-import { updateSeason } from "./seasonsStorageHelper";
 
-export const getWorkouts = (currentSeason: Season): Workout[] => {
-  const workouts = currentSeason.workouts;
-  return workouts;
+export const getWorkouts = async (): Promise<Workout[]> => {
+  try {
+    const workouts = await axios.get<Workout[]>("/getWorkouts");
+    return workouts.data;
+  } catch {
+    throw new Error("Failed to fetch workouts");
+  }
 };
 
 // WHen you create the api function for saveWorkout, include the workoutId in the URL
-export const saveWorkout = (updatedWorkout: Workout, currentSeason: Season) =>
-  updateSeason({
-    ...currentSeason,
-    workouts: [
-      ...getWorkouts(currentSeason).filter(
-        (existingWorkout) => existingWorkout.id !== updatedWorkout.id
-      ),
-      updatedWorkout,
-    ],
-  });
+export const saveWorkout = async (workout: Workout) => {
+  try {
+    const updatedWorkouts = await axios.post<Workout>("/saveWorkout", {
+      workout,
+    });
+    return updatedWorkouts.data;
+  } catch {
+    throw new Error("Failed to save workout");
+  }
+};
 
-export const deleteWorkout = (workoutId: string, currentSeason: Season) => {
-  const updatedWorkouts = getWorkouts(currentSeason).filter(
-    (existingWorkout: Workout) => existingWorkout.id !== workoutId
-  );
-  updateSeason({
-    ...currentSeason,
-    workouts: updatedWorkouts,
-  });
+export const deleteWorkout = async (workoutId: string) => {
+  try {
+    const updatedWorkouts = await axios.delete<Workout>("/deleteWorkout", {
+      data: { workoutId },
+    });
+    return updatedWorkouts.data;
+  } catch {
+    throw new Error("Failed to delete workout");
+  }
 };
 
 // Calculate total workout time from all workouts

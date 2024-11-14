@@ -16,12 +16,12 @@ export const getSeason = (seasons: Season[], seasonId: number) => {
 };
 
 // Creates new blank season for the user
-export const addSeason = async () => {
+export const newSeason = async () => {
   try {
-    const seasons = await axios.post<Season[]>("/addSeason");
+    const seasons = await axios.post<Season[]>("/newSeason");
     return seasons.data;
   } catch {
-    throw new Error("Failed to add season");
+    throw new Error("Failed to create new season");
   }
 };
 
