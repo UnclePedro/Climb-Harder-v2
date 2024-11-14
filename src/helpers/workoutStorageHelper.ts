@@ -10,7 +10,7 @@ export const getWorkouts = async (): Promise<Workout[]> => {
   }
 };
 
-// WHen you create the api function for saveWorkout, include the workoutId in the URL
+// You could include the workout ID in the url... but parsing the integer in the backend felt very clunky
 export const saveWorkout = async (workout: Workout) => {
   try {
     const updatedWorkouts = await axios.post<Workout>("/saveWorkout", {

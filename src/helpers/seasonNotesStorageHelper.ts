@@ -1,16 +1,25 @@
-import { Season } from "../models/Season";
+import axios from "axios";
 import { SeasonNotes } from "../models/SeasonNotes";
-import { updateSeason } from "./seasonsStorageHelper";
 
-export const getSeasonNotes = (currentSeason: Season) => {
-  const seasonNotes = currentSeason.seasonNotes as SeasonNotes;
-  return seasonNotes;
+export const getSeasonNotes = async () => {
+  try {
+    const seasonNotes = await axios.get<SeasonNotes>("/getSeasonNotes");
+    return seasonNotes.data;
+  } catch {
+    throw new Error("Failed to get season notes");
+  }
 };
 
-export const saveSeasonNotes = (
-  updatedSeasonNotes: SeasonNotes,
-  currentSeason: Season
-) => {
-  currentSeason.seasonNotes = updatedSeasonNotes;
-  updateSeason(currentSeason);
+export const saveSeasonNotes = async (seasonNotes: SeasonNotes) => {
+  try {
+    const updatedSeasonNotes = await axios.post<SeasonNotes>(
+      "/saveSeasonNotes",
+      {
+        seasonNotes,
+      }
+    );
+    return updatedSeasonNotes.data;
+  } catch {
+    throw new Error("Failed to save season notes");
+  }
 };
