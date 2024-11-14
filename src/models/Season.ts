@@ -2,7 +2,7 @@ import { SeasonNotes } from "./SeasonNotes";
 import { Workout } from "./Workout";
 
 export interface Season {
-  id: string;
+  id: number;
   name: string;
   number: number;
   workouts: Workout[];
