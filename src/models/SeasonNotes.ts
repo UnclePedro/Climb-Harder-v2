@@ -3,3 +3,9 @@ export interface SeasonNotes {
   goals: string;
   achievements: string;
 }
+
+export const defaultSeasonNotes: SeasonNotes = {
+  trainingFocuses: "",
+  goals: "",
+  achievements: "",
+};

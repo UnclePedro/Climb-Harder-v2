@@ -3,24 +3,24 @@ import { Workout } from "../models/Workout";
 import QuoteGenerator from "./QuoteGenerator";
 import WorkoutList from "./WorkoutList";
 import { Season } from "../models/Season";
-import { deleteSeason, getSeasons } from "../helpers/seasonsStorageHelper";
+import { deleteSeason, newSeason } from "../helpers/seasonsStorageHelper";
 import { useState } from "react";
 import UserConfirmation from "./UserConfirmation";
 
 interface Props {
-  seasonNotesOpen: () => void;
-  onEditWorkout: (workoutId: string) => void;
+  seasons: Season[];
   workouts: Workout[];
-  addSeason: () => void;
+  seasonNotesOpen: () => void;
+  onEditWorkout: (workoutId: number) => void;
   viewingSeason: Season;
-  setViewingSeason: (seasonId: string) => void;
+  setViewingSeason: (seasonId: number) => void;
 }
 
 const Home = ({
+  seasons,
+  workouts,
   seasonNotesOpen,
   onEditWorkout,
-  workouts,
-  addSeason,
   viewingSeason,
   setViewingSeason,
 }: Props) => {
@@ -47,10 +47,10 @@ const Home = ({
                     className="font-bold text-2xl flex h-12 bg-opacity-0 bg-slate-50"
                     value={viewingSeason.id}
                     onChange={(element) => {
-                      setViewingSeason(element.target.value);
+                      setViewingSeason(Number(element.target.value));
                     }}
                   >
-                    {getSeasons().map((season: Season) => (
+                    {seasons.map((season: Season) => (
                       <option key={season.id} value={season.id}>
                         {season.name}
                       </option>
@@ -68,8 +68,8 @@ const Home = ({
                 <button
                   className="bg-amber-500 font-medium rounded-lg px-2 py-1 ml-4"
                   onClick={() => {
-                    addSeason();
-                    setViewingSeason(getSeasons()[getSeasons().length - 1].id); // Get updated list of seasons and set viewingSeason to the last season
+                    newSeason();
+                    setViewingSeason(seasons[seasons.length - 1].id); // Get updated list of seasons and set viewingSeason to the last season
                   }}
                 >
                   New Season
@@ -95,7 +95,7 @@ const Home = ({
               <UserConfirmation
                 userYes={() => (
                   deleteSeason(viewingSeason.id),
-                  setViewingSeason(getSeasons()[getSeasons().length - 1].id), // Get updated list of seasons and set viewingSeason to the last season
+                  setViewingSeason(seasons[seasons.length - 1].id), // Get updated list of seasons and set viewingSeason to the last season
                   setDisplayUserConfirmation(false)
                 )}
                 userNo={() => setDisplayUserConfirmation(false)}

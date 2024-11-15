@@ -4,7 +4,7 @@ interface Props {
   name: string;
   trainingType: TrainingType;
   date: string;
-  id: string;
+  id: number;
 }
 
 const WorkoutTile = ({ name, trainingType, date }: Props) => {

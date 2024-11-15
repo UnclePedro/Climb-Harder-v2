@@ -6,13 +6,13 @@ import {
   totalWorkoutTime,
   workoutsByWeek,
 } from "../helpers/workoutStorageHelper";
-import { formatDateForDisplay, newId } from "../utils/helpers";
+import { formatDateForDisplay } from "../utils/helpers";
 import add from "/src/assets/iconography/add.svg";
 import Icon from "./Icon";
 
 interface Props {
   workouts: Workout[];
-  onEditWorkout: (workoutId: string) => void;
+  onEditWorkout: (workoutId: number) => void;
 }
 
 const WorkoutList = ({ workouts, onEditWorkout }: Props) => {
@@ -31,10 +31,11 @@ const WorkoutList = ({ workouts, onEditWorkout }: Props) => {
           <button
             className="w-12 -mt-8 mr-1"
             onClick={() => {
-              onEditWorkout(newId());
+              // What do I do here... need to open a blank, default workout...
+              onEditWorkout(0);
             }}
           >
-            <Icon iconImg={add} alt={"close"} />
+            <Icon iconImg={add} alt={"newWorkout"} />
           </button>
         </div>
         <div className="pb-2">

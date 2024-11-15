@@ -2,40 +2,42 @@ import { useState } from "react";
 import Home from "./components/Home.tsx";
 import EditSeasonNotes from "./components/EditSeasonNotes.tsx";
 import EditWorkout from "./components/EditWorkout.tsx";
-import {
-  addSeason,
-  getSeason,
-  getSeasons,
-} from "./helpers/seasonsStorageHelper.ts";
+import { getSeasons } from "./helpers/seasonsStorageHelper.ts";
 import { Season } from "./models/Season.ts";
 import { Analytics } from "@vercel/analytics/react";
-import { useQuery } from "@tanstack/react-query";
 import { getWorkouts } from "./helpers/workoutStorageHelper.ts";
+import { useQuery } from "@tanstack/react-query";
+import { getUser } from "./helpers/userHelper.ts";
+import { getSeasonNotes } from "./helpers/seasonNotesStorageHelper.ts";
+import { defaultSeasonNotes } from "./models/SeasonNotes.ts";
 
 function App() {
-  const [seasons, setSeasons] = useState(getSeasons());
-  const [displaySeasonNotes, setDisplaySeasonNotes] = useState(false);
-  const [editingWorkoutId, setEditingWorkoutId] = useState<string>();
+  useQuery({ queryKey: ["user"], queryFn: getUser });
+  const { data: seasons = [] } = useQuery({
+    queryKey: ["seasons"],
+    queryFn: getSeasons,
+  });
+  const { data: seasonNotes = defaultSeasonNotes } = useQuery({
+    queryKey: ["seasonNotes"],
+    queryFn: getSeasonNotes,
+  });
+  const { data: workouts = [] } = useQuery({
+    queryKey: ["workouts"],
+    queryFn: getWorkouts,
+  });
 
+  const [displaySeasonNotes, setDisplaySeasonNotes] = useState(false);
+  const [editingWorkoutId, setEditingWorkoutId] = useState<number>();
   const [viewingSeason, setViewingSeason] = useState(
-    getSeasons().find(
+    seasons.find(
       (season) => season.id === seasons[seasons.length - 1].id
     ) as Season
   );
-
-  const workouts = viewingSeason.workouts;
-  const seasonNotes = viewingSeason.seasonNotes;
-
-  const { data } = useQuery({
-    queryKey: ["workouts"],
-    queryFn: getWorkouts(viewingSeason),
-  });
 
   if (displaySeasonNotes)
     return (
       <EditSeasonNotes
         seasonNotes={seasonNotes}
-        currentSeason={viewingSeason}
         onClose={() => setDisplaySeasonNotes(false)}
       />
     );
@@ -44,10 +46,9 @@ function App() {
       <EditWorkout
         workoutId={editingWorkoutId}
         workouts={workouts}
-        currentSeason={viewingSeason}
         onClose={() => {
           setEditingWorkoutId(undefined);
-          setViewingSeason(getSeason(viewingSeason.id));
+          setViewingSeason(viewingSeason);
         }}
       />
     );
@@ -56,13 +57,11 @@ function App() {
     <>
       <Analytics />
       <Home
+        workouts={workouts}
+        seasons={seasons}
         seasonNotesOpen={() => setDisplaySeasonNotes(true)}
         onEditWorkout={(workoutId) => setEditingWorkoutId(workoutId)}
-        workouts={workouts}
-        addSeason={() => setSeasons(addSeason())}
-        setViewingSeason={(seasonId: string) =>
-          setViewingSeason(getSeason(seasonId))
-        }
+        setViewingSeason={() => setViewingSeason(viewingSeason)}
         viewingSeason={viewingSeason}
       />
     </>

@@ -2,7 +2,6 @@ import { Workout, TrainingType } from "../models/Workout.ts";
 import { deleteWorkout, saveWorkout } from "../helpers/workoutStorageHelper.ts";
 import { useState } from "react";
 import { Fade } from "react-awesome-reveal";
-import { Season } from "../models/Season.ts";
 import { formatDateForInput } from "../utils/helpers.ts";
 import UserConfirmation from "./UserConfirmation.tsx";
 import Icon from "./Icon.tsx";
@@ -10,17 +9,11 @@ import close from "/src/assets/iconography/close.svg";
 
 interface Props {
   onClose: () => void;
-  workoutId: string; // Loads either a new workoutId if one doesn't exist, or uses the workoutId of existing workout
+  workoutId: number; // Loads either a new workoutId if one doesn't exist, or uses the workoutId of existing workout
   workouts: Workout[];
-  currentSeason: Season;
 }
 
-const EditWorkout = ({
-  onClose,
-  workoutId,
-  workouts,
-  currentSeason,
-}: Props) => {
+const EditWorkout = ({ onClose, workoutId, workouts }: Props) => {
   // Used to prefill new workout with last added or edited workout details
   const lastWorkout = workouts[workouts.length - 1] as Workout | undefined;
 
@@ -31,6 +24,7 @@ const EditWorkout = ({
     details: "",
     duration: 0,
     date: new Date().getTime(),
+    seasonId: 0,
   };
 
   // If the workoutId matches an existingWorkout.id from the workouts array, fill form state with that data. Or, set state to previous workout details and empty strings for a blank form
@@ -147,7 +141,7 @@ const EditWorkout = ({
                   <button
                     className="bg-amber-500 font-bold rounded-lg px-2 py-1 mt-2"
                     onClick={() => {
-                      saveWorkout(workoutData, currentSeason);
+                      saveWorkout(workoutData);
                       onClose();
                     }}
                   >
@@ -167,7 +161,7 @@ const EditWorkout = ({
                   {displayUserConfirmation && (
                     <UserConfirmation
                       userYes={() => (
-                        deleteWorkout(workoutId, currentSeason),
+                        deleteWorkout(workoutId),
                         onClose(),
                         setDisplayUserConfirmation(false)
                       )}

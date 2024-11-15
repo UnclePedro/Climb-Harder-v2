@@ -22,7 +22,7 @@ export const saveWorkout = async (workout: Workout) => {
   }
 };
 
-export const deleteWorkout = async (workoutId: string) => {
+export const deleteWorkout = async (workoutId: number) => {
   try {
     const updatedWorkouts = await axios.delete<Workout>("/deleteWorkout", {
       data: { workoutId },

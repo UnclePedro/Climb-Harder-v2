@@ -2,17 +2,15 @@ import { SeasonNotes } from "../models/SeasonNotes";
 import { saveSeasonNotes } from "../helpers/seasonNotesStorageHelper";
 import { useState } from "react";
 import { Fade } from "react-awesome-reveal";
-import { Season } from "../models/Season";
 import Icon from "./Icon";
 import close from "/src/assets/iconography/close.svg";
 
 interface Props {
   onClose: () => void;
   seasonNotes: SeasonNotes;
-  currentSeason: Season;
 }
 
-const EditSeasonNotes = ({ onClose, seasonNotes, currentSeason }: Props) => {
+const EditSeasonNotes = ({ onClose, seasonNotes }: Props) => {
   const [seasonNotesData, setSeasonNotesData] = useState(seasonNotes);
 
   return (
@@ -63,7 +61,7 @@ const EditSeasonNotes = ({ onClose, seasonNotes, currentSeason }: Props) => {
             <button
               className="bg-amber-500 font-bold rounded-lg px-2 py-1 mt-3 "
               onClick={() => {
-                saveSeasonNotes(seasonNotesData, currentSeason);
+                saveSeasonNotes(seasonNotesData);
                 onClose();
               }}
             >

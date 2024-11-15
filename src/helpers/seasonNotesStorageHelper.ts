@@ -1,7 +1,7 @@
 import axios from "axios";
 import { SeasonNotes } from "../models/SeasonNotes";
 
-export const getSeasonNotes = async () => {
+export const getSeasonNotes = async (): Promise<SeasonNotes> => {
   try {
     const seasonNotes = await axios.get<SeasonNotes>("/getSeasonNotes");
     return seasonNotes.data;
