@@ -3,7 +3,9 @@ import axios from "axios";
 
 export const getSeasons = async (): Promise<Season[]> => {
   try {
-    const seasons = await axios.get<Season[]>("/getSeasons");
+    const seasons = await axios.get<Season[]>(
+      "http://localhost:8080/getSeasons"
+    );
     return seasons.data;
   } catch {
     throw new Error("Failed to fetch seasons");

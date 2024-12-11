@@ -11,8 +11,12 @@ export const getUser = async (): Promise<User> => {
 
   if (user.id === 0) {
     try {
-      const newUser = await axios.get<User>("/generateUser");
-      localStorage.setItem("user", JSON.stringify(newUser));
+      const newUser = await axios.post<User>(
+        "http://localhost:8080/generateUser"
+      );
+
+      localStorage.setItem("user", JSON.stringify(newUser.data));
+      console.log("New user is:", newUser);
       return newUser.data;
     } catch (error) {
       console.error("Failed to create new user");
