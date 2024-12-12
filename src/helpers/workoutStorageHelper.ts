@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../config/axiosConfig";
 import { TrainingType, Workout } from "../models/Workout";
 
 export const getWorkouts = async (): Promise<Workout[]> => {

@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../config/axiosConfig";
 import { SeasonNotes } from "../models/SeasonNotes";
 
 export const getSeasonNotes = async (): Promise<SeasonNotes> => {

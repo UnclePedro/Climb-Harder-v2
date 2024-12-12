@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../config/axiosConfig";
 import { emptyUser, User } from "../models/User";
 
 export const getUserFromLocalStorage = (): User => {
@@ -11,14 +11,14 @@ export const getUser = async (): Promise<User> => {
 
   if (user.id === 0) {
     try {
-      const newUser = await axios.post("http://localhost:8080/generateUser");
+      const newUser = await axios.post("/generateUser");
 
       console.log("New user is:", newUser);
 
       // Access the newUserData and store only id and apiKey in localStorage
       const userData = {
-        id: newUser.data.newUserData.id,
-        apiKey: newUser.data.newUserData.apiKey,
+        id: newUser.data.id,
+        apiKey: newUser.data.apiKey,
       };
 
       localStorage.setItem("user", JSON.stringify(userData));

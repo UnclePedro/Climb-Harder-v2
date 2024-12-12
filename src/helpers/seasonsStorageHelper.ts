@@ -1,13 +1,19 @@
 import { Season } from "../models/Season";
-import axios from "axios";
+import axios from "../config/axiosConfig";
+
+import { getUser } from "./userHelper";
 
 export const getSeasons = async (): Promise<Season[]> => {
+  const user = await getUser();
+
   try {
-    const seasons = await axios.get<Season[]>(
-      "http://localhost:8080/getSeasons"
-    );
+    const seasons = await axios.post("/getSeasons", {
+      userId: user.id,
+      apiKey: user.apiKey,
+    });
     return seasons.data;
-  } catch {
+  } catch (error) {
+    console.error("Error fetching seasons:", error);
     throw new Error("Failed to fetch seasons");
   }
 };

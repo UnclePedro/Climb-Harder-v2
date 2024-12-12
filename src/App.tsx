@@ -13,14 +13,17 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 function App() {
   useQuery({ queryKey: ["user"], queryFn: getUser });
+
   const { data: seasons = [] } = useQuery({
     queryKey: ["seasons"],
     queryFn: getSeasons,
   });
+
   const { data: seasonNotes = defaultSeasonNotes } = useQuery({
     queryKey: ["seasonNotes"],
     queryFn: getSeasonNotes,
   });
+
   const { data: workouts = [] } = useQuery({
     queryKey: ["workouts"],
     queryFn: getWorkouts,
