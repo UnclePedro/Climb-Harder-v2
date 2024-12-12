@@ -6,9 +6,17 @@ import { getUser } from "../helpers/userHelper";
 
 axios.defaults.baseURL = "http://localhost:8080";
 
-getUser().then((user) => {
-  axios.defaults.headers.common["id"] = user.id;
-  axios.defaults.headers.common["apiKey"] = user.apiKey;
-});
+axios.interceptors.request.use(
+  async (config) => {
+    const user = await getUser();
+
+    if (user.apiKey) {
+      config.headers["apiKey"] = user.apiKey;
+    }
+
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
 
 export default axios;
