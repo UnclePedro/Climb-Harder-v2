@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Home from "./components/Home.tsx";
 import EditSeasonNotes from "./components/EditSeasonNotes.tsx";
 import EditWorkout from "./components/EditWorkout.tsx";
@@ -10,6 +10,7 @@ import { getUser } from "./helpers/userHelper.ts";
 import { getSeasonNotes } from "./helpers/seasonNotesStorageHelper.ts";
 import { defaultSeasonNotes } from "./models/SeasonNotes.ts";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { Season } from "./models/Season.ts";
 
 function App() {
   useQuery({ queryKey: ["user"], queryFn: getUser });
@@ -31,9 +32,13 @@ function App() {
 
   const [displaySeasonNotes, setDisplaySeasonNotes] = useState(false);
   const [editingWorkoutId, setEditingWorkoutId] = useState<number>();
-  const [viewingSeason, setViewingSeason] = useState(
-    seasons.find((season) => season.id === seasons[seasons.length - 1].id)
-  );
+  const [viewingSeason, setViewingSeason] = useState<Season | undefined>();
+
+  useEffect(() => {
+    if (seasons.length > 0) {
+      setViewingSeason(seasons[seasons.length - 1]);
+    }
+  }, [seasons]);
 
   return (
     <>
