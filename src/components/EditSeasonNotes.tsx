@@ -8,10 +8,13 @@ import close from "/src/assets/iconography/close.svg";
 interface Props {
   onClose: () => void;
   seasonNotes: SeasonNotes;
+  seasonId: number;
 }
 
-const EditSeasonNotes = ({ onClose, seasonNotes }: Props) => {
+const EditSeasonNotes = ({ onClose, seasonNotes, seasonId }: Props) => {
   const [seasonNotesData, setSeasonNotesData] = useState(seasonNotes);
+
+  console.log("seasonId passed to EditSeasonNotes:", seasonId); // Log to check
 
   return (
     <>
@@ -61,7 +64,11 @@ const EditSeasonNotes = ({ onClose, seasonNotes }: Props) => {
             <button
               className="bg-amber-500 font-bold rounded-lg px-2 py-1 mt-3 "
               onClick={() => {
-                saveSeasonNotes(seasonNotesData);
+                console.log(
+                  "seasonId before calling saveSeasonNotes:",
+                  seasonId
+                );
+                saveSeasonNotes(seasonId, seasonNotesData);
                 onClose();
               }}
             >

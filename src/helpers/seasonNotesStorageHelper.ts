@@ -10,12 +10,16 @@ export const getSeasonNotes = async (): Promise<SeasonNotes> => {
   }
 };
 
-export const saveSeasonNotes = async (seasonNotes: SeasonNotes) => {
+export const saveSeasonNotes = async (
+  seasonId: number,
+  seasonNotes: SeasonNotes
+) => {
   try {
-    const updatedSeasonNotes = await axios.post<SeasonNotes>(
+    const updatedSeasonNotes = await axios.put<SeasonNotes>(
       "/saveSeasonNotes",
       {
-        seasonNotes,
+        seasonId: seasonId,
+        updatedSeasonNotesData: seasonNotes, // Ensure consistent naming here
       }
     );
     return updatedSeasonNotes.data;

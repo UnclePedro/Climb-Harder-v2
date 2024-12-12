@@ -8,6 +8,7 @@ axios.defaults.baseURL = "http://localhost:8080";
 
 axios.interceptors.request.use(
   async (config) => {
+    // Currently only works if user exists in localStorage, need to work on this
     const user = await getUser();
 
     if (user.apiKey) {

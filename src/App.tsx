@@ -34,9 +34,11 @@ function App() {
   const [editingWorkoutId, setEditingWorkoutId] = useState<number>();
   const [viewingSeason, setViewingSeason] = useState<Season | undefined>();
 
+  // Would prefer not to use useEffect if I can. Find a workaround in future
   useEffect(() => {
     if (seasons.length > 0) {
       setViewingSeason(seasons[seasons.length - 1]);
+      console.log(viewingSeason);
     }
   }, [seasons]);
 
@@ -46,6 +48,7 @@ function App() {
         <p>Loading...</p>
       ) : displaySeasonNotes ? (
         <EditSeasonNotes
+          seasonId={viewingSeason.id}
           seasonNotes={seasonNotes}
           onClose={() => setDisplaySeasonNotes(false)}
         />
