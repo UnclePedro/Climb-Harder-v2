@@ -32,13 +32,14 @@ function App() {
 
   const [displaySeasonNotes, setDisplaySeasonNotes] = useState(false);
   const [editingWorkoutId, setEditingWorkoutId] = useState<number>();
-  const [viewingSeason, setViewingSeason] = useState<Season | undefined>();
+  const [viewingSeason, setViewingSeason] = useState<Season>();
+
+  // viewingSeason.id worked when I set the season model to hold seasonId which is the name of the ID from the backend. Currently working on the backend to change seasonId to simply id
 
   // Would prefer not to use useEffect if I can. Find a workaround in future
   useEffect(() => {
     if (seasons.length > 0) {
       setViewingSeason(seasons[seasons.length - 1]);
-      console.log(viewingSeason);
     }
   }, [seasons]);
 

@@ -14,8 +14,6 @@ interface Props {
 const EditSeasonNotes = ({ onClose, seasonNotes, seasonId }: Props) => {
   const [seasonNotesData, setSeasonNotesData] = useState(seasonNotes);
 
-  console.log("seasonId passed to EditSeasonNotes:", seasonId); // Log to check
-
   return (
     <>
       <Fade>
@@ -64,10 +62,6 @@ const EditSeasonNotes = ({ onClose, seasonNotes, seasonId }: Props) => {
             <button
               className="bg-amber-500 font-bold rounded-lg px-2 py-1 mt-3 "
               onClick={() => {
-                console.log(
-                  "seasonId before calling saveSeasonNotes:",
-                  seasonId
-                );
                 saveSeasonNotes(seasonId, seasonNotesData);
                 onClose();
               }}

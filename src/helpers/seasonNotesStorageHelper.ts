@@ -11,17 +11,18 @@ export const getSeasonNotes = async (): Promise<SeasonNotes> => {
 };
 
 export const saveSeasonNotes = async (
-  seasonId: number,
+  viewingSeasonId: number,
   seasonNotes: SeasonNotes
 ) => {
   try {
     const updatedSeasonNotes = await axios.put<SeasonNotes>(
       "/saveSeasonNotes",
       {
-        seasonId: seasonId,
-        updatedSeasonNotesData: seasonNotes, // Ensure consistent naming here
+        seasonId: viewingSeasonId,
+        seasonNotes,
       }
     );
+
     return updatedSeasonNotes.data;
   } catch {
     throw new Error("Failed to save season notes");
