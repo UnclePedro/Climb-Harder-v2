@@ -3,22 +3,26 @@ import { TrainingType, Workout } from "../models/Workout";
 import WorkoutTile from "./WorkoutTile";
 import {
   filterWorkouts,
+  newWorkout,
   totalWorkoutTime,
   workoutsByWeek,
 } from "../helpers/workoutStorageHelper";
 import { formatDateForDisplay } from "../utils/helpers";
 import add from "/src/assets/iconography/add.svg";
 import Icon from "./Icon";
+import { Season } from "../models/Season";
 
 interface Props {
   workouts: Workout[];
   onEditWorkout: (workoutId: number) => void;
+  viewingSeason: Season;
 }
 
-const WorkoutList = ({ workouts, onEditWorkout }: Props) => {
+const WorkoutList = ({ workouts, onEditWorkout, viewingSeason }: Props) => {
   const [trainingTypeFilter, setTrainingTypeFilter] = useState<
     TrainingType | ""
   >("");
+  const viewingSeasonId = viewingSeason.id;
 
   return (
     <>
@@ -31,8 +35,8 @@ const WorkoutList = ({ workouts, onEditWorkout }: Props) => {
           <button
             className="w-12 -mt-8 mr-1"
             onClick={() => {
-              // What do I do here... need to open a blank, default workout...
-              onEditWorkout(0);
+              // Need to call newWorkout get function to get a new blank workout from the backend
+              onEditWorkout(newWorkout(viewingSeasonId));
             }}
           >
             <Icon iconImg={add} alt={"newWorkout"} />

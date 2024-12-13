@@ -10,6 +10,22 @@ export const getWorkouts = async (): Promise<Workout[]> => {
   }
 };
 
+// Creates a new blank workout for the user
+export const newWorkout = async (seasonId: number) => {
+  try {
+    const response = await axios.post<{
+      workout: Workout;
+      updatedWorkouts: Workout[];
+    }>("/newWorkout", {
+      seasonId,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Failed to create new workout:", error);
+    throw new Error("Failed to create new workout");
+  }
+};
+
 // You could include the workout ID in the url... but parsing the integer in the backend felt very clunky
 export const saveWorkout = async (workout: Workout) => {
   try {

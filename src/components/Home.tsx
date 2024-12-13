@@ -78,7 +78,11 @@ const Home = ({
             </div>
 
             <div className="p-6 -mt-8">
-              <WorkoutList workouts={workouts} onEditWorkout={onEditWorkout} />
+              <WorkoutList
+                workouts={workouts}
+                onEditWorkout={onEditWorkout}
+                viewingSeason={viewingSeason}
+              />
             </div>
 
             <div className="ml-6 -mt-2">
