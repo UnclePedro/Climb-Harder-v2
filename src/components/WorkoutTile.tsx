@@ -17,12 +17,24 @@ const WorkoutTile = ({ name, trainingType, date }: Props) => {
     [TrainingType.Performance]: "bg-[#E27EAB]",
   };
 
+  // Map TrainingType enum values to user-friendly display names
+  const trainingTypeDisplayNames: Record<TrainingType, string> = {
+    [TrainingType.Base]: "Base Fitness",
+    [TrainingType.Strength]: "Strength",
+    [TrainingType.Power]: "Power",
+    [TrainingType.PowerEndurance]: "Power Endurance",
+    [TrainingType.Performance]: "Performance",
+  };
+
   return (
     <div
-      className={`${colors[trainingType]} p-2 mt-1 sm:m-1 rounded-lg justify-between shadow-md items-center flex sm:block  sm:p-3 sm:w-fit`}
+      className={`${colors[trainingType]} p-2 mt-1 sm:m-1 rounded-lg justify-between shadow-md items-center flex sm:block sm:p-3 sm:w-fit`}
     >
       <p className="text-xs sm:text-sm font-bold">{name}</p>
-      <p className="hidden sm:block">{trainingType}</p>
+      <p className="hidden sm:block">
+        {trainingTypeDisplayNames[trainingType]}
+      </p>{" "}
+      {/* Displaying user-friendly name */}
       <p className="text-xs px-18">{date}</p>
     </div>
   );

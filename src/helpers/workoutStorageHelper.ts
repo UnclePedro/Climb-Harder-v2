@@ -26,6 +26,18 @@ export const newWorkout = async (seasonId: number) => {
   }
 };
 
+export const createNewWorkoutAndEdit = async (
+  viewingSeasonId: number,
+  onEditWorkout: (workoutId: number) => void
+) => {
+  try {
+    const { workout } = await newWorkout(viewingSeasonId); // Await the promise to resolve
+    onEditWorkout(workout.id); // Pass the workout ID to onEditWorkout
+  } catch (error) {
+    console.error("Failed to create new workout", error);
+  }
+};
+
 // You could include the workout ID in the url... but parsing the integer in the backend felt very clunky
 export const saveWorkout = async (workout: Workout) => {
   try {

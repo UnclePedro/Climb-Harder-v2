@@ -9,9 +9,9 @@ export interface Workout {
 }
 
 export enum TrainingType {
-  Base = "Base Fitness",
+  Base = "Base",
   Strength = "Strength",
   Power = "Power",
-  PowerEndurance = "Power Endurance",
+  PowerEndurance = "PowerEndurance",
   Performance = "Performance",
 }

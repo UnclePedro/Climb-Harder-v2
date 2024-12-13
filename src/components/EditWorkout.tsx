@@ -50,7 +50,15 @@ const EditWorkout = ({ onClose, workoutId, workouts }: Props) => {
         <div className="flex justify-center items-center">
           <div className="p-3 sm:p-6 font-roboto w-11/12 sm:w-4/5 lg:w-1/2">
             <div className="flex justify-end">
-              <button className="w-12 mt-3 -mr-2" onClick={onClose}>
+              <button
+                className="w-12 mt-3 -mr-2"
+                onClick={
+                  () =>
+                    isExistingWorkout
+                      ? onClose() // If the workout exists, just close
+                      : (deleteWorkout(workoutId), onClose()) // If the workout doesn't exist, delete and close
+                }
+              >
                 <Icon iconImg={close} alt={"close"} />
               </button>
             </div>

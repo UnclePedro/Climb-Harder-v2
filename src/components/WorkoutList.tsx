@@ -2,8 +2,8 @@ import { useState } from "react";
 import { TrainingType, Workout } from "../models/Workout";
 import WorkoutTile from "./WorkoutTile";
 import {
+  createNewWorkoutAndEdit,
   filterWorkouts,
-  newWorkout,
   totalWorkoutTime,
   workoutsByWeek,
 } from "../helpers/workoutStorageHelper";
@@ -22,7 +22,6 @@ const WorkoutList = ({ workouts, onEditWorkout, viewingSeason }: Props) => {
   const [trainingTypeFilter, setTrainingTypeFilter] = useState<
     TrainingType | ""
   >("");
-  const viewingSeasonId = viewingSeason.id;
 
   return (
     <>
@@ -34,9 +33,8 @@ const WorkoutList = ({ workouts, onEditWorkout, viewingSeason }: Props) => {
         <div className="flex justify-end">
           <button
             className="w-12 -mt-8 mr-1"
-            onClick={() => {
-              // Need to call newWorkout get function to get a new blank workout from the backend
-              onEditWorkout(newWorkout(viewingSeasonId));
+            onClick={async () => {
+              createNewWorkoutAndEdit(viewingSeason.id, onEditWorkout);
             }}
           >
             <Icon iconImg={add} alt={"newWorkout"} />
