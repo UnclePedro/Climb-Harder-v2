@@ -10,10 +10,11 @@ import close from "/src/assets/iconography/close.svg";
 interface Props {
   onClose: () => void;
   workoutId: number; // Loads either a new workoutId if one doesn't exist, or uses the workoutId of existing workout
+  seasonId: number;
   workouts: Workout[];
 }
 
-const EditWorkout = ({ onClose, workoutId, workouts }: Props) => {
+const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
   // Used to prefill new workout with last added or edited workout details
   const lastWorkout = workouts[workouts.length - 1] as Workout | undefined;
 
@@ -24,7 +25,7 @@ const EditWorkout = ({ onClose, workoutId, workouts }: Props) => {
     details: "",
     duration: 0,
     date: new Date().getTime(),
-    seasonId: 0,
+    seasonId: seasonId,
   };
 
   // If the workoutId matches an existingWorkout.id from the workouts array, fill form state with that data. Or, set state to previous workout details and empty strings for a blank form

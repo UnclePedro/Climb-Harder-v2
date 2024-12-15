@@ -54,6 +54,7 @@ function App() {
       ) : editingWorkoutId ? (
         <EditWorkout
           workoutId={editingWorkoutId}
+          seasonId={viewingSeason.id}
           workouts={workouts}
           onClose={() => {
             setEditingWorkoutId(undefined);

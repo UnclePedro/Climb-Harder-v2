@@ -15,7 +15,6 @@ export const newWorkout = async (seasonId: number) => {
   try {
     const response = await axios.post<{
       workout: Workout;
-      updatedWorkouts: Workout[];
     }>("/newWorkout", {
       seasonId,
     });
