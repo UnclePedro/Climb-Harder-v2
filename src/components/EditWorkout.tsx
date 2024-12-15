@@ -45,6 +45,8 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
   // Controls user action confirmation modal
   const [displayUserConfirmation, setDisplayUserConfirmation] = useState(false);
 
+  const saveWorkoutMutation = saveWorkout();
+
   return (
     <>
       <Fade>
@@ -148,8 +150,14 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
                   <button
                     className="bg-amber-500 font-bold rounded-lg px-2 py-1 mt-2"
                     onClick={() => {
-                      saveWorkout(workoutData);
-                      onClose();
+                      saveWorkoutMutation.mutate(workoutData, {
+                        onSuccess: () => {
+                          onClose();
+                        },
+                        onError: (error) => {
+                          console.error("Failed to save workout:", error);
+                        },
+                      });
                     }}
                   >
                     Save
