@@ -4,7 +4,7 @@ export interface Workout {
   trainingType: TrainingType;
   details: string;
   duration: number; // recieved as minutes
-  date: number;
+  date: Date;
   seasonId: number;
 }
 

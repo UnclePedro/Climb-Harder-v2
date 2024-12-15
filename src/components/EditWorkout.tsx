@@ -24,7 +24,7 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
     trainingType: lastWorkout?.trainingType ?? TrainingType.Base,
     details: "",
     duration: 0,
-    date: new Date().getTime(),
+    date: new Date(),
     seasonId: seasonId,
   };
 
@@ -133,9 +133,7 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
                   <input
                     type="date"
                     onChange={(element) => {
-                      const dateTimestamp = new Date(
-                        element.target.value
-                      ).getTime(); // Convert to timestamp
+                      const dateTimestamp = new Date(element.target.value); // Convert to timestamp
                       setWorkoutData({
                         ...workoutData,
                         date: dateTimestamp,

@@ -1,6 +1,6 @@
 export const newId = () => crypto.randomUUID();
 
-export const formatDateForInput = (timestamp: number) => {
+export const formatDateForInput = (timestamp: Date) => {
   const date = new Date(timestamp);
   const year = date.getFullYear();
   const month = (date.getMonth() + 1).toString().padStart(2, "0");
@@ -8,7 +8,7 @@ export const formatDateForInput = (timestamp: number) => {
   return `${year}-${month}-${day}`;
 };
 
-export const formatDateForDisplay = (timestamp: number) => {
+export const formatDateForDisplay = (timestamp: Date) => {
   const date = new Date(timestamp);
   const day = date.getDate();
   const daySuffix = (day: number) => {
