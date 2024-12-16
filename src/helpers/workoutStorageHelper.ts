@@ -1,8 +1,3 @@
-import {
-  useMutation,
-  UseMutationResult,
-  useQueryClient,
-} from "@tanstack/react-query";
 import axios from "../config/axiosConfig";
 import { TrainingType, Workout } from "../models/Workout";
 
@@ -43,26 +38,15 @@ export const createNewWorkoutAndEdit = async (
 };
 
 // You could include the workout ID in the url... but parsing the integer in the backend felt very clunky
-export const saveWorkout = (): UseMutationResult<
-  Workout, // Mutation result type
-  Error, // Error type
-  Workout // Input argument type
-> => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: async (workout: Workout) => {
-      const response = await axios.post<Workout>("/saveWorkout", { workout });
-      return response.data;
-    },
-    onSuccess: () => {
-      // Invalidate related queries to refetch updated data if save is successful
-      queryClient.invalidateQueries({ queryKey: ["workouts"] });
-    },
-    onError: (error) => {
-      console.error("Failed to save workout:", error);
-    },
-  });
+export const saveWorkout = async (workout: Workout) => {
+  try {
+    const updatedWorkouts = await axios.post<Workout>("/saveWorkout", {
+      workout,
+    });
+    return updatedWorkouts.data;
+  } catch {
+    throw new Error("Failed to save workout");
+  }
 };
 
 export const deleteWorkout = async (workoutId: number) => {

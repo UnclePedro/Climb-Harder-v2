@@ -8,6 +8,8 @@ axios.defaults.baseURL = "http://localhost:8080";
 
 axios.interceptors.request.use(
   async (config) => {
+    await new Promise((resolve) => setTimeout(resolve, 500)); // 2-second delay
+
     // Currently only works if user exists in localStorage, need to work on this
     const user = await getUser();
 

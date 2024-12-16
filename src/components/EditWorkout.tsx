@@ -6,6 +6,7 @@ import { formatDateForInput } from "../utils/helpers.ts";
 import UserConfirmation from "./UserConfirmation.tsx";
 import Icon from "./Icon.tsx";
 import close from "/src/assets/iconography/close.svg";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface Props {
   onClose: () => void;
@@ -18,6 +19,7 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
   // Used to prefill new workout with last added or edited workout details
   const lastWorkout = workouts[workouts.length - 1] as Workout | undefined;
 
+  // I want to be able to remove this
   const defaultWorkout: Workout = {
     id: workoutId,
     name: lastWorkout?.name ?? "Workout Name",
@@ -45,7 +47,18 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
   // Controls user action confirmation modal
   const [displayUserConfirmation, setDisplayUserConfirmation] = useState(false);
 
-  const saveWorkoutMutation = saveWorkout();
+  const queryClient = useQueryClient();
+  const saveWorkoutMutation = useMutation<Workout, Error, Workout>({
+    mutationFn: saveWorkout,
+    onSuccess: () => {
+      // Is there a way to directly set workouts queryKey data with the response of saveWorkout mutationFn?
+      queryClient.invalidateQueries({ queryKey: ["workouts"] });
+      onClose();
+    },
+    onError: (error) => {
+      console.error("Failed to save workout:", error);
+    },
+  });
 
   return (
     <>
@@ -150,17 +163,11 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
                   <button
                     className="bg-amber-500 font-bold rounded-lg px-2 py-1 mt-2"
                     onClick={() => {
-                      saveWorkoutMutation.mutate(workoutData, {
-                        onSuccess: () => {
-                          onClose();
-                        },
-                        onError: (error) => {
-                          console.error("Failed to save workout:", error);
-                        },
-                      });
+                      saveWorkoutMutation.mutate(workoutData);
                     }}
+                    disabled={saveWorkoutMutation.isPending} // Disable button while loading
                   >
-                    Save
+                    {saveWorkoutMutation.isPending ? "Saving..." : "Save"}
                   </button>
 
                   {isExistingWorkout && (

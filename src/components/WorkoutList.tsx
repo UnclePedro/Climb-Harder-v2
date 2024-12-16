@@ -34,6 +34,7 @@ const WorkoutList = ({ workouts, onEditWorkout, viewingSeason }: Props) => {
           <button
             className="w-12 -mt-8 mr-1"
             onClick={async () => {
+              // Don't love making the user wait for a server response before opening the form...
               createNewWorkoutAndEdit(viewingSeason.id, onEditWorkout);
             }}
           >
