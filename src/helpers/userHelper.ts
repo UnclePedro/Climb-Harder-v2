@@ -3,7 +3,6 @@ import axios from "axios";
 import { emptyUser, User } from "../models/User";
 
 export const getUserFromLocalStorage = (): User => {
-  console.log("triggered");
   const existingUser = localStorage.getItem("user");
   return existingUser ? JSON.parse(existingUser) : emptyUser;
 };
@@ -13,8 +12,6 @@ export const getUser = async (): Promise<User> => {
   if (user.apiKey.length === 0) {
     try {
       const newUser = await axios.get("http://localhost:8080/generateUser");
-
-      console.log("New user is:", newUser);
 
       // Access the newUserData and store only id and apiKey in localStorage
       const userData = {

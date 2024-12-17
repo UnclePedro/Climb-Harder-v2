@@ -20,7 +20,7 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
   const lastWorkout = workouts[workouts.length - 1] as Workout | undefined;
 
   // I want to be able to remove this
-  const defaultWorkout: Workout = {
+  const newWorkout: Workout = {
     id: workoutId,
     name: lastWorkout?.name ?? "Workout Name",
     trainingType: lastWorkout?.trainingType ?? TrainingType.Base,
@@ -30,33 +30,49 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
     seasonId: seasonId,
   };
 
-  // If the workoutId matches an existingWorkout.id from the workouts array, fill form state with that data. Or, set state to previous workout details and empty strings for a blank form
-  const workoutToEdit =
-    workouts.find(
-      (existingWorkout: Workout) => existingWorkout.id === workoutId
-    ) || defaultWorkout;
-
   // Check if workout being edited exists. If true, delete button is rendered
   const isExistingWorkout = workouts.some(
     (existingWorkout: Workout) => existingWorkout.id === workoutId
   );
 
+  // If the workoutId matches an existingWorkout.id from the workouts array, fill form state with that data. Or, set state to previous workout details and empty strings for a blank form
+  const workoutToEdit =
+    workouts.find(
+      (existingWorkout: Workout) => existingWorkout.id === workoutId
+    ) || newWorkout;
+
   // Used to hold data of the new or existing workout being edited, then passed to onSave
   const [workoutData, setWorkoutData] = useState<Workout>(workoutToEdit);
-
   // Controls user action confirmation modal
   const [displayUserConfirmation, setDisplayUserConfirmation] = useState(false);
 
   const queryClient = useQueryClient();
   const saveWorkoutMutation = useMutation<Workout, Error, Workout>({
     mutationFn: saveWorkout,
-    onSuccess: () => {
-      // Is there a way to directly set workouts queryKey data with the response of saveWorkout mutationFn?
-      queryClient.invalidateQueries({ queryKey: ["workouts"] });
-      onClose();
+    onMutate: async (newWorkout) => {
+      // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
+      await queryClient.cancelQueries({ queryKey: ["workouts"] });
+
+      // Snapshot the previous workouts
+      const previousWorkouts = queryClient.getQueryData(["workouts"]);
+
+      // Optimistically update workouts to the new value
+      queryClient.setQueryData(["workouts"], (oldWorkouts: Workout[]) => [
+        ...oldWorkouts,
+        newWorkout,
+      ]);
+
+      // Return a context object with the snapshotted value
+      return { previousWorkouts };
     },
     onError: (error) => {
       console.error("Failed to save workout:", error);
+    },
+    onSuccess: () => {
+      onClose();
+
+      // Is there a way to directly set workouts queryKey data with the response of saveWorkout mutationFn?
+      queryClient.invalidateQueries({ queryKey: ["workouts"] });
     },
   });
 
