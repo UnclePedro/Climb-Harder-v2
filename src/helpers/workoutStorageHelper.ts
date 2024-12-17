@@ -11,29 +11,20 @@ export const getWorkouts = async (): Promise<Workout[]> => {
 };
 
 // Creates a new blank workout for the user
-export const newWorkout = async (seasonId: number) => {
+export const newWorkout = async (
+  seasonId: number,
+  // Sets editingWorkoutId, to display user that workout based on ID
+  onEditWorkout: (workoutId: number) => void
+) => {
   try {
-    const response = await axios.post<{
+    const newWorkout = await axios.post<{
       workout: Workout;
     }>("/newWorkout", {
       seasonId,
     });
-    return response.data;
+    onEditWorkout(newWorkout.data.workout.id);
   } catch (error) {
-    console.error("Failed to create new workout:", error);
     throw new Error("Failed to create new workout");
-  }
-};
-
-export const createNewWorkoutAndEdit = async (
-  viewingSeasonId: number,
-  onEditWorkout: (workoutId: number) => void
-) => {
-  try {
-    const { workout } = await newWorkout(viewingSeasonId);
-    onEditWorkout(workout.id);
-  } catch (error) {
-    console.error("Failed to create new workout", error);
   }
 };
 

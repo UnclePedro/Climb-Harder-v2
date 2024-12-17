@@ -31,7 +31,7 @@ function App() {
   });
 
   const [displaySeasonNotes, setDisplaySeasonNotes] = useState(false);
-  const [editingWorkoutId, setEditingWorkoutId] = useState<number>();
+  const [editingWorkoutId, setEditingWorkoutId] = useState<number>(); // This gets passed as props a lot, I need to investigate if I can make this whole thing simpler
   const [viewingSeason, setViewingSeason] = useState<Season>();
 
   // Would prefer not to use useEffect if I can. Find a workaround in future

@@ -56,7 +56,7 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
       // Snapshot the previous workouts
       const previousWorkouts = queryClient.getQueryData(["workouts"]);
 
-      // Optimistically update workouts to the new value
+      // Optimistically update workouts with newWorkout. Need to handle existing workout being updated...
       queryClient.setQueryData(["workouts"], (oldWorkouts: Workout[]) => [
         ...oldWorkouts,
         newWorkout,
