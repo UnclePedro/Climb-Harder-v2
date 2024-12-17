@@ -41,6 +41,9 @@ function App() {
     }
   }, [seasons]);
 
+  const seasonWorkouts = workouts.filter(
+    (workout) => workout.seasonId === viewingSeason?.id
+  );
   return (
     <>
       {!viewingSeason ? (
@@ -55,7 +58,7 @@ function App() {
         <EditWorkout
           workoutId={editingWorkoutId}
           seasonId={viewingSeason.id}
-          workouts={workouts}
+          workouts={seasonWorkouts}
           onClose={() => {
             setEditingWorkoutId(undefined);
             setViewingSeason(viewingSeason);
@@ -63,11 +66,11 @@ function App() {
         />
       ) : (
         <Home
-          workouts={workouts}
+          workouts={seasonWorkouts}
           seasons={seasons}
           seasonNotesOpen={() => setDisplaySeasonNotes(true)}
           onEditWorkout={(workoutId) => setEditingWorkoutId(workoutId)}
-          setViewingSeason={() => setViewingSeason(viewingSeason)}
+          setViewingSeason={setViewingSeason}
           viewingSeason={viewingSeason}
         />
       )}

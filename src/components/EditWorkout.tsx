@@ -49,24 +49,37 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
   const queryClient = useQueryClient();
   const saveWorkoutMutation = useMutation<Workout, Error, Workout>({
     mutationFn: saveWorkout,
-    onMutate: async (newWorkout) => {
-      // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
-      await queryClient.cancelQueries({ queryKey: ["workouts"] });
+    // onMutate: async (newWorkout) => {
+    //   // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
+    //   await queryClient.cancelQueries({ queryKey: ["workouts"] });
 
-      // Snapshot the previous workouts
-      const previousWorkouts = queryClient.getQueryData(["workouts"]);
+    //   // Snapshot the previous workouts
+    //   const previousWorkouts = queryClient.getQueryData(["workouts"]);
 
-      // Optimistically update workouts with newWorkout. Need to handle existing workout being updated...
-      queryClient.setQueryData(["workouts"], (oldWorkouts: Workout[]) => [
-        ...oldWorkouts,
-        newWorkout,
-      ]);
+    //   // Optimistically update workouts with newWorkout. Need to handle existing workout being updated...
+    //   queryClient.setQueryData(["workouts"], (oldWorkouts: Workout[]) => [
+    //     ...oldWorkouts,
+    //     newWorkout,
+    //   ]);
 
-      // Return a context object with the snapshotted value
-      return { previousWorkouts };
-    },
+    //   // Return a context object with the snapshotted value
+    //   return { previousWorkouts };
+    // },
     onError: (error) => {
       console.error("Failed to save workout:", error);
+    },
+    onSuccess: () => {
+      onClose();
+
+      // Is there a way to directly set workouts queryKey data with the response of saveWorkout mutationFn?
+      queryClient.invalidateQueries({ queryKey: ["workouts"] });
+    },
+  });
+
+  const deleteWorkoutMutation = useMutation<Workout, Error, Workout["id"]>({
+    mutationFn: deleteWorkout,
+    onError: (error) => {
+      console.error("Failed to delete workout:", error);
     },
     onSuccess: () => {
       onClose();
@@ -192,15 +205,17 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
                       onClick={() => {
                         setDisplayUserConfirmation(true);
                       }}
+                      disabled={deleteWorkoutMutation.isPending}
                     >
-                      Delete
+                      {deleteWorkoutMutation.isPending
+                        ? "Deleting..."
+                        : "Delete"}
                     </button>
                   )}
                   {displayUserConfirmation && (
                     <UserConfirmation
                       userYes={() => (
-                        deleteWorkout(workoutId),
-                        onClose(),
+                        deleteWorkoutMutation.mutate(workoutId),
                         setDisplayUserConfirmation(false)
                       )}
                       userNo={() => setDisplayUserConfirmation(false)}

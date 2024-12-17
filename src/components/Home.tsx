@@ -13,7 +13,7 @@ interface Props {
   seasonNotesOpen: () => void;
   onEditWorkout: (workoutId: number) => void;
   viewingSeason: Season;
-  setViewingSeason: (seasonId: number) => void;
+  setViewingSeason: (season: Season) => void;
 }
 
 const Home = ({
@@ -47,7 +47,12 @@ const Home = ({
                     className="font-bold text-2xl flex h-12 bg-opacity-0 bg-slate-50"
                     value={viewingSeason.id}
                     onChange={(element) => {
-                      setViewingSeason(Number(element.target.value));
+                      const selectedSeason = seasons.find(
+                        (season) => season.id === Number(element.target.value)
+                      );
+                      if (selectedSeason) {
+                        setViewingSeason(selectedSeason);
+                      }
                     }}
                   >
                     {seasons.map((season: Season) => (
@@ -69,7 +74,7 @@ const Home = ({
                   className="bg-amber-500 font-medium rounded-lg px-2 py-1 ml-4"
                   onClick={() => {
                     newSeason();
-                    setViewingSeason(seasons[seasons.length - 1].id); // Get updated list of seasons and set viewingSeason to the last season
+                    setViewingSeason(seasons[seasons.length - 1]); // Get updated list of seasons and set viewingSeason to the last season
                   }}
                 >
                   New Season
@@ -99,7 +104,7 @@ const Home = ({
               <UserConfirmation
                 userYes={() => (
                   deleteSeason(viewingSeason.id),
-                  setViewingSeason(seasons[seasons.length - 1].id), // Get updated list of seasons and set viewingSeason to the last season
+                  setViewingSeason(seasons[seasons.length - 1]), // set viewingSeason to the previous season
                   setDisplayUserConfirmation(false)
                 )}
                 userNo={() => setDisplayUserConfirmation(false)}

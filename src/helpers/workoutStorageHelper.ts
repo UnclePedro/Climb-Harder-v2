@@ -13,7 +13,6 @@ export const getWorkouts = async (): Promise<Workout[]> => {
 // Creates a new blank workout for the user
 export const newWorkout = async (
   seasonId: number,
-  // Sets editingWorkoutId, to display user that workout based on ID
   onEditWorkout: (workoutId: number) => void
 ) => {
   try {
@@ -22,7 +21,7 @@ export const newWorkout = async (
     }>("/newWorkout", {
       seasonId,
     });
-    onEditWorkout(newWorkout.data.workout.id);
+    onEditWorkout(newWorkout.data.workout.id); // After user clicks new workout button, this sets the editingWorkoutId to display that workout to the user
   } catch (error) {
     throw new Error("Failed to create new workout");
   }
