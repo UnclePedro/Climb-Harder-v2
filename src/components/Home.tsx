@@ -104,10 +104,11 @@ const Home = ({
                   className="bg-amber-500 font-medium rounded-lg px-2 py-1 ml-4"
                   onClick={() => {
                     newSeasonMutation.mutate();
-                    setViewingSeason(seasons[seasons.length - 1]); // Get updated list of seasons and set viewingSeason to the last season
+                    setViewingSeason(seasons[seasons.length - 1]); // Set viewingSeason to the new season
                   }}
+                  disabled={newSeasonMutation.isPending}
                 >
-                  New Season
+                  {newSeasonMutation.isPending ? "Creating..." : "New Season"}
                 </button>
               )}
             </div>

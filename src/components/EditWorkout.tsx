@@ -72,6 +72,12 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
 
   const deleteWorkoutMutation = useMutation<Workout, Error, Workout["id"]>({
     mutationFn: deleteWorkout,
+    onMutate: async (workoutId) => {
+      // Optimistically update the cache
+      queryClient.setQueryData<Workout[]>(["workouts"], (oldWorkouts) =>
+        oldWorkouts?.filter((workout) => workout.id !== workoutId)
+      );
+    },
     onError: (error) => {
       console.error("Failed to delete workout", error);
       queryClient.invalidateQueries({ queryKey: ["workouts"] });
