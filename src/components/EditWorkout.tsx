@@ -59,7 +59,6 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
           );
         }
       });
-      onClose();
     },
     onError: (error) => {
       console.error("Failed to save workout", error);
@@ -73,17 +72,16 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
   const deleteWorkoutMutation = useMutation<Workout, Error, Workout["id"]>({
     mutationFn: deleteWorkout,
     onMutate: async (workoutId) => {
-      // Optimistically update the cache
       queryClient.setQueryData<Workout[]>(["workouts"], (oldWorkouts) =>
         oldWorkouts?.filter((workout) => workout.id !== workoutId)
       );
     },
+
     onError: (error) => {
       console.error("Failed to delete workout", error);
       queryClient.invalidateQueries({ queryKey: ["workouts"] });
     },
     onSuccess: () => {
-      onClose();
       queryClient.invalidateQueries({ queryKey: ["workouts"] });
     },
   });
@@ -184,6 +182,7 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
                     className="bg-amber-500 font-bold rounded-lg px-2 py-1 mt-2"
                     onClick={() => {
                       saveWorkoutMutation.mutate(workoutData);
+                      onClose();
                     }}
                     disabled={saveWorkoutMutation.isPending} // Disable button while loading
                   >
@@ -207,6 +206,7 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
                     <UserConfirmation
                       userYes={() => (
                         deleteWorkoutMutation.mutate(workoutId),
+                        onClose(),
                         setDisplayUserConfirmation(false)
                       )}
                       userNo={() => setDisplayUserConfirmation(false)}

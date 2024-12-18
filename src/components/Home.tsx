@@ -42,9 +42,7 @@ const Home = ({
 
   const deleteSeasonMutation = useMutation<Season[], Error, Season["id"]>({
     mutationFn: deleteSeason,
-
     onMutate: async (seasonId) => {
-      await queryClient.cancelQueries({ queryKey: ["seasons"] });
       queryClient.setQueryData<Season[]>(["seasons"], (previousSeasons = []) =>
         previousSeasons.filter((season) => season.id !== seasonId)
       );

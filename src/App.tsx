@@ -6,28 +6,30 @@ import { getSeasons } from "./helpers/seasonsStorageHelper.ts";
 import { Analytics } from "@vercel/analytics/react";
 import { getWorkouts } from "./helpers/workoutStorageHelper.ts";
 import { useQuery } from "@tanstack/react-query";
-import { getUser } from "./helpers/userHelper.ts";
 import { getSeasonNotes } from "./helpers/seasonNotesStorageHelper.ts";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Season } from "./models/Season.ts";
-import AuthProvider from "./hooks/AuthProvider.tsx";
+import { useAuth } from "./hooks/AuthProvider.tsx";
 
 function App() {
-  useQuery({ queryKey: ["user"], queryFn: getUser });
+  const user = useAuth();
 
   const { data: seasons = [] } = useQuery({
     queryKey: ["seasons"],
     queryFn: getSeasons,
+    enabled: !!user,
   });
 
   const { data: seasonNotes = [] } = useQuery({
     queryKey: ["seasonNotes"],
     queryFn: getSeasonNotes,
+    enabled: !!user,
   });
 
   const { data: workouts = [] } = useQuery({
     queryKey: ["workouts"],
     queryFn: getWorkouts,
+    enabled: !!user,
   });
 
   const [displaySeasonNotes, setDisplaySeasonNotes] = useState(false);
@@ -47,38 +49,36 @@ function App() {
 
   return (
     <>
-      <AuthProvider>
-        {!viewingSeason ? (
-          <p>Loading...</p>
-        ) : displaySeasonNotes ? (
-          <EditSeasonNotes
-            seasonId={viewingSeason.id}
-            seasonNotes={seasonNotes}
-            onClose={() => setDisplaySeasonNotes(false)}
-          />
-        ) : editingWorkoutId ? (
-          <EditWorkout
-            workoutId={editingWorkoutId}
-            seasonId={viewingSeason.id}
-            workouts={seasonWorkouts}
-            onClose={() => {
-              setEditingWorkoutId(undefined);
-              setViewingSeason(viewingSeason);
-            }}
-          />
-        ) : (
-          <Home
-            workouts={seasonWorkouts}
-            seasons={seasons}
-            seasonNotesOpen={() => setDisplaySeasonNotes(true)}
-            onEditWorkout={(workoutId) => setEditingWorkoutId(workoutId)}
-            setViewingSeason={setViewingSeason}
-            viewingSeason={viewingSeason}
-          />
-        )}
-        <Analytics />
-        <ReactQueryDevtools initialIsOpen={false} />
-      </AuthProvider>
+      {!viewingSeason ? (
+        <p>Loading screen goes here...</p>
+      ) : displaySeasonNotes ? (
+        <EditSeasonNotes
+          seasonId={viewingSeason.id}
+          seasonNotes={seasonNotes}
+          onClose={() => setDisplaySeasonNotes(false)}
+        />
+      ) : editingWorkoutId ? (
+        <EditWorkout
+          workoutId={editingWorkoutId}
+          seasonId={viewingSeason.id}
+          workouts={seasonWorkouts}
+          onClose={() => {
+            setEditingWorkoutId(undefined);
+            setViewingSeason(viewingSeason);
+          }}
+        />
+      ) : (
+        <Home
+          workouts={seasonWorkouts}
+          seasons={seasons}
+          seasonNotesOpen={() => setDisplaySeasonNotes(true)}
+          onEditWorkout={(workoutId) => setEditingWorkoutId(workoutId)}
+          setViewingSeason={setViewingSeason}
+          viewingSeason={viewingSeason}
+        />
+      )}
+      <Analytics />
+      <ReactQueryDevtools initialIsOpen={false} />
     </>
   );
 }
