@@ -3,7 +3,6 @@ import { TrainingType, Workout } from "../models/Workout";
 import WorkoutTile from "./WorkoutTile";
 import {
   filterWorkouts,
-  newWorkout,
   totalWorkoutTime,
   workoutsByWeek,
 } from "../helpers/workoutStorageHelper";
@@ -18,7 +17,7 @@ interface Props {
   viewingSeason: Season;
 }
 
-const WorkoutList = ({ workouts, onEditWorkout, viewingSeason }: Props) => {
+const WorkoutList = ({ workouts, onEditWorkout }: Props) => {
   const [trainingTypeFilter, setTrainingTypeFilter] = useState<
     TrainingType | ""
   >("");
@@ -33,9 +32,8 @@ const WorkoutList = ({ workouts, onEditWorkout, viewingSeason }: Props) => {
         <div className="flex justify-end">
           <button
             className="w-12 -mt-8 mr-1"
-            onClick={async () => {
-              // Don't love making the user wait for a server response before opening the form...
-              newWorkout(viewingSeason.id, onEditWorkout);
+            onClick={() => {
+              onEditWorkout(-1);
             }}
           >
             <Icon iconImg={add} alt={"newWorkout"} />

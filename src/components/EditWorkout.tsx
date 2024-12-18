@@ -19,7 +19,6 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
   // Used to prefill new workout with last added or edited workout details
   const lastWorkout = workouts[workouts.length - 1] as Workout | undefined;
 
-  // I want to be able to remove this
   const newWorkout: Workout = {
     id: workoutId,
     name: lastWorkout?.name ?? "Workout Name",
@@ -49,29 +48,13 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
   const queryClient = useQueryClient();
   const saveWorkoutMutation = useMutation<Workout, Error, Workout>({
     mutationFn: saveWorkout,
-    // onMutate: async (newWorkout) => {
-    //   // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
-    //   await queryClient.cancelQueries({ queryKey: ["workouts"] });
-
-    //   // Snapshot the previous workouts
-    //   const previousWorkouts = queryClient.getQueryData(["workouts"]);
-
-    //   // Optimistically update workouts with newWorkout. Need to handle existing workout being updated...
-    //   queryClient.setQueryData(["workouts"], (oldWorkouts: Workout[]) => [
-    //     ...oldWorkouts,
-    //     newWorkout,
-    //   ]);
-
-    //   // Return a context object with the snapshotted value
-    //   return { previousWorkouts };
-    // },
     onError: (error) => {
       console.error("Failed to save workout", error);
     },
-    onSuccess: () => {
+    onSuccess: (savedWorkout) => {
+      // When the workout is saved successfully, replace the temporary id with the actual id from the backend
+      setWorkoutData(savedWorkout);
       onClose();
-
-      // Is there a way to directly set workouts queryKey data with the response of saveWorkout mutationFn?
       queryClient.invalidateQueries({ queryKey: ["workouts"] });
     },
   });
@@ -95,15 +78,7 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
         <div className="flex justify-center items-center">
           <div className="p-3 sm:p-6 font-roboto w-11/12 sm:w-4/5 lg:w-1/2">
             <div className="flex justify-end">
-              <button
-                className="w-12 mt-3 -mr-2"
-                onClick={
-                  () =>
-                    isExistingWorkout
-                      ? onClose() // If the workout exists, just close
-                      : (deleteWorkout(workoutId), onClose()) // If the workout doesn't exist, delete and close
-                }
-              >
+              <button className="w-12 mt-3 -mr-2" onClick={onClose}>
                 <Icon iconImg={close} alt={"close"} />
               </button>
             </div>

@@ -128,9 +128,7 @@ const Home = ({
                 }}
                 disabled={deleteSeasonMutation.isPending}
               >
-                {deleteSeasonMutation.isPending
-                  ? "Deleting..."
-                  : "Delete season"}
+                Delete Season
               </button>
             </div>
             {displayUserConfirmation && (
