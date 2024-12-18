@@ -66,7 +66,7 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
     //   return { previousWorkouts };
     // },
     onError: (error) => {
-      console.error("Failed to save workout:", error);
+      console.error("Failed to save workout", error);
     },
     onSuccess: () => {
       onClose();
@@ -79,7 +79,7 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
   const deleteWorkoutMutation = useMutation<Workout, Error, Workout["id"]>({
     mutationFn: deleteWorkout,
     onError: (error) => {
-      console.error("Failed to delete workout:", error);
+      console.error("Failed to delete workout", error);
     },
     onSuccess: () => {
       onClose();

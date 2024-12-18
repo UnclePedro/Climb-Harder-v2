@@ -6,6 +6,7 @@ import { Season } from "../models/Season";
 import { deleteSeason, newSeason } from "../helpers/seasonsStorageHelper";
 import { useState } from "react";
 import UserConfirmation from "./UserConfirmation";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface Props {
   seasons: Season[];
@@ -25,6 +26,35 @@ const Home = ({
   setViewingSeason,
 }: Props) => {
   const [displayUserConfirmation, setDisplayUserConfirmation] = useState(false);
+
+  const queryClient = useQueryClient();
+
+  const newSeasonMutation = useMutation<Season[], Error>({
+    mutationFn: newSeason,
+    onError: (error) => {
+      console.error("Failed to create season", error);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["seasons"] });
+    },
+  });
+
+  const deleteSeasonMutation = useMutation<Season[], Error, Season["id"]>({
+    mutationFn: deleteSeason,
+
+    onMutate: async (seasonId) => {
+      await queryClient.cancelQueries({ queryKey: ["seasons"] });
+      queryClient.setQueryData<Season[]>(["seasons"], (previousSeasons = []) =>
+        previousSeasons.filter((season) => season.id !== seasonId)
+      );
+    },
+    onError: (error) => {
+      console.error("Failed to delete season", error);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["seasons"] });
+    },
+  });
 
   return (
     <>
@@ -73,7 +103,7 @@ const Home = ({
                 <button
                   className="bg-amber-500 font-medium rounded-lg px-2 py-1 ml-4"
                   onClick={() => {
-                    newSeason();
+                    newSeasonMutation.mutate();
                     setViewingSeason(seasons[seasons.length - 1]); // Get updated list of seasons and set viewingSeason to the last season
                   }}
                 >
@@ -96,14 +126,17 @@ const Home = ({
                 onClick={() => {
                   setDisplayUserConfirmation(true);
                 }}
+                disabled={deleteSeasonMutation.isPending}
               >
-                Delete Season
+                {deleteSeasonMutation.isPending
+                  ? "Deleting..."
+                  : "Delete season"}
               </button>
             </div>
             {displayUserConfirmation && (
               <UserConfirmation
                 userYes={() => (
-                  deleteSeason(viewingSeason.id),
+                  deleteSeasonMutation.mutate(viewingSeason.id),
                   setViewingSeason(seasons[seasons.length - 1]), // set viewingSeason to the previous season
                   setDisplayUserConfirmation(false)
                 )}
