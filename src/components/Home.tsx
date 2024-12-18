@@ -1,6 +1,6 @@
 import { Fade } from "react-awesome-reveal";
 import { Workout } from "../models/Workout";
-import QuoteGenerator from "./QuoteGenerator";
+// import QuoteGenerator from "./QuoteGenerator";
 import WorkoutList from "./WorkoutList";
 import { Season } from "../models/Season";
 import { deleteSeason, newSeason } from "../helpers/seasonsStorageHelper";
@@ -62,9 +62,7 @@ const Home = ({
         <div className="sm:flex sm:justify-center">
           <div className="sm:p-8">
             <div className="p-6 font-roboto">
-              <div className="w-72 sm:-mt-6">
-                <QuoteGenerator />
-              </div>
+              <div className="w-72 sm:-mt-6">{/* <QuoteGenerator /> */}</div>
               <div className="flex">
                 <div>
                   <h1 className="pt-6 text-2xl text-left font-bold">

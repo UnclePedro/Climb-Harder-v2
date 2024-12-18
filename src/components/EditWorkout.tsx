@@ -48,13 +48,34 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
   const queryClient = useQueryClient();
   const saveWorkoutMutation = useMutation<Workout, Error, Workout>({
     mutationFn: saveWorkout,
+    onMutate: async (newWorkout) => {
+      const previousWorkouts = queryClient.getQueryData<Workout[]>([
+        "workouts",
+      ]);
+
+      // Optimistically update the workouts list
+      queryClient.setQueryData<Workout[]>(["workouts"], (oldWorkouts = []) => {
+        if (newWorkout.id === -1) {
+          return [...oldWorkouts, { ...newWorkout, id: -1 }];
+        } else {
+          return oldWorkouts.map((workout) =>
+            workout.id === newWorkout.id
+              ? { ...workout, ...newWorkout }
+              : workout
+          );
+        }
+      });
+      onClose();
+
+      // Return the snapshot so we can rollback if necessary
+      return previousWorkouts;
+    },
+    // On error, revert the optimistic update
     onError: (error) => {
       console.error("Failed to save workout", error);
     },
-    onSuccess: (savedWorkout) => {
-      // When the workout is saved successfully, replace the temporary id with the actual id from the backend
-      setWorkoutData(savedWorkout);
-      onClose();
+    // On success, update the actual data with the real data from the backend
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["workouts"] });
     },
   });

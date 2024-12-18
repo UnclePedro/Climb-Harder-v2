@@ -20,7 +20,7 @@ function App() {
     queryFn: getSeasons,
   });
 
-  const { data: seasonNotes = defaultSeasonNotes } = useQuery({
+  const { data: seasonNotes = [defaultSeasonNotes] } = useQuery({
     queryKey: ["seasonNotes"],
     queryFn: getSeasonNotes,
   });
@@ -44,14 +44,18 @@ function App() {
   const seasonWorkouts = workouts.filter(
     (workout) => workout.seasonId === viewingSeason?.id
   );
+
+  const filteredSeasonNotes = seasonNotes.find(
+    (seasonNotes) => seasonNotes.seasonId === viewingSeason?.id
+  );
   return (
     <>
       {!viewingSeason ? (
         <p>Loading...</p>
-      ) : displaySeasonNotes ? (
+      ) : displaySeasonNotes && filteredSeasonNotes ? (
         <EditSeasonNotes
           seasonId={viewingSeason.id}
-          seasonNotes={seasonNotes}
+          seasonNotes={filteredSeasonNotes}
           onClose={() => setDisplaySeasonNotes(false)}
         />
       ) : editingWorkoutId ? (
