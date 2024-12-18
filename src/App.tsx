@@ -8,7 +8,6 @@ import { getWorkouts } from "./helpers/workoutStorageHelper.ts";
 import { useQuery } from "@tanstack/react-query";
 import { getUser } from "./helpers/userHelper.ts";
 import { getSeasonNotes } from "./helpers/seasonNotesStorageHelper.ts";
-import { defaultSeasonNotes } from "./models/SeasonNotes.ts";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Season } from "./models/Season.ts";
 
@@ -20,7 +19,7 @@ function App() {
     queryFn: getSeasons,
   });
 
-  const { data: seasonNotes = [defaultSeasonNotes] } = useQuery({
+  const { data: seasonNotes = [] } = useQuery({
     queryKey: ["seasonNotes"],
     queryFn: getSeasonNotes,
   });
@@ -45,17 +44,14 @@ function App() {
     (workout) => workout.seasonId === viewingSeason?.id
   );
 
-  const filteredSeasonNotes = seasonNotes.find(
-    (seasonNotes) => seasonNotes.seasonId === viewingSeason?.id
-  );
   return (
     <>
       {!viewingSeason ? (
         <p>Loading...</p>
-      ) : displaySeasonNotes && filteredSeasonNotes ? (
+      ) : displaySeasonNotes ? (
         <EditSeasonNotes
           seasonId={viewingSeason.id}
-          seasonNotes={filteredSeasonNotes}
+          seasonNotes={seasonNotes}
           onClose={() => setDisplaySeasonNotes(false)}
         />
       ) : editingWorkoutId ? (

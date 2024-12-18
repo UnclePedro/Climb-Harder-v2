@@ -4,15 +4,41 @@ import { useState } from "react";
 import { Fade } from "react-awesome-reveal";
 import Icon from "./Icon";
 import close from "/src/assets/iconography/close.svg";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface Props {
   onClose: () => void;
-  seasonNotes: SeasonNotes;
+  seasonNotes: SeasonNotes[];
   seasonId: number;
 }
 
 const EditSeasonNotes = ({ onClose, seasonNotes, seasonId }: Props) => {
-  const [seasonNotesData, setSeasonNotesData] = useState(seasonNotes);
+  const newSeasonNotes: SeasonNotes = {
+    seasonId: seasonId,
+    trainingFocuses: "",
+    goals: "",
+    achievements: "",
+  };
+
+  const seasonNotesToEdit =
+    seasonNotes.find(
+      (existingSeasonNotes: SeasonNotes) =>
+        existingSeasonNotes.seasonId === seasonId
+    ) || newSeasonNotes;
+
+  const [seasonNotesData, setSeasonNotesData] = useState(seasonNotesToEdit);
+
+  const queryClient = useQueryClient();
+  const saveSeasonNotesMutation = useMutation<SeasonNotes, Error, SeasonNotes>({
+    mutationFn: saveSeasonNotes,
+    onError: (error) => {
+      console.error("Failed to create season", error);
+      queryClient.invalidateQueries({ queryKey: ["seasonNotes"] });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["seasonNotes"] });
+    },
+  });
 
   return (
     <>
@@ -62,7 +88,7 @@ const EditSeasonNotes = ({ onClose, seasonNotes, seasonId }: Props) => {
             <button
               className="bg-amber-500 font-bold rounded-lg px-2 py-1 mt-3 "
               onClick={() => {
-                saveSeasonNotes(seasonId, seasonNotesData);
+                saveSeasonNotesMutation.mutate(seasonNotesData);
                 onClose();
               }}
             >

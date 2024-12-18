@@ -4,10 +4,3 @@ export interface SeasonNotes {
   goals: string;
   achievements: string;
 }
-
-export const defaultSeasonNotes: SeasonNotes = {
-  seasonId: 0,
-  trainingFocuses: "",
-  goals: "",
-  achievements: "",
-};
