@@ -49,11 +49,6 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
   const saveWorkoutMutation = useMutation<Workout, Error, Workout>({
     mutationFn: saveWorkout,
     onMutate: async (newWorkout) => {
-      const previousWorkouts = queryClient.getQueryData<Workout[]>([
-        "workouts",
-      ]);
-
-      // Optimistically update the workouts list
       queryClient.setQueryData<Workout[]>(["workouts"], (oldWorkouts = []) => {
         if (newWorkout.id === -1) {
           return [...oldWorkouts, { ...newWorkout, id: -1 }];
@@ -66,15 +61,11 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
         }
       });
       onClose();
-
-      // Return the snapshot so we can rollback if necessary
-      return previousWorkouts;
     },
-    // On error, revert the optimistic update
     onError: (error) => {
       console.error("Failed to save workout", error);
+      queryClient.invalidateQueries({ queryKey: ["workouts"] });
     },
-    // On success, update the actual data with the real data from the backend
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["workouts"] });
     },
@@ -84,11 +75,10 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
     mutationFn: deleteWorkout,
     onError: (error) => {
       console.error("Failed to delete workout", error);
+      queryClient.invalidateQueries({ queryKey: ["workouts"] });
     },
     onSuccess: () => {
       onClose();
-
-      // Is there a way to directly set workouts queryKey data with the response of saveWorkout mutationFn?
       queryClient.invalidateQueries({ queryKey: ["workouts"] });
     },
   });

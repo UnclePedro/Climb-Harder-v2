@@ -33,6 +33,7 @@ const Home = ({
     mutationFn: newSeason,
     onError: (error) => {
       console.error("Failed to create season", error);
+      queryClient.invalidateQueries({ queryKey: ["seasons"] });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["seasons"] });
@@ -50,6 +51,7 @@ const Home = ({
     },
     onError: (error) => {
       console.error("Failed to delete season", error);
+      queryClient.invalidateQueries({ queryKey: ["seasons"] });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["seasons"] });

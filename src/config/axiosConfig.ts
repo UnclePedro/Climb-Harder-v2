@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getUser } from "../helpers/userHelper";
+import { getUserFromLocalStorage } from "../helpers/userHelper";
 
 // https://climb-harder-api.vercel.app
 // http://localhost:8080
@@ -8,10 +8,9 @@ axios.defaults.baseURL = "http://localhost:8080";
 
 axios.interceptors.request.use(
   async (config) => {
-    await new Promise((resolve) => setTimeout(resolve, 750)); // 2-second delay
+    // Need to use react authContext to deliver user details to my app before any requests are made
 
-    // Currently only works if user exists in localStorage, need to work on this
-    const user = await getUser();
+    const user = getUserFromLocalStorage();
 
     if (user.apiKey) {
       config.headers["apiKey"] = user.apiKey;
