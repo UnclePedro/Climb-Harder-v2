@@ -8,7 +8,7 @@ import { useState } from "react";
 import UserConfirmation from "./UserConfirmation";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Icon from "./Icon";
-import logo from "/src/assets/climb harder logo_2.svg";
+import logo from "/src/assets/climb-harder-logo.svg";
 
 interface Props {
   seasons: Season[];
