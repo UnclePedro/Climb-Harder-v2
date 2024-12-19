@@ -11,6 +11,8 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Season } from "./models/Season.ts";
 import { useAuth } from "./hooks/AuthProvider.tsx";
 import EditUserDetails from "./components/EditUserDetails.tsx";
+import Icon from "./components/Icon.tsx";
+import logo from "/src/assets/climb-harder-logo.svg";
 
 function App() {
   const user = useAuth();
@@ -51,7 +53,9 @@ function App() {
   return (
     <>
       {!viewingSeason ? (
-        <p>Loading screen goes here...</p>
+        <div className="w-[350px]">
+          <Icon iconImg={logo} alt={"climb-harder"} />
+        </div>
       ) : displaySeasonNotes ? (
         <EditSeasonNotes
           seasonId={viewingSeason.id}
@@ -78,7 +82,7 @@ function App() {
             setViewingSeason={setViewingSeason}
             viewingSeason={viewingSeason}
           />
-          <div className="absolute top-0 right-0 mt-12 mr-5">
+          <div className="absolute top-0 right-0 sm:mt-12 mt-5 sm:mr-5">
             <EditUserDetails />
           </div>
         </>

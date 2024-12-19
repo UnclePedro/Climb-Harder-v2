@@ -6,7 +6,6 @@ export const getSeasons = async (): Promise<Season[]> => {
     const seasons = await axios.get("/getSeasons");
     return seasons.data;
   } catch (error) {
-    console.error("Error fetching seasons:", error);
     throw new Error("Failed to fetch seasons");
   }
 };

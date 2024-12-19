@@ -62,7 +62,7 @@ const Home = ({
     <>
       <Fade>
         <div className="flex justify-center pt-4 sm:pt-8">
-          <div className="w-[350px]">
+          <div className="w-[350px] mt-2 sm:mt-0">
             <Icon iconImg={logo} alt={"climb-harder"} />
           </div>
         </div>

@@ -44,15 +44,16 @@ export const EditUserDetails = () => {
                 type="text"
                 value={user.apiKey} // Access the `apiKey` value
                 onChange={(e) => {
-                  const updatedApiKey = { apiKey: e.target.value };
-                  setUser(updatedApiKey);
-                  localStorage.setItem("user", JSON.stringify(updatedApiKey));
+                  setUser({ apiKey: e.target.value });
                 }}
                 placeholder="Enter your API key"
                 className="p-3 rounded-lg text-black bg-amber-200 border border-amber-300 focus:outline-none focus:ring focus:border-amber-500"
               />
               <button
-                onClick={refreshData}
+                onClick={async () => {
+                  localStorage.setItem("user", JSON.stringify(user));
+                  refreshData();
+                }}
                 className="bg-amber-500 font-medium text-sm rounded-lg px-2 py-1 flex my-3"
               >
                 Refresh Data
@@ -62,7 +63,7 @@ export const EditUserDetails = () => {
                 <p>
                   Copy this key to other devices and
                   <br />
-                  press refresh to view your training.
+                  press refresh to view your training
                 </p>
               </div>
             </div>
