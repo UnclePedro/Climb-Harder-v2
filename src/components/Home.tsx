@@ -62,11 +62,10 @@ const Home = ({
         <div className="sm:flex sm:justify-center">
           <div className="sm:p-8">
             <div className="p-6 font-roboto">
-              <div className="w-72 sm:-mt-6">{/* <QuoteGenerator /> */}</div>
               <div className="flex">
                 <div>
                   <h1 className="pt-6 text-2xl text-left font-bold">
-                    Training Logbook
+                    Climb Harder
                   </h1>
 
                   <select

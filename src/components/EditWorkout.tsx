@@ -34,7 +34,7 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
     (existingWorkout: Workout) => existingWorkout.id === workoutId
   );
 
-  // If the workoutId matches an existingWorkout.id from the workouts array, fill form state with that data. Or, set state to previous workout details and empty strings for a blank form
+  // If the workoutId matches an existingWorkout.id from the workouts array, fill form state with that data. Or, display a new workout
   const workoutToEdit =
     workouts.find(
       (existingWorkout: Workout) => existingWorkout.id === workoutId

@@ -18,8 +18,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User>();
 
   const fetchUser = async () => {
-    const userData = await getUser();
-    setUser(userData);
+    setUser(await getUser());
   };
 
   useEffect(() => {

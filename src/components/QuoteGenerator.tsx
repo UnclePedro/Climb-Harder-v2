@@ -1,3 +1,5 @@
+import { useState, useEffect } from "react";
+
 const QuoteGenerator = () => {
   const quotesArray = [
     {
@@ -156,13 +158,41 @@ const QuoteGenerator = () => {
     return quotesArray[randomIndex];
   };
 
-  const quote = getRandomQuote();
+  const [quote, setQuote] = useState<{ quote: string; author: string } | null>(
+    null
+  );
+
+  useEffect(() => {
+    const lastGeneratedTime = localStorage.getItem("lastGeneratedTime");
+    const currentTime = new Date().getTime();
+    const twentyFourHoursInMillis = 24 * 60 * 60 * 1000;
+
+    if (
+      lastGeneratedTime &&
+      currentTime - parseInt(lastGeneratedTime) < twentyFourHoursInMillis
+    ) {
+      // If 24 hours haven't passed, reuse the last quote
+      const savedQuote = localStorage.getItem("lastQuote");
+      if (savedQuote) {
+        setQuote(JSON.parse(savedQuote));
+      }
+    } else {
+      // Generate a new quote if 24 hours have passed or no previous time stored
+      const newQuote = getRandomQuote();
+      setQuote(newQuote);
+      // Store the new quote and the current time in localStorage
+      localStorage.setItem("lastGeneratedTime", currentTime.toString());
+      localStorage.setItem("lastQuote", JSON.stringify(newQuote));
+    }
+  }, []);
 
   return (
     <>
-      <p className="text-sm w-42">
-        '{quote.quote}' - {quote.author}
-      </p>
+      {quote && (
+        <p className="text-sm w-42">
+          '{quote.quote}' - {quote.author}
+        </p>
+      )}
     </>
   );
 };
