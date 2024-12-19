@@ -7,6 +7,8 @@ import { deleteSeason, newSeason } from "../helpers/seasonsStorageHelper";
 import { useState } from "react";
 import UserConfirmation from "./UserConfirmation";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import Icon from "./Icon";
+import logo from "/src/assets/climb harder logo_2.svg";
 
 interface Props {
   seasons: Season[];
@@ -59,46 +61,44 @@ const Home = ({
   return (
     <>
       <Fade>
-        <div className="sm:flex sm:justify-center">
-          <div className="sm:p-8">
-            <div className="p-6 font-roboto">
-              <div className="flex">
-                <div>
-                  <h1 className="pt-6 text-2xl text-left font-bold">
-                    Climb Harder
-                  </h1>
+        <div className="flex justify-center pt-4 sm:pt-8">
+          <div className="w-[350px]">
+            <Icon iconImg={logo} alt={"climb-harder"} />
+          </div>
+        </div>
+        <div className="flex flex-col items-center space-y-6 font-roboto">
+          <div className="flex flex-col items-center space-y-4">
+            <select
+              name="select-season"
+              id="select-season"
+              className="font-bold text-2xl flex h-15 pl-2 bg-opacity-0 bg-slate-50"
+              value={viewingSeason.id}
+              onChange={(element) => {
+                const selectedSeason = seasons.find(
+                  (season) => season.id === Number(element.target.value)
+                );
+                if (selectedSeason) {
+                  setViewingSeason(selectedSeason);
+                }
+              }}
+            >
+              {seasons.map((season: Season) => (
+                <option key={season.id} value={season.id}>
+                  {season.name}
+                </option>
+              ))}
+            </select>
 
-                  <select
-                    name="select-season"
-                    id="select-season"
-                    className="font-bold text-2xl flex h-12 bg-opacity-0 bg-slate-50"
-                    value={viewingSeason.id}
-                    onChange={(element) => {
-                      const selectedSeason = seasons.find(
-                        (season) => season.id === Number(element.target.value)
-                      );
-                      if (selectedSeason) {
-                        setViewingSeason(selectedSeason);
-                      }
-                    }}
-                  >
-                    {seasons.map((season: Season) => (
-                      <option key={season.id} value={season.id}>
-                        {season.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
+            <div className="space-x-4">
               <button
-                className="bg-amber-500 font-medium rounded-lg px-2 py-1 mt-1"
+                className="bg-amber-500 font-medium rounded-lg px-2 py-1"
                 onClick={() => seasonNotesOpen()}
               >
                 Goals & Achievements
               </button>
               {workouts.length > 0 && (
                 <button
-                  className="bg-amber-500 font-medium rounded-lg px-2 py-1 ml-4"
+                  className="bg-amber-500 font-medium rounded-lg px-2 py-1"
                   onClick={() => {
                     newSeasonMutation.mutate();
                     setViewingSeason(seasons[seasons.length - 1]); // Set viewingSeason to the new season
@@ -109,37 +109,36 @@ const Home = ({
                 </button>
               )}
             </div>
-
-            <div className="p-6 -mt-8">
-              <WorkoutList
-                workouts={workouts}
-                onEditWorkout={onEditWorkout}
-                viewingSeason={viewingSeason}
-              />
-            </div>
-
-            <div className="ml-6 -mt-2">
-              <button
-                className="bg-[#cf5630] font-bold text-xs rounded-lg w-fit px-2 py-1 mb-4"
-                onClick={() => {
-                  setDisplayUserConfirmation(true);
-                }}
-                disabled={deleteSeasonMutation.isPending}
-              >
-                Delete Season
-              </button>
-            </div>
-            {displayUserConfirmation && (
-              <UserConfirmation
-                userYes={() => (
-                  deleteSeasonMutation.mutate(viewingSeason.id),
-                  setViewingSeason(seasons[seasons.length - 1]), // set viewingSeason to the previous season
-                  setDisplayUserConfirmation(false)
-                )}
-                userNo={() => setDisplayUserConfirmation(false)}
-              />
-            )}
           </div>
+
+          <div className="px-5">
+            <WorkoutList
+              workouts={workouts}
+              onEditWorkout={onEditWorkout}
+              viewingSeason={viewingSeason}
+            />
+          </div>
+
+          <button
+            className="bg-[#cf5630] font-bold text-xs rounded-lg px-2 py-1"
+            onClick={() => {
+              setDisplayUserConfirmation(true);
+            }}
+            disabled={deleteSeasonMutation.isPending}
+          >
+            Delete Season
+          </button>
+
+          {displayUserConfirmation && (
+            <UserConfirmation
+              userYes={() => (
+                deleteSeasonMutation.mutate(viewingSeason.id),
+                setViewingSeason(seasons[seasons.length - 1]), // set viewingSeason to the previous season
+                setDisplayUserConfirmation(false)
+              )}
+              userNo={() => setDisplayUserConfirmation(false)}
+            />
+          )}
         </div>
       </Fade>
     </>
