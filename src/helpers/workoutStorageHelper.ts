@@ -58,13 +58,16 @@ export const filterWorkouts = (
 
 // Calculate week number between first and subsequent workouts
 export const getWeekNumber = (workouts: Workout[], workout: Workout) => {
-  // Find the earliest workout and normalize its date to full days
+  // Ensure each workout date is a Date object
   const firstWorkoutDay = Math.floor(
-    Math.min(...workouts.map((workout) => workout.date)) / (1000 * 60 * 60 * 24)
+    Math.min(...workouts.map((workout) => new Date(workout.date).getTime())) /
+      (1000 * 60 * 60 * 24)
   );
 
   // Normalize the current workout date to full days
-  const currentWorkoutDay = Math.floor(workout.date / (1000 * 60 * 60 * 24));
+  const currentWorkoutDay = Math.floor(
+    new Date(workout.date).getTime() / (1000 * 60 * 60 * 24)
+  );
 
   // Calculate the number of full 7-day periods between the workouts
   const weekNumber = Math.floor((currentWorkoutDay - firstWorkoutDay) / 7) + 1;
@@ -85,14 +88,24 @@ export const workoutsByWeek = (
         workoutsWeekGroup = { week, workouts: [] };
         acc.push(workoutsWeekGroup);
       }
-      workoutsWeekGroup.workouts.push(workout);
+
+      // Ensure the workout.date is a Date object before pushing it to the group
+      const workoutWithDate = {
+        ...workout,
+        date: new Date(workout.date),
+      };
+
+      workoutsWeekGroup.workouts.push(workoutWithDate);
 
       // Sort workouts within the current week in reverse chronological order
       workoutsWeekGroup.workouts.sort(
-        (workoutA, workoutB) => workoutB.date - workoutA.date
+        (workoutA, workoutB) =>
+          workoutB.date.getTime() - workoutA.date.getTime()
       );
 
       return acc;
     }, [] as { week: string; workouts: Workout[] }[])
-    .sort((a, b) => b.workouts[0].date - a.workouts[0].date);
+    .sort(
+      (a, b) => b.workouts[0].date.getTime() - a.workouts[0].date.getTime()
+    );
 };
