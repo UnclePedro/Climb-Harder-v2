@@ -10,6 +10,7 @@ import { getSeasonNotes } from "./helpers/seasonNotesStorageHelper.ts";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Season } from "./models/Season.ts";
 import { useAuth } from "./hooks/AuthProvider.tsx";
+import EditUserDetails from "./components/EditUserDetails.tsx";
 
 function App() {
   const user = useAuth();
@@ -68,14 +69,19 @@ function App() {
           }}
         />
       ) : (
-        <Home
-          workouts={seasonWorkouts}
-          seasons={seasons}
-          seasonNotesOpen={() => setDisplaySeasonNotes(true)}
-          onEditWorkout={(workoutId) => setEditingWorkoutId(workoutId)}
-          setViewingSeason={setViewingSeason}
-          viewingSeason={viewingSeason}
-        />
+        <>
+          <Home
+            workouts={seasonWorkouts}
+            seasons={seasons}
+            seasonNotesOpen={() => setDisplaySeasonNotes(true)}
+            onEditWorkout={(workoutId) => setEditingWorkoutId(workoutId)}
+            setViewingSeason={setViewingSeason}
+            viewingSeason={viewingSeason}
+          />
+          <div className="absolute top-0 right-0 mt-12 mr-5">
+            <EditUserDetails />
+          </div>
+        </>
       )}
       <Analytics />
       <ReactQueryDevtools initialIsOpen={false} />
