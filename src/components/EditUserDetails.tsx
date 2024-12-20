@@ -53,7 +53,7 @@ export const EditUserDetails = () => {
                   setUser({ apiKey: e.target.value });
                 }}
                 placeholder="Enter your API key"
-                className="p-3 rounded-lg text-black bg-amber-200 shadow-md border-amber-300 focus:outline-none focus:ring focus:border-amber-400"
+                className="p-3 rounded-lg text-black bg-amber-200 shadow-md border-none focus:outline-none hover:bg-amber-300 transition-all placeholder-black placeholder-opacity-30"
               />
               <button
                 onClick={async () => {
@@ -79,7 +79,7 @@ export const EditUserDetails = () => {
                 <p>
                   Copy this key to other devices and
                   <br />
-                  press refresh to view your training
+                  tap refresh to view your training
                 </p>
               </div>
             </div>

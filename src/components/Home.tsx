@@ -62,11 +62,11 @@ const Home = ({
 
   return (
     <>
-      <div className="absolute top-0 right-0 sm:mt-12 mt-5 sm:mr-5 z-50">
+      <div className="absolute top-0 right-0 sm:mt-12 mt-6 sm:mr-5 mr-2 z-50">
         <EditUserDetails />
       </div>
       <Fade>
-        <div className="flex justify-center pt-4 sm:pt-8">
+        <div className="flex justify-center pt-5 sm:pt-8">
           <div className="w-[350px] mt-2 sm:mt-0">
             <Icon iconImg={logo} alt={"climb-harder"} />
           </div>
@@ -76,7 +76,7 @@ const Home = ({
             <select
               name="select-season"
               id="select-season"
-              className="font-bold text-2xl flex h-15 pl-2 bg-opacity-0 bg-slate-50"
+              className="font-bold text-2xl flex h-15 pl-2 bg-opacity-0 bg-slate-50  rounded-lg border-none focus:outline-none"
               value={viewingSeason.id}
               onChange={(element) => {
                 const selectedSeason = seasons.find(

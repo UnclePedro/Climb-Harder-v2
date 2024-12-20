@@ -19,10 +19,6 @@ export default class LoadingAnimation extends React.Component<LoadingAnimationPr
       },
     };
 
-    return (
-      <div>
-        <Lottie options={defaultOptions} height={height} width={width} />
-      </div>
-    );
+    return <Lottie options={defaultOptions} height={height} width={width} />;
   }
 }

@@ -105,7 +105,7 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
                     name: element.target.value,
                   });
                 }}
-                className="w-full h-11  bg-amber-200 rounded-lg shadow-md p-3"
+                className="w-full h-11  bg-amber-200 rounded-lg border-none focus:outline-none hover:bg-amber-300 transition-all shadow-md p-3"
                 value={workoutData.name}
                 maxLength={30}
               />
@@ -115,7 +115,7 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
                 name="training-type"
                 id="training-type"
                 value={workoutData.trainingType}
-                className="w-full h-11 bg-amber-200 rounded-lg drop-shadow-md resize-y px-3"
+                className="w-full h-11 bg-amber-200 rounded-lg border-none focus:outline-none hover:bg-amber-300 transition-all drop-shadow-md resize-y px-3"
                 onChange={(element) => {
                   setWorkoutData({
                     ...workoutData,
@@ -140,7 +140,7 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
                     details: element.target.value,
                   });
                 }}
-                className="w-full h-[34vh] sm:h-80 bg-amber-200 rounded-lg shadow-md resize-y p-3"
+                className="w-full h-[38vh] sm:h-80 bg-amber-200 rounded-lg border-none focus:outline-none hover:bg-amber-300 transition-all shadow-md resize-y p-3"
                 value={workoutData.details}
               />
 
@@ -156,13 +156,13 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
                     duration: updatedDuration,
                   });
                 }}
-                className="w-full h-11 bg-amber-200 rounded-lg shadow-md resize-y p-3"
+                className="w-full h-11 bg-amber-200 rounded-lg border-none focus:outline-none hover:bg-amber-300 transition-all shadow-md resize-y p-3"
                 value={workoutData.duration}
               />
 
               <div className="flex sm:block items-center justify-between">
                 <div>
-                  <p className="font-bold text-lg text-left mt-2">Date</p>
+                  <p className="font-bold text-lg text-left mt-2 ">Date</p>
                   <input
                     type="date"
                     onChange={(element) => {
@@ -172,7 +172,7 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
                         date: dateTimestamp,
                       });
                     }}
-                    className="w-full sm:w-full h-11 bg-amber-200 rounded-lg shadow-md resize-y p-3"
+                    className="w-full sm:w-full h-11 bg-amber-200 rounded-lg border-none focus:outline-none hover:bg-amber-300 transition-all shadow-md resize-y p-3"
                     value={formatDateForInput(workoutData.date)} // Format the timestamp back to "YYYY-MM-DD" for display
                   />
                 </div>

@@ -59,7 +59,7 @@ const EditSeasonNotes = ({ onClose, seasonNotes, seasonId }: Props) => {
                   trainingFocuses: element.target.value,
                 });
               }}
-              className="w-full h-[18vh] sm:h-52 bg-amber-200 rounded-lg shadow-md resize-y p-3"
+              className="w-full h-[21vh] sm:h-52 bg-amber-200 rounded-lg border-none focus:outline-none hover:bg-amber-300 transition-all shadow-md resize-y p-3"
               value={seasonNotesData.trainingFocuses}
             />
             <p className="font-bold text-lg text-left mt-2">Goals</p>
@@ -70,7 +70,7 @@ const EditSeasonNotes = ({ onClose, seasonNotes, seasonId }: Props) => {
                   goals: element.target.value,
                 });
               }}
-              className="w-full h-[18vh] sm:h-52 bg-amber-200 rounded-lg shadow-md resize-y p-3"
+              className="w-full h-[21vh] sm:h-52 bg-amber-200 rounded-lg border-none focus:outline-none hover:bg-amber-300 transition-all shadow-md resize-y p-3"
               value={seasonNotesData.goals}
             />
 
@@ -82,7 +82,7 @@ const EditSeasonNotes = ({ onClose, seasonNotes, seasonId }: Props) => {
                   achievements: element.target.value,
                 });
               }}
-              className="w-full h-[18vh] sm:h-52  bg-amber-200 rounded-lg shadow-md resize-y p-3"
+              className="w-full h-[21vh] sm:h-52  bg-amber-200 border-none focus:outline-none hover:bg-amber-300 transition-all rounded-lg shadow-md resize-y p-3"
               value={seasonNotesData.achievements}
             />
             <button
