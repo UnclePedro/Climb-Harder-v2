@@ -24,7 +24,7 @@ const WorkoutList = ({ workouts, onEditWorkout }: Props) => {
 
   return (
     <>
-      <div className="bg-amber-200 bg-opacity-65 shadow-md p-1 pb-2 rounded-lg min-w-80 w-fit">
+      <div className="bg-amber-200 bg-opacity-65 shadow-md p-1 pb-4 sm:pb-2 rounded-lg min-w-80 max-w-[1100px] w-fit">
         <p className="text-sm italic p-3">
           Total training time:{" "}
           {totalWorkoutTime(filterWorkouts(workouts, trainingTypeFilter))} hours
@@ -39,7 +39,7 @@ const WorkoutList = ({ workouts, onEditWorkout }: Props) => {
             <Icon iconImg={add} alt={"newWorkout"} />
           </button>
         </div>
-        <div className="pb-2">
+        <div className="pb-1">
           <select
             name="training-type"
             id="training-type"

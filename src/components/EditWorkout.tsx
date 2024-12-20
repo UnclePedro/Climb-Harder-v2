@@ -105,7 +105,7 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
                     name: element.target.value,
                   });
                 }}
-                className="w-full h-11  bg-amber-200 rounded-lg border-none focus:outline-none hover:bg-amber-300 transition-all shadow-md p-3"
+                className="w-full h-11  bg-amber-200 rounded-lg border-none focus:outline-none sm:hover:bg-amber-300 transition-all shadow-md p-3"
                 value={workoutData.name}
                 maxLength={30}
               />

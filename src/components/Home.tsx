@@ -71,12 +71,12 @@ const Home = ({
             <Icon iconImg={logo} alt={"climb-harder"} />
           </div>
         </div>
-        <div className="flex flex-col items-center space-y-6 font-roboto">
-          <div className="flex flex-col items-center space-y-4">
+        <div className="flex flex-col items-center font-roboto">
+          <div className="flex flex-col items-center">
             <select
               name="select-season"
               id="select-season"
-              className="font-bold text-2xl flex h-15 pl-2 bg-opacity-0 bg-slate-50  rounded-lg border-none focus:outline-none"
+              className="font-bold text-2xl flex h-15 pl-1 bg-opacity-0 bg-slate-50  rounded-lg border-none focus:outline-none"
               value={viewingSeason.id}
               onChange={(element) => {
                 const selectedSeason = seasons.find(
@@ -94,9 +94,9 @@ const Home = ({
               ))}
             </select>
 
-            <div className="space-x-4">
+            <div className="space-x-4 mt-4">
               <button
-                className="bg-amber-500 hover:bg-amber-400  transition-all font-medium rounded-lg px-2 py-1"
+                className="bg-amber-500  transition-all font-medium rounded-lg px-2 py-1"
                 onClick={() => seasonNotesOpen()}
               >
                 Goals & Achievements
@@ -128,7 +128,7 @@ const Home = ({
             </div>
           </div>
 
-          <div className="px-5">
+          <div className="px-5 mt-4">
             <WorkoutList
               workouts={workouts}
               onEditWorkout={onEditWorkout}
@@ -137,7 +137,8 @@ const Home = ({
           </div>
 
           <button
-            className="bg-[#cf5630] font-bold text-xs rounded-lg px-2 py-1 mt-4"
+            // Why does the delete button not recieve bottom padding
+            className="bg-[#cf5630] font-bold text-xs rounded-lg px-2 py-1 mt-4 mb-6"
             onClick={() => {
               setDisplayUserConfirmation(true);
             }}
