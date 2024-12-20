@@ -10,9 +10,9 @@ import { getSeasonNotes } from "./helpers/seasonNotesStorageHelper.ts";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Season } from "./models/Season.ts";
 import { useAuth } from "./hooks/AuthProvider.tsx";
-import EditUserDetails from "./components/EditUserDetails.tsx";
 import Icon from "./components/Icon.tsx";
 import logo from "/src/assets/climb-harder-logo.svg";
+import EditUserDetails from "./components/EditUserDetails.tsx";
 
 function App() {
   const user = useAuth();
@@ -76,9 +76,6 @@ function App() {
         />
       ) : (
         <>
-          <div className="absolute top-0 right-0 sm:mt-12 mt-5 sm:mr-5">
-            <EditUserDetails />
-          </div>
           <Home
             workouts={seasonWorkouts}
             seasons={seasons}
@@ -87,6 +84,9 @@ function App() {
             setViewingSeason={setViewingSeason}
             viewingSeason={viewingSeason}
           />
+          <div className="absolute top-0 right-0 sm:mt-12 mt-5 sm:mr-5">
+            <EditUserDetails />
+          </div>
         </>
       )}
       <Analytics />
