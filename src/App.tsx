@@ -76,6 +76,9 @@ function App() {
         />
       ) : (
         <>
+          <div className="absolute top-0 right-0 sm:mt-12 mt-5 sm:mr-5">
+            <EditUserDetails />
+          </div>
           <Home
             workouts={seasonWorkouts}
             seasons={seasons}
@@ -84,9 +87,6 @@ function App() {
             setViewingSeason={setViewingSeason}
             viewingSeason={viewingSeason}
           />
-          <div className="absolute top-0 right-0 sm:mt-12 mt-5 sm:mr-5">
-            <EditUserDetails />
-          </div>
         </>
       )}
       <Analytics />
