@@ -9,9 +9,9 @@ export const getUserFromLocalStorage = (): User => {
 
 export const getUser = async (): Promise<User> => {
   let user = getUserFromLocalStorage();
-  if (!user || user.apiKey.length === 0) {
+  if (user.apiKey.length === 0) {
     try {
-      const newUser = await axios.get("http://localhost:8080/generateUser");
+      const newUser = await axios.get("/generateUser");
 
       // Access the newUserData and store only id and apiKey in localStorage
       const userData = {
