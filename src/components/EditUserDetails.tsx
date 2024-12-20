@@ -47,7 +47,7 @@ export const EditUserDetails = () => {
                   setUser({ apiKey: e.target.value });
                 }}
                 placeholder="Enter your API key"
-                className="p-3 rounded-lg text-black bg-amber-200 border border-amber-300 focus:outline-none focus:ring focus:border-amber-500"
+                className="p-3 rounded-lg text-black bg-amber-200 shadow-md border-amber-300 focus:outline-none focus:ring focus:border-amber-400"
               />
               <button
                 onClick={async () => {
