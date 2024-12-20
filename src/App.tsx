@@ -10,9 +10,9 @@ import { getSeasonNotes } from "./helpers/seasonNotesStorageHelper.ts";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Season } from "./models/Season.ts";
 import { useAuth } from "./hooks/AuthProvider.tsx";
-import Icon from "./components/Icon.tsx";
-import logo from "/src/assets/climb-harder-logo.svg";
-import EditUserDetails from "./components/EditUserDetails.tsx";
+import yellowDotLoadingLarge from "./assets/yellow-dot-loading-large.json";
+
+import LottieAnimation from "./components/LottieAnimation.tsx";
 
 function App() {
   const user = useAuth();
@@ -53,10 +53,12 @@ function App() {
   return (
     <>
       {!viewingSeason ? (
-        <div className="flex justify-center pt-4 sm:pt-8">
-          <div className="w-[350px] mt-2 sm:mt-0">
-            <Icon iconImg={logo} alt={"climb-harder"} />
-          </div>
+        <div className="flex justify-center items-center min-h-screen">
+          <LottieAnimation
+            animationData={yellowDotLoadingLarge}
+            height={100}
+            width={100}
+          />
         </div>
       ) : displaySeasonNotes ? (
         <EditSeasonNotes
@@ -84,9 +86,6 @@ function App() {
             setViewingSeason={setViewingSeason}
             viewingSeason={viewingSeason}
           />
-          <div className="absolute top-0 right-0 sm:mt-12 mt-5 sm:mr-5">
-            <EditUserDetails />
-          </div>
         </>
       )}
       <Analytics />

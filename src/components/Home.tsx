@@ -9,6 +9,7 @@ import UserConfirmation from "./UserConfirmation";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Icon from "./Icon";
 import logo from "/src/assets/climb-harder-logo.svg";
+import EditUserDetails from "./EditUserDetails";
 
 interface Props {
   seasons: Season[];
@@ -37,8 +38,9 @@ const Home = ({
       console.error("Failed to create season", error);
       queryClient.invalidateQueries({ queryKey: ["seasons"] });
     },
-    onSuccess: () => {
+    onSuccess: (newSeasons) => {
       queryClient.invalidateQueries({ queryKey: ["seasons"] });
+      setViewingSeason(newSeasons[newSeasons.length - 1]);
     },
   });
 
@@ -60,6 +62,9 @@ const Home = ({
 
   return (
     <>
+      <div className="absolute top-0 right-0 sm:mt-12 mt-5 sm:mr-5 z-50">
+        <EditUserDetails />
+      </div>
       <Fade>
         <div className="flex justify-center pt-4 sm:pt-8">
           <div className="w-[350px] mt-2 sm:mt-0">
@@ -91,21 +96,33 @@ const Home = ({
 
             <div className="space-x-4">
               <button
-                className="bg-amber-500 font-medium rounded-lg px-2 py-1"
+                className="bg-amber-500 hover:bg-amber-400  transition-all font-medium rounded-lg px-2 py-1"
                 onClick={() => seasonNotesOpen()}
               >
                 Goals & Achievements
               </button>
               {workouts.length > 0 && (
                 <button
-                  className="bg-amber-500 font-medium rounded-lg px-2 py-1"
+                  className=""
                   onClick={() => {
                     newSeasonMutation.mutate();
-                    setViewingSeason(seasons[seasons.length - 1]); // Set viewingSeason to the new season
                   }}
                   disabled={newSeasonMutation.isPending}
                 >
-                  {newSeasonMutation.isPending ? "Creating..." : "New Season"}
+                  {newSeasonMutation.isPending ? (
+                    // <LottieAnimation
+                    //   animationData={yellowDotLoadingSmall}
+                    //   height={20}
+                    //   width={105}
+                    // />
+                    <div className="bg-amber-500 transition-all font-medium rounded-lg px-2 py-1">
+                      Creating...
+                    </div>
+                  ) : (
+                    <div className="bg-amber-500 transition-all font-medium rounded-lg px-2 py-1">
+                      New Season
+                    </div>
+                  )}
                 </button>
               )}
             </div>
@@ -120,7 +137,7 @@ const Home = ({
           </div>
 
           <button
-            className="bg-[#cf5630] font-bold text-xs rounded-lg px-2 py-1"
+            className="bg-[#cf5630] font-bold text-xs rounded-lg px-2 py-1 mt-4"
             onClick={() => {
               setDisplayUserConfirmation(true);
             }}
