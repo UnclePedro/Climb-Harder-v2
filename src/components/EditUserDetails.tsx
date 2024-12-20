@@ -31,7 +31,7 @@ export const EditUserDetails = () => {
         <Fade duration={300} triggerOnce={true}>
           <div className="fixed inset-0 bg-black bg-opacity-65 flex justify-center h-screen items-center z-50 font-roboto">
             <div
-              className={`bg-topography bg-[#FDF1D3] bg-cover rounded-lg p-5 flex flex-col items-center w-fit drop-shadow-lg`}
+              className={`bg-topography bg-[#FDF1D3] bg-cover rounded-lg p-5 flex flex-col items-center w-fit drop-shadow-lg relative`}
             >
               <button
                 onClick={() => setEditUser(false)}
