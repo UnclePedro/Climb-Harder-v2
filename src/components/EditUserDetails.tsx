@@ -53,7 +53,7 @@ export const EditUserDetails = () => {
                   setUser({ apiKey: e.target.value });
                 }}
                 placeholder="Enter your API key"
-                className="p-3 rounded-lg text-black bg-amber-200 shadow-md border-none focus:outline-none hover:bg-amber-300 transition-all placeholder-black placeholder-opacity-30"
+                className="p-3 rounded-lg text-black bg-amber-200 shadow-md border-none focus:outline-none sm:hover:bg-amber-300 transition-all placeholder-black placeholder-opacity-30"
               />
               <button
                 onClick={async () => {
