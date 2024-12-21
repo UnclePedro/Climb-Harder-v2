@@ -9,6 +9,7 @@ Keep track of your workouts, goals and achievements across rock climbing seasons
 - Save workouts with specified training types, durations and dates
 - Make changes to existing workouts
 - Save and end a season to add it to season history
+- All user data is securely saved to the cloud, allowing multi-device functionality
 
 ## Developed Using
 - [React](https://react.dev/)
