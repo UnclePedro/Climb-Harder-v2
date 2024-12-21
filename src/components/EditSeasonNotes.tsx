@@ -46,7 +46,10 @@ const EditSeasonNotes = ({ onClose, seasonNotes, seasonId }: Props) => {
         <div className="flex justify-center items-center">
           <div className="p-3 sm:p-6 font-roboto h-11/12 w-11/12 sm:w-4/5 lg:w-1/2">
             <div className="flex justify-end">
-              <button className="w-12 mt-3 -mr-2" onClick={onClose}>
+              <button
+                className="w-12 mt-3 -mr-2 sm:hover:scale-105 sm:focus:scale-100 transition-all"
+                onClick={onClose}
+              >
                 <Icon iconImg={close} alt={"close"} />
               </button>
             </div>
@@ -59,7 +62,7 @@ const EditSeasonNotes = ({ onClose, seasonNotes, seasonId }: Props) => {
                   trainingFocuses: element.target.value,
                 });
               }}
-              className="w-full h-[21vh] sm:h-52 bg-amber-200 rounded-lg border-none focus:outline-none sm:hover:bg-amber-300 transition-all shadow-md resize-y p-3"
+              className="w-full h-[21vh] sm:h-52 bg-amber-200 sm:hover:bg-[#fadf73] rounded-lg border-none focus:outline-none  transition-all shadow-md resize-y p-3"
               value={seasonNotesData.trainingFocuses}
             />
             <p className="font-bold text-lg text-left mt-2">Goals</p>
@@ -70,7 +73,7 @@ const EditSeasonNotes = ({ onClose, seasonNotes, seasonId }: Props) => {
                   goals: element.target.value,
                 });
               }}
-              className="w-full h-[21vh] sm:h-52 bg-amber-200 rounded-lg border-none focus:outline-none sm:hover:bg-amber-300 transition-all shadow-md resize-y p-3"
+              className="w-full h-[21vh] sm:h-52 bg-amber-200 sm:hover:bg-[#fadf73] rounded-lg border-none focus:outline-none  transition-all shadow-md resize-y p-3"
               value={seasonNotesData.goals}
             />
 
@@ -82,11 +85,11 @@ const EditSeasonNotes = ({ onClose, seasonNotes, seasonId }: Props) => {
                   achievements: element.target.value,
                 });
               }}
-              className="w-full h-[21vh] sm:h-52  bg-amber-200 border-none focus:outline-none sm:hover:bg-amber-300 transition-all rounded-lg shadow-md resize-y p-3"
+              className="w-full h-[21vh] sm:h-52  bg-amber-200 sm:hover:bg-[#fadf73] border-none focus:outline-none  transition-all rounded-lg shadow-md resize-y p-3"
               value={seasonNotesData.achievements}
             />
             <button
-              className="bg-amber-500 font-bold rounded-lg px-2 py-1 mt-3 "
+              className="bg-amber-500 font-bold rounded-lg px-2 py-1 mt-3 sm:focus:scale-95 sm:hover:bg-amber-400 focus:bg-amber-400 transition-all"
               onClick={() => {
                 saveSeasonNotesMutation.mutate(seasonNotesData);
                 onClose();

@@ -26,7 +26,10 @@ export const EditUserDetails = () => {
   return (
     <div className="justify-end items-start">
       <Fade duration={400} triggerOnce={true}>
-        <button onClick={() => setEditUser(true)} className="-mt-28 -mr-18">
+        <button
+          onClick={() => setEditUser(true)}
+          className="-mt-28 -mr-18  sm:hover:scale-105 transition-all"
+        >
           <div className="w-11 sm:w-14">
             <Icon iconImg={userIcon} alt={"open edit modal"} />
           </div>
@@ -53,7 +56,7 @@ export const EditUserDetails = () => {
                   setUser({ apiKey: e.target.value });
                 }}
                 placeholder="Enter your API key"
-                className="p-3 rounded-lg text-black bg-amber-200 shadow-md border-none focus:outline-none sm:hover:bg-amber-300 transition-all placeholder-black placeholder-opacity-30"
+                className="p-3 rounded-lg text-black bg-amber-200 sm:hover:bg-[#fadf73] shadow-md border-none focus:outline-none transition-all placeholder-black placeholder-opacity-30"
               />
               <button
                 onClick={async () => {
@@ -69,9 +72,9 @@ export const EditUserDetails = () => {
                     width={81}
                   />
                 ) : (
-                  <div className="bg-amber-500 font-medium text-sm rounded-lg px-2 py-1 flex hover:scale-105 transition-all">
+                  <button className="bg-amber-500 sm:focus:scale-95 sm:hover:bg-amber-400 focus:bg-amber-400 font-medium text-sm rounded-lg px-2 py-1 transition-all">
                     Refresh Data
-                  </div>
+                  </button>
                 )}
               </button>
 

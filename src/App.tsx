@@ -39,7 +39,6 @@ function App() {
   const [editingWorkoutId, setEditingWorkoutId] = useState<number>(); // This gets passed as props a lot, I need to investigate if I can make this whole thing simpler
   const [viewingSeason, setViewingSeason] = useState<Season>();
 
-  // Would prefer not to use useEffect if I can. Find a workaround in future
   useEffect(() => {
     if (seasons.length > 0) {
       setViewingSeason(seasons[seasons.length - 1]);

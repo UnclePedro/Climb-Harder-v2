@@ -15,13 +15,13 @@ const UserConfirmation = ({ userYes, userNo }: Props) => {
           <p className="mb-4 text-center">You sure you wanna send it?</p>
           <div className="flex space-x-4">
             <button
-              className="bg-amber-500 px-2 py-1 rounded-lg"
+              className="bg-amber-500 sm:focus:scale-95 sm:hover:bg-amber-400 focus:bg-amber-400 transition-all px-2 py-1 rounded-lg"
               onClick={userYes}
             >
               Yes
             </button>
             <button
-              className="bg-amber-500  px-2 py-1 rounded-lg"
+              className="bg-amber-500 sm:focus:scale-95 sm:hover:bg-amber-400 focus:bg-amber-400 transition-all px-2 py-1 rounded-lg"
               onClick={userNo}
             >
               No

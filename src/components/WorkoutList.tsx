@@ -31,7 +31,7 @@ const WorkoutList = ({ workouts, onEditWorkout }: Props) => {
         </p>
         <div className="flex justify-end">
           <button
-            className="w-12 -mt-8 mr-1"
+            className="w-12 -mt-8 mr-1 sm:hover:scale-105 sm:focus:scale-100 transition-all"
             onClick={() => {
               onEditWorkout(-1);
             }}

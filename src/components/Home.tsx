@@ -9,6 +9,8 @@ import UserConfirmation from "./UserConfirmation";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Icon from "./Icon";
 import logo from "/src/assets/climb-harder-logo.svg";
+// import deleteIcon from "/src/assets/iconography/delete.svg";
+
 import EditUserDetails from "./EditUserDetails";
 
 interface Props {
@@ -96,7 +98,7 @@ const Home = ({
 
             <div className="space-x-4 mt-4">
               <button
-                className="bg-amber-500  transition-all font-medium rounded-lg px-2 py-1"
+                className="bg-amber-500 sm:focus:scale-95 sm:hover:bg-amber-400 focus:bg-amber-400  transition-all font-medium rounded-lg px-2 py-1"
                 onClick={() => seasonNotesOpen()}
               >
                 Goals & Achievements
@@ -115,13 +117,13 @@ const Home = ({
                     //   height={20}
                     //   width={105}
                     // />
-                    <div className="bg-amber-500 transition-all font-medium rounded-lg px-2 py-1">
+                    <button className="bg-amber-500 sm:focus:scale-95 sm:hover:bg-amber-400 focus:bg-amber-400 transition-all font-medium rounded-lg px-2 py-1">
                       Creating...
-                    </div>
+                    </button>
                   ) : (
-                    <div className="bg-amber-500 transition-all font-medium rounded-lg px-2 py-1">
+                    <button className="bg-amber-500 sm:focus:scale-95 sm:hover:bg-amber-400 focus:bg-amber-400 transition-all font-medium rounded-lg px-2 py-1">
                       New Season
-                    </div>
+                    </button>
                   )}
                 </button>
               )}
@@ -137,8 +139,7 @@ const Home = ({
           </div>
 
           <button
-            // Why does the delete button not recieve bottom padding
-            className="bg-[#cf5630] font-bold text-xs rounded-lg px-2 py-1 mt-4 mb-6"
+            className="bg-[#cf5630] sm:hover:bg-[#c9431a] focus:bg-[#c9431a] sm:focus:scale-95 transition-all font-bold text-xs rounded-lg px-2 py-1 mt-4 mb-6"
             onClick={() => {
               setDisplayUserConfirmation(true);
             }}
@@ -146,6 +147,15 @@ const Home = ({
           >
             Delete Season
           </button>
+          {/* <button
+            className="w-12 mt-3 sm:hover:scale-105 sm:focus:scale-100 transition-all"
+            onClick={() => {
+              setDisplayUserConfirmation(true);
+            }}
+            disabled={deleteSeasonMutation.isPending}
+          >
+            <Icon iconImg={deleteIcon} alt={"delete-season"} />
+          </button> */}
 
           {displayUserConfirmation && (
             <UserConfirmation

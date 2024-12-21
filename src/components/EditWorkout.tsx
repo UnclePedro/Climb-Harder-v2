@@ -92,7 +92,10 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
         <div className="flex justify-center items-center">
           <div className="p-3 sm:p-6 font-roboto w-11/12 sm:w-4/5 lg:w-1/2">
             <div className="flex justify-end">
-              <button className="w-12 mt-3 -mr-2" onClick={onClose}>
+              <button
+                className="w-12 mt-3 -mr-2 sm:hover:scale-105 sm:focus:scale-100  transition-all"
+                onClick={onClose}
+              >
                 <Icon iconImg={close} alt={"close"} />
               </button>
             </div>
@@ -105,7 +108,7 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
                     name: element.target.value,
                   });
                 }}
-                className="w-full h-11  bg-amber-200 rounded-lg border-none focus:outline-none sm:hover:bg-amber-300 transition-all shadow-md p-3"
+                className="w-full h-11  bg-amber-200 rounded-lg border-none focus:outline-none sm:hover:bg-[#fadf73] transition-all shadow-md p-3"
                 value={workoutData.name}
                 maxLength={30}
               />
@@ -115,7 +118,7 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
                 name="training-type"
                 id="training-type"
                 value={workoutData.trainingType}
-                className="w-full h-11 bg-amber-200 rounded-lg border-none focus:outline-none sm:hover:bg-amber-300 transition-all drop-shadow-md resize-y px-3"
+                className="w-full h-11 bg-amber-200 rounded-lg border-none focus:outline-none sm:hover:bg-[#fadf73] transition-all drop-shadow-md resize-y px-3"
                 onChange={(element) => {
                   setWorkoutData({
                     ...workoutData,
@@ -140,7 +143,7 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
                     details: element.target.value,
                   });
                 }}
-                className="w-full h-[38vh] sm:h-80 bg-amber-200 rounded-lg border-none focus:outline-none sm:hover:bg-amber-300 transition-all shadow-md resize-y p-3"
+                className="w-full h-[38vh] sm:h-80 bg-amber-200 rounded-lg border-none focus:outline-none sm:hover:bg-[#fadf73] transition-all shadow-md resize-y p-3"
                 value={workoutData.details}
               />
 
@@ -156,7 +159,7 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
                     duration: updatedDuration,
                   });
                 }}
-                className="w-full h-11 bg-amber-200 rounded-lg border-none focus:outline-none sm:hover:bg-amber-300 transition-all shadow-md resize-y p-3"
+                className="w-full h-11 bg-amber-200 rounded-lg border-none focus:outline-none sm:hover:bg-[#fadf73] transition-all shadow-md resize-y p-3"
                 value={workoutData.duration}
               />
 
@@ -172,14 +175,14 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
                         date: dateTimestamp,
                       });
                     }}
-                    className="w-full sm:w-full h-11 bg-amber-200 rounded-lg border-none focus:outline-none sm:hover:bg-amber-300 transition-all shadow-md resize-y p-3"
+                    className="w-full sm:w-full h-11 bg-amber-200 rounded-lg border-none focus:outline-none sm:hover:bg-[#fadf73] transition-all shadow-md resize-y p-3"
                     value={formatDateForInput(workoutData.date)} // Format the timestamp back to "YYYY-MM-DD" for display
                   />
                 </div>
 
                 <div className="mt-8 sm:mt-3">
                   <button
-                    className="bg-amber-500 font-bold rounded-lg px-2 py-1 mt-2"
+                    className="bg-amber-500 sm:focus:scale-95 sm:hover:bg-amber-400 focus:bg-amber-400 transition-all font-bold rounded-lg px-2 py-1 mt-2"
                     onClick={() => {
                       saveWorkoutMutation.mutate(workoutData);
                       onClose();
@@ -191,7 +194,7 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
 
                   {isExistingWorkout && (
                     <button
-                      className="bg-amber-500 font-bold rounded-lg px-2 py-1 ml-4"
+                      className="bg-amber-500 sm:focus:scale-95 sm:hover:bg-amber-400 focus:bg-amber-400 transition-all font-bold rounded-lg px-2 py-1 ml-4"
                       onClick={() => {
                         setDisplayUserConfirmation(true);
                       }}
