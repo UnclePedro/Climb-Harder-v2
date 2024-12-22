@@ -28,3 +28,13 @@ export const getUser = async (): Promise<User> => {
     return user;
   }
 };
+
+export const validateUser = async (user: User) => {
+  try {
+    localStorage.setItem("user", JSON.stringify(user));
+    const validatedNewUser = await axios.get("/validateUser");
+    return validatedNewUser.data;
+  } catch {
+    throw new Error("Invalid user");
+  }
+};

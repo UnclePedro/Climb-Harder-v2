@@ -4,7 +4,7 @@ import { getUserFromLocalStorage } from "../helpers/userHelper";
 // https://climb-harder-api.peterforsyth.dev
 // http://localhost:8080
 
-axios.defaults.baseURL = "http://localhost:8080";
+axios.defaults.baseURL = "https://climb-harder-api.peterforsyth.dev";
 
 axios.interceptors.request.use(
   async (config) => {
@@ -16,7 +16,9 @@ axios.interceptors.request.use(
 
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => {
+    return Promise.reject(error);
+  }
 );
 
 export default axios;
