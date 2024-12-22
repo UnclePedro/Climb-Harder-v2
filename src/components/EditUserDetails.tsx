@@ -10,8 +10,8 @@ import { User } from "../models/User";
 
 export const EditUserDetails = () => {
   const [editUser, setEditUser] = useState(false);
-  const [previousUser] = useState(getUserFromLocalStorage());
-  const [userInput, setUserInput] = useState(getUserFromLocalStorage());
+  const [previousUser, setPreviousUser] = useState(getUserFromLocalStorage());
+  const [user, setUser] = useState(getUserFromLocalStorage());
 
   const queryClient = useQueryClient();
   const changeUserMutation = useMutation<User, Error, User>({
@@ -19,10 +19,10 @@ export const EditUserDetails = () => {
 
     onError: () => {
       localStorage.setItem("user", JSON.stringify(previousUser));
-      setUserInput(previousUser);
     },
 
     onSuccess: async (validatedNewUser) => {
+      setPreviousUser(user); // Update the previousUser state to the new user, used for next validation sequence if user updates user before refreshing state
       localStorage.setItem("user", JSON.stringify(validatedNewUser));
       await queryClient.invalidateQueries({ queryKey: ["seasons"] });
       await queryClient.invalidateQueries({ queryKey: ["seasonNotes"] });
@@ -51,7 +51,10 @@ export const EditUserDetails = () => {
               className={`bg-topography bg-[#FDF1D3] bg-cover rounded-lg p-5 flex flex-col items-center w-fit drop-shadow-lg relative`}
             >
               <button
-                onClick={() => setEditUser(false)}
+                onClick={() => {
+                  setUser(previousUser);
+                  setEditUser(false);
+                }}
                 className="absolute top-2 right-2 text-black"
               >
                 ✖
@@ -59,16 +62,16 @@ export const EditUserDetails = () => {
               <p className="mb-2 font-bold text-xl">Account Key:</p>
               <input
                 type="text"
-                value={userInput.apiKey} // Access the `apiKey` value
+                value={user.apiKey} // Access the `apiKey` value
                 onChange={(e) => {
-                  setUserInput({ apiKey: e.target.value });
+                  setUser({ apiKey: e.target.value });
                 }}
                 placeholder="Enter your API key"
                 className="p-3 rounded-lg text-black bg-amber-200 sm:hover:bg-[#fadf73] shadow-md border-none focus:outline-none transition-all placeholder-black placeholder-opacity-30"
               />
               <button
                 onClick={() => {
-                  changeUserMutation.mutate(userInput);
+                  changeUserMutation.mutate(user);
                 }}
                 className="my-3"
               >
