@@ -14,7 +14,7 @@ export const EditUserDetails = () => {
   const [userInput, setUserInput] = useState(getUserFromLocalStorage());
 
   const queryClient = useQueryClient();
-  const refreshDataMutation = useMutation<User, Error, User>({
+  const changeUserMutation = useMutation<User, Error, User>({
     mutationFn: validateUser,
 
     onError: () => {
@@ -68,11 +68,11 @@ export const EditUserDetails = () => {
               />
               <button
                 onClick={() => {
-                  refreshDataMutation.mutate(userInput);
+                  changeUserMutation.mutate(userInput);
                 }}
                 className="my-3"
               >
-                {refreshDataMutation.isPending ? (
+                {changeUserMutation.isPending ? (
                   <LottieAnimation
                     animationData={yellowDotLoadingSmall}
                     height={28}
@@ -91,6 +91,9 @@ export const EditUserDetails = () => {
                   <br />
                   tap refresh to view your training
                 </p>
+                {changeUserMutation.isError && (
+                  <p className="mt-3">The user you entered is invalid</p>
+                )}
               </div>
             </div>
           </div>
