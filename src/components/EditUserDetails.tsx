@@ -9,14 +9,20 @@ import yellowDotLoadingSmall from "../assets/yellow-dot-loading-small.json";
 
 export const EditUserDetails = () => {
   const [editUser, setEditUser] = useState(false);
-  const [user, setUser] = useState(getUserFromLocalStorage());
+  const [previousUser] = useState(getUserFromLocalStorage());
+  const [newUser, setNewUser] = useState(getUserFromLocalStorage());
 
   const queryClient = useQueryClient();
   const refreshDataMutation = useMutation({
     mutationFn: async () => {
+      localStorage.setItem("user", JSON.stringify(newUser));
       await queryClient.invalidateQueries({ queryKey: ["seasons"] });
       await queryClient.invalidateQueries({ queryKey: ["seasonNotes"] });
       await queryClient.invalidateQueries({ queryKey: ["workouts"] });
+    },
+    onError: () => {
+      // Failong to get onError to trigger. Regardless of errors from the query functions, onSuccess always runs
+      localStorage.setItem("user", JSON.stringify(previousUser));
     },
     onSuccess: () => {
       setEditUser(false);
@@ -51,16 +57,15 @@ export const EditUserDetails = () => {
               <p className="mb-2 font-bold text-xl">Account Key:</p>
               <input
                 type="text"
-                value={user.apiKey} // Access the `apiKey` value
+                value={newUser.apiKey} // Access the `apiKey` value
                 onChange={(e) => {
-                  setUser({ apiKey: e.target.value });
+                  setNewUser({ apiKey: e.target.value });
                 }}
                 placeholder="Enter your API key"
                 className="p-3 rounded-lg text-black bg-amber-200 sm:hover:bg-[#fadf73] shadow-md border-none focus:outline-none transition-all placeholder-black placeholder-opacity-30"
               />
               <button
-                onClick={async () => {
-                  localStorage.setItem("user", JSON.stringify(user));
+                onClick={() => {
                   refreshDataMutation.mutate();
                 }}
                 className="my-3"
