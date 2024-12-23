@@ -4,6 +4,9 @@ Get stronger now at [climb-harder.peterforsyth.dev](https://climb-harder.peterfo
 
 Keep track of your workouts, goals and achievements across rock climbing training cycles in one place.
 
+Check out the backend [here](https://github.com/UnclePedro/Climb-Harder-Backend).
+
+
 ## Features
 - Set season-long training goals, areas of focus, and achievements
 - Save workouts with specified training types, durations and dates
