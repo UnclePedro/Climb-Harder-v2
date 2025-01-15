@@ -1,10 +1,10 @@
 import axios from "axios";
 import { getUserFromLocalStorage } from "../helpers/userHelper";
 
-// https://climb-harder-api.peterforsyth.dev
+// https://api.climbharder.peterforsyth.dev
 // http://localhost:8080
 
-axios.defaults.baseURL = "https://climb-harder-api.peterforsyth.dev";
+axios.defaults.baseURL = "https://api.climbharder.peterforsyth.dev";
 
 axios.interceptors.request.use(
   async (config) => {

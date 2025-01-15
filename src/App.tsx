@@ -11,7 +11,6 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Season } from "./models/Season.ts";
 import { useAuth } from "./hooks/AuthProvider.tsx";
 import yellowDotLoadingLarge from "./assets/yellow-dot-loading-large.json";
-
 import LottieAnimation from "./components/LottieAnimation.tsx";
 
 function App() {
