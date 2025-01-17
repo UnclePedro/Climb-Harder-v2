@@ -2,8 +2,8 @@ import { useState } from "react";
 import { Fade } from "react-awesome-reveal";
 import Icon from "./Icon";
 import userIcon from "/src/assets/climbing-edited.svg";
-import LottieAnimation from "./LottieAnimation";
-import yellowDotLoadingSmall from "../assets/yellow-dot-loading-small.json";
+// import LottieAnimation from "./LottieAnimation";
+// import yellowDotLoadingSmall from "../assets/yellow-dot-loading-small.json";
 import { endpointUrl } from "../config/userManagementConig";
 import { useAuth } from "../hooks/AuthProvider";
 
