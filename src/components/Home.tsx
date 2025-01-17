@@ -67,6 +67,7 @@ const Home = ({
       <div className="absolute top-0 right-0 sm:mt-12 mt-6 sm:mr-5 mr-2 z-50">
         <EditUserDetails />
       </div>
+
       <Fade>
         <div className="flex justify-center pt-5 sm:pt-8">
           <div className="w-[350px] mt-2 sm:mt-0">

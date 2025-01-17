@@ -2,101 +2,59 @@ import { useState } from "react";
 import { Fade } from "react-awesome-reveal";
 import Icon from "./Icon";
 import userIcon from "/src/assets/climbing-edited.svg";
-import { getUserFromLocalStorage, validateUser } from "../helpers/userHelper";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import LottieAnimation from "./LottieAnimation";
-import yellowDotLoadingSmall from "../assets/yellow-dot-loading-small.json";
-import { User } from "../models/User";
+// import LottieAnimation from "./LottieAnimation";
+// import yellowDotLoadingSmall from "../assets/yellow-dot-loading-small.json";
+import { endpointUrl } from "../config/userManagementConig";
+import { useAuth } from "../hooks/AuthProvider";
 
 export const EditUserDetails = () => {
-  const [editUser, setEditUser] = useState(false);
-  const [previousUser, setPreviousUser] = useState(getUserFromLocalStorage());
-  const [user, setUser] = useState(getUserFromLocalStorage());
-
-  const queryClient = useQueryClient();
-  const changeUserMutation = useMutation<User, Error, User>({
-    mutationFn: validateUser,
-
-    onError: () => {
-      localStorage.setItem("user", JSON.stringify(previousUser));
-    },
-
-    onSuccess: async (validatedNewUser) => {
-      setPreviousUser(user); // Update the previousUser state to the new user, used for next validation sequence if user updates user before refreshing state
-      localStorage.setItem("user", JSON.stringify(validatedNewUser));
-      await queryClient.invalidateQueries({ queryKey: ["seasons"] });
-      await queryClient.invalidateQueries({ queryKey: ["seasonNotes"] });
-      await queryClient.invalidateQueries({ queryKey: ["workouts"] });
-      setEditUser(false);
-    },
-  });
+  const [viewUser, setViewUser] = useState(false);
+  const user = useAuth();
 
   return (
     <div className="justify-end items-start">
       <Fade duration={400} triggerOnce={true}>
         <button
-          onClick={() => setEditUser(true)}
+          onClick={() => setViewUser(true)}
           className="-mt-28 -mr-18  sm:hover:scale-105 transition-all"
         >
           <div className="w-11 sm:w-14">
-            <Icon iconImg={userIcon} alt={"open edit modal"} />
+            <Icon
+              iconImg={user?.profilePictureUrl || userIcon}
+              alt={"open edit modal"}
+            />
           </div>
         </button>
       </Fade>
 
-      {editUser && (
+      {viewUser && (
         <Fade duration={300} triggerOnce={true}>
-          <div className="fixed inset-0 bg-black bg-opacity-65 flex justify-center h-screen items-center font-roboto">
+          <div className="fixed inset-0 bg-black bg-opacity-65 flex justify-center items-center h-screen font-roboto">
             <div
-              className={`bg-topography bg-[#FDF1D3] bg-cover rounded-lg p-5 flex flex-col items-center w-fit drop-shadow-lg relative`}
+              className={`bg-topography bg-[#FDF1D3] bg-cover rounded-lg p-5 w-fit drop-shadow-lg relative`}
             >
               <button
                 onClick={() => {
-                  setUser(previousUser);
-                  setEditUser(false);
+                  setViewUser(false);
                 }}
                 className="absolute top-2 right-2 text-black"
               >
                 ✖
               </button>
-              <p className="mb-2 font-bold text-xl">Account Key:</p>
-              <input
-                type="text"
-                value={user.apiKey} // Access the `apiKey` value
-                onChange={(e) => {
-                  setUser({ apiKey: e.target.value });
-                }}
-                placeholder="Enter your API key"
-                className="p-3 rounded-lg text-black bg-amber-200 sm:hover:bg-[#fadf73] shadow-md border-none focus:outline-none transition-all placeholder-black placeholder-opacity-30"
-              />
-              <button
-                onClick={() => {
-                  changeUserMutation.mutate(user);
-                }}
-                className="my-3"
-              >
-                {changeUserMutation.isPending ? (
-                  <LottieAnimation
-                    animationData={yellowDotLoadingSmall}
-                    height={28}
-                    width={81}
-                  />
-                ) : (
-                  <button className="bg-amber-500 sm:focus:scale-95 sm:hover:bg-amber-400 focus:bg-amber-400 font-medium text-sm rounded-lg px-2 py-1 transition-all">
-                    Refresh Data
-                  </button>
+              <div className="mt-6">
+                {user && (
+                  <div className="p-4 bg-amber-200 rounded-lg shadow-md text-center">
+                    <p className="text-xs text-gray-800">You are signed in</p>
+                    <p className="text-lg font-semibold text-gray-900">{`Hi ${user.firstName}!`}</p>
+                  </div>
                 )}
-              </button>
 
-              <div className="italic text-xs text-center">
-                <p>
-                  Copy this key to other devices and
-                  <br />
-                  tap refresh to view your training
-                </p>
-                {changeUserMutation.isError && (
-                  <p className="mt-3">The user you entered is invalid</p>
-                )}
+                <a
+                  href={`${endpointUrl}/logout`}
+                  className="flex items-center justify-center p-2 mt-3 bg-amber-500 sm:focus:scale-95 sm:hover:bg-amber-400 focus:bg-amber-400 font-medium text-sm rounded-lg px-2 py-1 transition-all"
+                >
+                  Sign out
+                </a>
               </div>
             </div>
           </div>
