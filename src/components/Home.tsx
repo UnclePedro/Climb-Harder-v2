@@ -12,7 +12,6 @@ import logo from "/src/assets/climb-harder-logo.svg";
 // import deleteIcon from "/src/assets/iconography/delete.svg";
 
 import EditUserDetails from "./EditUserDetails";
-import { endpointUrl } from "../config/userManagementConig";
 
 interface Props {
   seasons: Season[];
@@ -68,13 +67,6 @@ const Home = ({
       <div className="absolute top-0 right-0 sm:mt-12 mt-6 sm:mr-5 mr-2 z-50">
         <EditUserDetails />
       </div>
-
-      <a
-        href={`${endpointUrl}/login`}
-        className="p-3 mt-6 rounded-lg transition-all hover:bg-blue-600 bg-blue-500 text-white font-bold shadow-lg flex items-center justify-center"
-      >
-        Sign in to leave a memo
-      </a>
 
       <Fade>
         <div className="flex justify-center pt-5 sm:pt-8">

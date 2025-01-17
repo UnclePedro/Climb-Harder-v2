@@ -1,7 +1,7 @@
 function Icon(props: { iconImg: string; alt: string }) {
   return (
     <a className="mx-2 block">
-      <img src={props.iconImg} alt={props.alt} />
+      <img className="rounded-lg" src={props.iconImg} alt={props.alt} />
     </a>
   );
 }

@@ -16,6 +16,7 @@
     "axios": "^1.7.7",
     "react": "^18.3.1",
     "react-awesome-reveal": "^4.2.14",
+    "react-cookie": "^7.2.2",
     "react-dom": "^18.3.1",
     "react-lottie": "^1.2.10"
   },
