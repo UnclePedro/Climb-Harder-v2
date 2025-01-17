@@ -20,7 +20,6 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [cookies] = useCookies(["wos-session"]);
 
   useEffect(() => {
-    console.log("auth provider triggered");
     if (cookies["wos-session"]) {
       const setUserData = async () => {
         const user = await validateSession();
@@ -29,7 +28,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       };
       setUserData();
     }
-  }, []);
+  }, [cookies["wos-session"]]);
   return <AuthContext.Provider value={user}>{children}</AuthContext.Provider>;
 };
 

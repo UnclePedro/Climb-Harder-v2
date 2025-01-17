@@ -4,9 +4,7 @@ import { endpointUrl } from "../config/userManagementConig";
 
 export const validateSession = async (): Promise<User | void> => {
   try {
-    const user = await axios.get<User>(`${endpointUrl}/validateSession`, {
-      withCredentials: true,
-    });
+    const user = await axios.get<User>(`${endpointUrl}/validateSession`);
     return user.data;
   } catch (error) {
     console.error("Error validating session:", error);
