@@ -4,7 +4,7 @@ import Icon from "./Icon";
 import userIcon from "/src/assets/climbing-edited.svg";
 // import LottieAnimation from "./LottieAnimation";
 // import yellowDotLoadingSmall from "../assets/yellow-dot-loading-small.json";
-import { endpointUrl } from "../config/userManagementConig";
+import { endpointUrl } from "../config/endpointConfig";
 import { useAuth } from "../hooks/AuthProvider";
 
 export const EditUserDetails = () => {

@@ -28,7 +28,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       };
       setUserData();
     }
-  }, [cookies["wos-session"]]);
+  }, []);
   return <AuthContext.Provider value={user}>{children}</AuthContext.Provider>;
 };
 

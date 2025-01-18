@@ -1,4 +1,4 @@
-import { endpointUrl } from "../config/userManagementConig";
+import { endpointUrl } from "../config/endpointConfig";
 import Icon from "./Icon";
 import logo from "/src/assets/climb-harder-logo.svg";
 

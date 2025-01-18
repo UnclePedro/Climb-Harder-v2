@@ -1,6 +1,6 @@
 import axios from "axios";
 import { User } from "../models/User";
-import { endpointUrl } from "../config/userManagementConig";
+import { endpointUrl } from "../config/endpointConfig";
 
 export const validateSession = async (): Promise<User | void> => {
   try {

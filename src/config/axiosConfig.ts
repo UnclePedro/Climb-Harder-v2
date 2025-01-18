@@ -1,9 +1,7 @@
 import axios from "axios";
+import { endpointUrl } from "./endpointConfig";
 
-// https://api.climb-harder.peterforsyth.dev
-// http://localhost:8080
-
-axios.defaults.baseURL = "https://api.climb-harder.peterforsyth.dev";
+axios.defaults.baseURL = endpointUrl;
 axios.defaults.withCredentials = true;
 
 export default axios;
