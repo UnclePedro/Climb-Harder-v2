@@ -12,7 +12,6 @@ import { Season } from "./models/Season.ts";
 import { useAuth } from "./hooks/AuthProvider.tsx";
 import yellowDotLoadingLarge from "./assets/yellow-dot-loading-large.json";
 import LottieAnimation from "./components/LottieAnimation.tsx";
-import { useCookies } from "react-cookie";
 import LandingPage from "./components/LandingPage.tsx";
 
 function App() {
