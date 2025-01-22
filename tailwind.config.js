@@ -7,7 +7,7 @@ export default {
         roboto: ["Roboto", "sans-serif"],
       },
       backgroundImage: {
-        topography: "url('./src/assets/topography-background.svg')",
+        topography: "url('/assets/topography-background.svg')",
       },
     },
   },
