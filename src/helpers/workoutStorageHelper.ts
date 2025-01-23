@@ -1,9 +1,9 @@
-import axios from "../config/axiosConfig";
+import axiosInstance from "../config/axiosConfig";
 import { TrainingType, Workout } from "../models/Workout";
 
 export const getWorkouts = async (): Promise<Workout[]> => {
   try {
-    const workouts = await axios.get<Workout[]>("/getWorkouts");
+    const workouts = await axiosInstance.get<Workout[]>("/getWorkouts");
     return workouts.data;
   } catch {
     throw new Error("Failed to fetch workouts");
@@ -13,7 +13,7 @@ export const getWorkouts = async (): Promise<Workout[]> => {
 // You could include the workout ID in the url... but parsing the integer in the backend felt very clunky
 export const saveWorkout = async (workout: Workout) => {
   try {
-    const updatedWorkouts = await axios.post<Workout>("/saveWorkout", {
+    const updatedWorkouts = await axiosInstance.post<Workout>("/saveWorkout", {
       workout,
     });
     return updatedWorkouts.data;
@@ -24,9 +24,12 @@ export const saveWorkout = async (workout: Workout) => {
 
 export const deleteWorkout = async (workoutId: number) => {
   try {
-    const updatedWorkouts = await axios.delete<Workout>("/deleteWorkout", {
-      data: { workoutId },
-    });
+    const updatedWorkouts = await axiosInstance.delete<Workout>(
+      "/deleteWorkout",
+      {
+        data: { workoutId },
+      }
+    );
     return updatedWorkouts.data;
   } catch {
     throw new Error("Failed to delete workout");

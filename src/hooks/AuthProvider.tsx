@@ -5,7 +5,7 @@ import {
   ReactNode,
   useEffect,
 } from "react";
-import { validateSession } from "../helpers/userHelper";
+import { getUser } from "../helpers/userHelper";
 import { User } from "../models/User";
 import { useCookies } from "react-cookie";
 
@@ -22,7 +22,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   useEffect(() => {
     if (cookies["wos-session"]) {
       const setUserData = async () => {
-        const user = await validateSession();
+        const user = await getUser();
         if (!user) return;
         setUser(user);
       };

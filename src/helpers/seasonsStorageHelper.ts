@@ -1,9 +1,9 @@
 import { Season } from "../models/Season";
-import axios from "../config/axiosConfig";
+import axiosInstance from "../config/axiosConfig";
 
 export const getSeasons = async (): Promise<Season[]> => {
   try {
-    const seasons = await axios.get("/getSeasons");
+    const seasons = await axiosInstance.get("/getSeasons");
     return seasons.data;
   } catch (error) {
     throw new Error("Failed to fetch seasons");
@@ -18,7 +18,7 @@ export const getSeason = (seasons: Season[], seasonId: number) => {
 // Creates new blank season for the user
 export const newSeason = async () => {
   try {
-    const seasons = await axios.post<Season[]>("/newSeason");
+    const seasons = await axiosInstance.post<Season[]>("/newSeason");
     return seasons.data;
   } catch {
     throw new Error("Failed to create new season");
@@ -27,9 +27,12 @@ export const newSeason = async () => {
 
 export const deleteSeason = async (seasonId: number) => {
   try {
-    const updatedSeasons = await axios.delete<Season[]>("/deleteSeason", {
-      data: { seasonId },
-    });
+    const updatedSeasons = await axiosInstance.delete<Season[]>(
+      "/deleteSeason",
+      {
+        data: { seasonId },
+      }
+    );
     return updatedSeasons.data;
   } catch {
     throw new Error("Failed to delete season");
