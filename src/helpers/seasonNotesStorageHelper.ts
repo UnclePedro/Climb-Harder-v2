@@ -1,9 +1,11 @@
-import axios from "../config/axiosConfig";
+import axiosInstance from "../config/axiosConfig";
 import { SeasonNotes } from "../models/SeasonNotes";
 
 export const getSeasonNotes = async (): Promise<SeasonNotes[]> => {
   try {
-    const seasonNotes = await axios.get<SeasonNotes[]>("/getSeasonNotes");
+    const seasonNotes = await axiosInstance.get<SeasonNotes[]>(
+      "/getSeasonNotes"
+    );
     return seasonNotes.data;
   } catch {
     throw new Error("Failed to get season notes");
@@ -12,7 +14,7 @@ export const getSeasonNotes = async (): Promise<SeasonNotes[]> => {
 
 export const saveSeasonNotes = async (seasonNotes: SeasonNotes) => {
   try {
-    const updatedSeasonNotes = await axios.put<SeasonNotes>(
+    const updatedSeasonNotes = await axiosInstance.put<SeasonNotes>(
       "/saveSeasonNotes",
       {
         seasonNotes,
