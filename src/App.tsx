@@ -13,6 +13,7 @@ import { useAuth } from "./hooks/AuthProvider.tsx";
 import yellowDotLoadingLarge from "./assets/yellow-dot-loading-large.json";
 import LottieAnimation from "./components/LottieAnimation.tsx";
 import LandingPage from "./components/LandingPage.tsx";
+import { useCookies } from "react-cookie";
 
 function App() {
   const user = useAuth();
@@ -38,6 +39,7 @@ function App() {
   const [displaySeasonNotes, setDisplaySeasonNotes] = useState(false);
   const [editingWorkoutId, setEditingWorkoutId] = useState<number>(); // This gets passed as props a lot, I need to investigate if I can make this whole thing simpler
   const [viewingSeason, setViewingSeason] = useState<Season>();
+  const [cookies] = useCookies(["wos-session"]);
 
   useEffect(() => {
     if (seasons.length > 0) {
@@ -49,7 +51,7 @@ function App() {
     (workout) => workout.seasonId === viewingSeason?.id
   );
 
-  if (!user) {
+  if (!cookies["wos-session"]) {
     return <LandingPage />;
   }
 

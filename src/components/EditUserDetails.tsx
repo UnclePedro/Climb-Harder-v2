@@ -29,7 +29,7 @@ export const EditUserDetails = () => {
 
       {viewUser && (
         <Fade duration={300} triggerOnce={true}>
-          <div className="fixed inset-0 bg-black bg-opacity-65 flex justify-center items-center h-screen font-roboto">
+          <div className="fixed inset-0 bg-black bg-opacity-65 flex justify-center items-center min-h-screen font-roboto">
             <div
               className={`bg-topography bg-[#FDF1D3] bg-cover rounded-lg p-5 w-fit drop-shadow-lg relative`}
             >
