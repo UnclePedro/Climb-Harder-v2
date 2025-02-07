@@ -11,6 +11,7 @@ Keep track of your workouts, goals and achievements across rock climbing trainin
 - Save workouts with specified training types, durations and dates
 - Save and end a season to add it to season history
 - All user data is securely saved to the cloud, allowing multi-device functionality
+- CSV data export supported
 </br>
 
 You can add the webpage to your home screen to create an easily accessible app icon, this is in Google Chrome after tapping the share button. Most browsers support this feature.
