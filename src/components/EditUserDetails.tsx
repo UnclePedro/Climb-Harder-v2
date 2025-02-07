@@ -6,6 +6,7 @@ import userIcon from "/src/assets/climbing-edited.svg";
 // import yellowDotLoadingSmall from "../assets/yellow-dot-loading-small.json";
 import { endpointUrl } from "../config/endpointConfig";
 import { useAuth } from "../hooks/AuthProvider";
+import { exportCsv } from "../helpers/exportDataHelper";
 
 export const EditUserDetails = () => {
   const [viewUser, setViewUser] = useState(false);
@@ -49,9 +50,18 @@ export const EditUserDetails = () => {
                   </div>
                 )}
 
+                <button
+                  className="flex items-center justify-center w-full p-2 mt-3 bg-amber-500 sm:active:scale-95 sm:hover:bg-amber-400 font-medium text-sm rounded-lg px-2 py-1 transition-all"
+                  onClick={() => {
+                    if (user) exportCsv(`${user.firstName} ${user.lastName}`);
+                  }}
+                >
+                  Download CSV
+                </button>
+
                 <a
                   href={`${endpointUrl}/logout`}
-                  className="flex items-center justify-center p-2 mt-3 bg-amber-500 sm:focus:scale-95 sm:hover:bg-amber-400 focus:bg-amber-400 font-medium text-sm rounded-lg px-2 py-1 transition-all"
+                  className="flex items-center justify-center p-2 mt-2 bg-amber-500 sm:active:scale-95 sm:hover:bg-amber-400 font-medium text-sm rounded-lg px-2 py-1 transition-all"
                 >
                   Sign out
                 </a>
