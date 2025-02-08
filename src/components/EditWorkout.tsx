@@ -10,12 +10,13 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface Props {
   onClose: () => void;
-  workoutId: number;
+  workoutId: number; // Loads either a new workoutId if one doesn't exist, or uses the workoutId of existing workout
   seasonId: number;
   workouts: Workout[];
 }
 
 const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
+  // Used to prefill new workout with last added or edited workout details
   const lastWorkout = workouts[workouts.length - 1] as Workout | undefined;
 
   const newWorkout: Workout = {
@@ -28,27 +29,61 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
     seasonId: seasonId,
   };
 
+  // Check if workout being edited exists. If true, delete button is rendered
   const isExistingWorkout = workouts.some(
     (existingWorkout: Workout) => existingWorkout.id === workoutId
   );
 
+  // If the workoutId matches an existingWorkout.id from the workouts array, fill form state with that data. Or, display a new workout
   const workoutToEdit =
     workouts.find(
       (existingWorkout: Workout) => existingWorkout.id === workoutId
     ) || newWorkout;
 
+  // Used to hold data of the new or existing workout being edited, then passed to onSave
   const [workoutData, setWorkoutData] = useState<Workout>(workoutToEdit);
   const [displayUserConfirmation, setDisplayUserConfirmation] = useState(false);
 
   const queryClient = useQueryClient();
   const saveWorkoutMutation = useMutation<Workout, Error, Workout>({
     mutationFn: saveWorkout,
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["workouts"] }),
+    onMutate: async (newWorkout) => {
+      queryClient.setQueryData<Workout[]>(["workouts"], (oldWorkouts = []) => {
+        if (newWorkout.id === -1) {
+          return [...oldWorkouts, { ...newWorkout, id: -1 }];
+        } else {
+          return oldWorkouts.map((workout) =>
+            workout.id === newWorkout.id
+              ? { ...workout, ...newWorkout }
+              : workout
+          );
+        }
+      });
+    },
+    onError: (error) => {
+      console.error("Failed to save workout", error);
+      queryClient.invalidateQueries({ queryKey: ["workouts"] });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["workouts"] });
+    },
   });
 
   const deleteWorkoutMutation = useMutation<Workout, Error, Workout["id"]>({
     mutationFn: deleteWorkout,
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["workouts"] }),
+    onMutate: async (workoutId) => {
+      queryClient.setQueryData<Workout[]>(["workouts"], (oldWorkouts) =>
+        oldWorkouts?.filter((workout) => workout.id !== workoutId)
+      );
+    },
+
+    onError: (error) => {
+      console.error("Failed to delete workout", error);
+      queryClient.invalidateQueries({ queryKey: ["workouts"] });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["workouts"] });
+    },
   });
 
   return (

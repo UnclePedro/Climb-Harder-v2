@@ -21,14 +21,18 @@ const EditSeasonNotes = ({ onClose, seasonNotes, seasonId }: Props) => {
   };
 
   const seasonNotesToEdit =
-    seasonNotes.find((s) => s.seasonId === seasonId) || newSeasonNotes;
+    seasonNotes.find(
+      (existingSeasonNotes: SeasonNotes) =>
+        existingSeasonNotes.seasonId === seasonId
+    ) || newSeasonNotes;
 
   const [seasonNotesData, setSeasonNotesData] = useState(seasonNotesToEdit);
+
   const queryClient = useQueryClient();
   const saveSeasonNotesMutation = useMutation<SeasonNotes, Error, SeasonNotes>({
     mutationFn: saveSeasonNotes,
     onError: (error) => {
-      console.error("Failed to save season notes", error);
+      console.error("Failed to save season", error);
       queryClient.invalidateQueries({ queryKey: ["seasonNotes"] });
     },
     onSuccess: () => {
