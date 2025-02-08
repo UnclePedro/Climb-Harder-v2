@@ -63,10 +63,10 @@ const EditSeasonNotes = ({ onClose, seasonNotes, seasonId }: Props) => {
                   Training Focuses
                 </p>
                 <textarea
-                  onChange={(e) =>
+                  onChange={(element) =>
                     setSeasonNotesData({
                       ...seasonNotesData,
-                      trainingFocuses: e.target.value,
+                      trainingFocuses: element.target.value,
                     })
                   }
                   className="flex-grow bg-amber-200 hover:bg-[#fadf73] rounded-lg border-none focus:outline-none transition-all shadow-md resize-none p-3 h-full"
@@ -78,10 +78,10 @@ const EditSeasonNotes = ({ onClose, seasonNotes, seasonId }: Props) => {
               <div className="flex flex-col flex-grow">
                 <p className="font-bold text-md mb-1">Goals</p>
                 <textarea
-                  onChange={(e) =>
+                  onChange={(element) =>
                     setSeasonNotesData({
                       ...seasonNotesData,
-                      goals: e.target.value,
+                      goals: element.target.value,
                     })
                   }
                   className="flex-grow bg-amber-200 hover:bg-[#fadf73] rounded-lg border-none focus:outline-none transition-all shadow-md resize-none p-3 h-full"
@@ -93,10 +93,10 @@ const EditSeasonNotes = ({ onClose, seasonNotes, seasonId }: Props) => {
               <div className="flex flex-col flex-grow">
                 <p className="font-bold text-md mb-1">Achievements</p>
                 <textarea
-                  onChange={(e) =>
+                  onChange={(element) =>
                     setSeasonNotesData({
                       ...seasonNotesData,
-                      achievements: e.target.value,
+                      achievements: element.target.value,
                     })
                   }
                   className="flex-grow bg-amber-200 hover:bg-[#fadf73] rounded-lg border-none focus:outline-none transition-all shadow-md resize-none p-3 h-full"

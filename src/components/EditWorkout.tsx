@@ -103,10 +103,13 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
           {/* Workout Name */}
           <p className="font-bold text-md mb-1 -mt-3 sm:-mt-0">Workout Name</p>
           <input
-            onChange={(e) =>
-              setWorkoutData({ ...workoutData, name: e.target.value })
-            }
-            className="w-full h-11 bg-amber-200 rounded-lg border-none focus:outline-none hover:bg-[#fadf73] transition p-3 shadow"
+            onChange={(element) => {
+              setWorkoutData({
+                ...workoutData,
+                name: element.target.value,
+              });
+            }}
+            className="w-full h-11  bg-amber-200 rounded-lg border-none focus:outline-none sm:hover:bg-[#fadf73] transition-all shadow-md p-3"
             value={workoutData.name}
             maxLength={30}
           />
@@ -114,29 +117,34 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
           {/* Training Type */}
           <p className="font-bold text-md mt-2 sm:mt-3 mb-1">Training Type</p>
           <select
+            name="training-type"
+            id="training-type"
             value={workoutData.trainingType}
-            className="w-full h-11 bg-amber-200 rounded-lg border-none focus:outline-none hover:bg-[#fadf73] transition shadow px-3"
-            onChange={(e) =>
+            className="w-full h-11 bg-amber-200 rounded-lg border-none focus:outline-none sm:hover:bg-[#fadf73] transition-all drop-shadow-md resize-y px-3"
+            onChange={(element) => {
               setWorkoutData({
                 ...workoutData,
-                trainingType: e.target.value as TrainingType,
-              })
-            }
+                trainingType: element.target.value as TrainingType,
+              });
+            }}
           >
-            {Object.values(TrainingType).map((type) => (
-              <option key={type} value={type}>
-                {type}
-              </option>
-            ))}
+            <option value={TrainingType.Base}>Base Fitness</option>
+            <option value={TrainingType.Strength}>Strength</option>
+            <option value={TrainingType.Power}>Power</option>
+            <option value={TrainingType.PowerEndurance}>Power Endurance</option>
+            <option value={TrainingType.Performance}>Performance</option>
           </select>
 
           {/* Details */}
           <p className="font-bold text-md mt-2 sm:mt-3 mb-1">Details</p>
           <div className="flex flex-col flex-grow">
             <textarea
-              onChange={(e) =>
-                setWorkoutData({ ...workoutData, details: e.target.value })
-              }
+              onChange={(element) => {
+                setWorkoutData({
+                  ...workoutData,
+                  details: element.target.value,
+                });
+              }}
               className="w-full flex-grow bg-amber-200 rounded-lg border-none focus:outline-none hover:bg-[#fadf73] transition shadow p-3 resize-none"
             />
           </div>
@@ -147,12 +155,12 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
           </p>
           <input
             type="number"
-            onChange={(e) =>
+            onChange={(element) => {
               setWorkoutData({
                 ...workoutData,
-                duration: parseInt(e.target.value),
-              })
-            }
+                duration: parseInt(element.target.value),
+              });
+            }}
             className="w-full h-11 bg-amber-200 rounded-lg border-none focus:outline-none hover:bg-[#fadf73] transition shadow p-3"
             value={workoutData.duration}
           />
@@ -164,20 +172,20 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
               <p className="font-bold text-md mb-1">Date</p>
               <input
                 type="date"
-                onChange={(e) =>
+                onChange={(element) => {
                   setWorkoutData({
                     ...workoutData,
-                    date: new Date(e.target.value),
-                  })
-                }
+                    date: new Date(element.target.value), // Convert to timestamp
+                  });
+                }}
                 className="w-full h-11 bg-amber-200 rounded-lg border-none focus:outline-none hover:bg-[#fadf73] transition shadow p-3"
-                value={formatDateForInput(workoutData.date)}
+                value={formatDateForInput(workoutData.date)} // Format the timestamp back to "YYYY-MM-DD" for display
               />
             </div>
 
             {/* Save Button */}
             <button
-              className="bg-amber-500 hover:bg-amber-400 active:scale-95 transition font-bold rounded-lg h-11 px-4 mt-7"
+              className="bg-amber-500 hover:bg-amber-400 active:scale-95 transition font-bold rounded-lg text-sm xs:text-base h-11 px-2 xs:h-11 xs:px-4 mt-7"
               onClick={() => {
                 saveWorkoutMutation.mutate(workoutData);
                 onClose();
@@ -190,7 +198,7 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
             {/* Delete Button (Only if existing workout) */}
             {isExistingWorkout && (
               <button
-                className="bg-red-500 hover:bg-red-400 active:scale-95 transition font-bold rounded-lg h-11 px-4 mt-7"
+                className="bg-red-500 hover:bg-red-400 active:scale-95 transition font-bold rounded-lg text-sm xs:text-base h-11 px-2 xs:h-11 xs:px-4 mt-7"
                 onClick={() => setDisplayUserConfirmation(true)}
                 disabled={deleteWorkoutMutation.isPending}
               >

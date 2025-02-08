@@ -9,6 +9,9 @@ export default {
       backgroundImage: {
         topography: "url('/assets/topography-background.svg')",
       },
+      screens: {
+        xs: "385px",
+      },
     },
   },
   plugins: [],
