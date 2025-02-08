@@ -53,12 +53,12 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
 
   return (
     <Fade>
-      <div className="flex justify-center items-center min-h-screen p-4">
-        <div className="bg-amber-100 shadow-lg rounded-xl p-6 w-full max-w-2xl flex flex-col">
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="p-4 sm:p-5 w-11/12 sm:w-4/5 lg:w-3/5 xl:w-2/5 bg-amber-100 bg-opacity-80 rounded-lg shadow-[0px_10px_20px_rgba(0,0,0,0.1),0px_-3px_20px_rgba(0,0,0,0.15)] flex flex-col min-h-[92vh] sm:min-h-[80vh]">
           {/* Close Button */}
           <div className="flex justify-end">
             <button
-              className="w-11 -mr-2 sm:w-12 transition-transform hover:scale-105"
+              className="w-10 -mr-3 -mt-1 z-10 sm:w-12 hover:scale-105"
               onClick={onClose}
             >
               <Icon iconImg={close} alt="close" />
@@ -66,7 +66,7 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
           </div>
 
           {/* Workout Name */}
-          <label className="font-bold text-md mb-1">Workout Name</label>
+          <p className="font-bold text-md mb-1 -mt-3 sm:-mt-0">Workout Name</p>
           <input
             onChange={(e) =>
               setWorkoutData({ ...workoutData, name: e.target.value })
@@ -77,7 +77,7 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
           />
 
           {/* Training Type */}
-          <label className="font-bold text-md mt-3 mb-1">Training Type</label>
+          <p className="font-bold text-md mt-2 sm:mt-3 mb-1">Training Type</p>
           <select
             value={workoutData.trainingType}
             className="w-full h-11 bg-amber-200 rounded-lg border-none focus:outline-none hover:bg-[#fadf73] transition shadow px-3"
@@ -96,19 +96,20 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
           </select>
 
           {/* Details */}
-          <label className="font-bold text-md mt-3 mb-1">Details</label>
-          <textarea
-            onChange={(e) =>
-              setWorkoutData({ ...workoutData, details: e.target.value })
-            }
-            className="w-full h-[40vh] sm:h-96 bg-amber-200 rounded-lg border-none focus:outline-none hover:bg-[#fadf73] transition shadow p-3 resize-y"
-            value={workoutData.details}
-          />
+          <p className="font-bold text-md mt-2 sm:mt-3 mb-1">Details</p>
+          <div className="flex flex-col flex-grow">
+            <textarea
+              onChange={(e) =>
+                setWorkoutData({ ...workoutData, details: e.target.value })
+              }
+              className="w-full flex-grow bg-amber-200 rounded-lg border-none focus:outline-none hover:bg-[#fadf73] transition shadow p-3 resize-none"
+            />
+          </div>
 
           {/* Duration */}
-          <label className="font-bold text-md mt-3 mb-1">
+          <p className="font-bold text-md mt-2 sm:mt-3 mb-1">
             Duration (minutes)
-          </label>
+          </p>
           <input
             type="number"
             onChange={(e) =>
@@ -121,23 +122,27 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
             value={workoutData.duration}
           />
 
-          {/* Date */}
-          <label className="font-bold text-md mt-3 mb-1">Date</label>
-          <input
-            type="date"
-            onChange={(e) =>
-              setWorkoutData({ ...workoutData, date: new Date(e.target.value) })
-            }
-            className="w-full h-11 bg-amber-200 rounded-lg border-none focus:outline-none hover:bg-[#fadf73] transition shadow p-3"
-            value={formatDateForInput(workoutData.date)}
-          />
+          {/* Date, Save & Delete Row */}
+          <div className="flex gap-2 mt-2 sm:mt-3 items-center">
+            {/* Date Input */}
+            <div className="flex-1">
+              <p className="font-bold text-md mb-1">Date</p>
+              <input
+                type="date"
+                onChange={(e) =>
+                  setWorkoutData({
+                    ...workoutData,
+                    date: new Date(e.target.value),
+                  })
+                }
+                className="w-full h-11 bg-amber-200 rounded-lg border-none focus:outline-none hover:bg-[#fadf73] transition shadow p-3"
+                value={formatDateForInput(workoutData.date)}
+              />
+            </div>
 
-          {/* Buttons */}
-          <div className="flex gap-4 mt-6">
+            {/* Save Button */}
             <button
-              className={`bg-amber-500 hover:bg-amber-400 active:scale-95 transition font-bold rounded-lg px-4 py-2 w-full ${
-                isExistingWorkout ? "flex-1" : ""
-              }`}
+              className="bg-amber-500 hover:bg-amber-400 active:scale-95 transition font-bold rounded-lg h-11 px-4 mt-7"
               onClick={() => {
                 saveWorkoutMutation.mutate(workoutData);
                 onClose();
@@ -147,9 +152,10 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
               {saveWorkoutMutation.isPending ? "Saving..." : "Save"}
             </button>
 
+            {/* Delete Button (Only if existing workout) */}
             {isExistingWorkout && (
               <button
-                className="bg-red-500 hover:bg-red-400 active:scale-95 transition font-bold rounded-lg px-4 py-2 flex-1"
+                className="bg-red-500 hover:bg-red-400 active:scale-95 transition font-bold rounded-lg h-11 px-4 mt-7"
                 onClick={() => setDisplayUserConfirmation(true)}
                 disabled={deleteWorkoutMutation.isPending}
               >

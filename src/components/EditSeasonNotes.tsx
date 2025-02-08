@@ -40,11 +40,11 @@ const EditSeasonNotes = ({ onClose, seasonNotes, seasonId }: Props) => {
     <>
       <Fade>
         <div className="flex justify-center items-center min-h-screen">
-          <div className="p-5 w-11/12 sm:w-4/5 lg:w-2/5 bg-amber-100 rounded-lg shadow-lg flex flex-col min-h-[90vh]">
+          <div className="p-4 sm:p-5 w-11/12 sm:w-4/5 lg:w-3/5 xl:w-2/5 bg-amber-100 bg-opacity-80 rounded-lg shadow-[0px_10px_20px_rgba(0,0,0,0.1),0px_-3px_20px_rgba(0,0,0,0.15)] flex flex-col min-h-[92vh] sm:min-h-[80vh]">
             {/* Close Button */}
             <div className="flex justify-end">
               <button
-                className="w-12 -mt-2 -mr-2 sm:hover:scale-105 transition-all"
+                className="w-10 sm:w-12 -mt-2 -mr-4 -mb-4 z-10 sm:hover:scale-105 transition-all"
                 onClick={onClose}
               >
                 <Icon iconImg={close} alt="close" />
@@ -53,9 +53,11 @@ const EditSeasonNotes = ({ onClose, seasonNotes, seasonId }: Props) => {
 
             {/* Form Container */}
             <div className="flex flex-col flex-grow gap-4">
-              {/** Training Focuses */}
+              {/* Training Focuses */}
               <div className="flex flex-col flex-grow">
-                <p className="font-bold text-md mb-1 mt-3">Training Focuses</p>
+                <p className="font-bold text-md mt-2 sm:mt-3 mb-1">
+                  Training Focuses
+                </p>
                 <textarea
                   onChange={(e) =>
                     setSeasonNotesData({
@@ -68,9 +70,9 @@ const EditSeasonNotes = ({ onClose, seasonNotes, seasonId }: Props) => {
                 />
               </div>
 
-              {/** Goals */}
+              {/* Goals */}
               <div className="flex flex-col flex-grow">
-                <p className="font-bold text-md mb-1 mt-3">Goals</p>
+                <p className="font-bold text-md mb-1">Goals</p>
                 <textarea
                   onChange={(e) =>
                     setSeasonNotesData({
@@ -83,9 +85,9 @@ const EditSeasonNotes = ({ onClose, seasonNotes, seasonId }: Props) => {
                 />
               </div>
 
-              {/** Achievements */}
+              {/* Achievements */}
               <div className="flex flex-col flex-grow">
-                <p className="font-bold text-md mb-1 mt-3">Achievements</p>
+                <p className="font-bold text-md mb-1">Achievements</p>
                 <textarea
                   onChange={(e) =>
                     setSeasonNotesData({
@@ -101,7 +103,7 @@ const EditSeasonNotes = ({ onClose, seasonNotes, seasonId }: Props) => {
 
             {/* Save Button */}
             <button
-              className="bg-amber-500 font-bold rounded-lg px-4 py-2 mt-4 sm:active:scale-95 sm:hover:bg-amber-400 transition-all"
+              className="bg-amber-500 font-bold rounded-lg px-4 py-2 mt-4 sm:mt-6 sm:active:scale-95 sm:hover:bg-amber-400 transition-all"
               onClick={() => {
                 saveSeasonNotesMutation.mutate(seasonNotesData);
                 onClose();
