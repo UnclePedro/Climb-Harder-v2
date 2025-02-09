@@ -96,7 +96,7 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
           {/* Close Button */}
           <div className="flex justify-end">
             <button
-              className="w-10 -mr-3 -mt-1 z-10 sm:w-12 hover:scale-105"
+              className="w-10 -mr-3 -mt-1 sm:w-12 hover:scale-105"
               onClick={onClose}
             >
               <Icon iconImg={close} alt="close" />
@@ -104,7 +104,9 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
           </div>
 
           {/* Workout Name */}
-          <p className="font-bold text-md mb-1 -mt-3 sm:-mt-0">Workout Name</p>
+          <p className="font-bold text-md mb-1 -mt-3 sm:-mt-0 w-fit">
+            Workout Name
+          </p>
           <input
             onChange={(element) => {
               setWorkoutData({
@@ -112,7 +114,7 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
                 name: element.target.value,
               });
             }}
-            className="w-full h-11  bg-amber-200 rounded-lg border-none focus:outline-none sm:hover:bg-[#fadf73] transition-all shadow-md p-3"
+            className="w-full h-11  bg-amber-200 rounded-lg border-none focus:outline-none sm:hover:bg-[#fadf73] transition-all shadow p-3"
             value={workoutData.name}
             maxLength={30}
           />
@@ -123,7 +125,7 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
             name="training-type"
             id="training-type"
             value={workoutData.trainingType}
-            className="w-full h-11 bg-amber-200 rounded-lg border-none focus:outline-none sm:hover:bg-[#fadf73] transition-all drop-shadow-md resize-y px-3"
+            className="w-full h-11 bg-amber-200 rounded-lg border-none focus:outline-none sm:hover:bg-[#fadf73] transition-all drop-shadow resize-y px-3"
             onChange={(element) => {
               setWorkoutData({
                 ...workoutData,
@@ -149,20 +151,11 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
                   details,
                 });
               }}
-              className="w-full flex-grow bg-amber-200 rounded-lg hover:bg-[#fadf73] transition shadow"
+              className="ql-border w-full flex-grow bg-amber-200 rounded-lg hover:bg-[#fadf73] transition shadow"
               modules={{
                 toolbar: toolbarOptions,
               }}
             />
-            {/* <textarea
-              onChange={(element) => {
-                setWorkoutData({
-                  ...workoutData,
-                  details: element.target.value,
-                });
-              }}
-              className="w-full flex-grow bg-amber-200 rounded-lg border-none focus:outline-none hover:bg-[#fadf73] transition shadow p-3 resize-none"
-            /> */}
           </div>
 
           {/* Duration */}

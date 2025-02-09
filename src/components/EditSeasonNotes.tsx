@@ -5,6 +5,8 @@ import { Fade } from "react-awesome-reveal";
 import Icon from "./Icon";
 import close from "/src/assets/iconography/close.svg";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import ReactQuill from "react-quill";
+import { toolbarOptions } from "../config/quillConfig";
 
 interface Props {
   onClose: () => void;
@@ -44,7 +46,7 @@ const EditSeasonNotes = ({ onClose, seasonNotes, seasonId }: Props) => {
     <>
       <Fade>
         <div className="flex justify-center items-center min-h-screen">
-          <div className="p-4 sm:p-5 w-11/12 sm:w-4/5 lg:w-3/5 xl:w-2/5 bg-amber-100 bg-opacity-80 rounded-lg shadow-[0px_10px_20px_rgba(0,0,0,0.1),0px_-3px_20px_rgba(0,0,0,0.15)] flex flex-col min-h-[92vh] sm:min-h-[80vh]">
+          <div className="p-4 my-8 sm:p-5 w-11/12 sm:w-4/5 lg:w-3/5 xl:w-2/5 bg-amber-100 bg-opacity-80 rounded-lg shadow-[0px_10px_20px_rgba(0,0,0,0.1),0px_-3px_20px_rgba(0,0,0,0.15)] flex flex-col min-h-[92vh] sm:min-h-[80vh]">
             {/* Close Button */}
             <div className="flex justify-end">
               <button
@@ -56,51 +58,62 @@ const EditSeasonNotes = ({ onClose, seasonNotes, seasonId }: Props) => {
             </div>
 
             {/* Form Container */}
-            <div className="flex flex-col flex-grow gap-4">
+            <div className="flex flex-col flex-grow">
               {/* Training Focuses */}
+              <p className="font-bold text-md mt-2 sm:mt-3 mb-1">
+                Training Focuses
+              </p>
               <div className="flex flex-col flex-grow">
-                <p className="font-bold text-md mt-2 sm:mt-3 mb-1">
-                  Training Focuses
-                </p>
-                <textarea
-                  onChange={(element) =>
+                <ReactQuill
+                  value={seasonNotesData.trainingFocuses}
+                  onChange={(trainingFocuses) =>
                     setSeasonNotesData({
                       ...seasonNotesData,
-                      trainingFocuses: element.target.value,
+                      trainingFocuses,
                     })
                   }
-                  className="flex-grow bg-amber-200 hover:bg-[#fadf73] rounded-lg border-none focus:outline-none transition-all shadow-md resize-none p-3 h-full"
-                  value={seasonNotesData.trainingFocuses}
+                  className="ql-border w-full flex-grow bg-amber-200 rounded-lg hover:bg-[#fadf73] transition shadow"
+                  modules={{
+                    toolbar: toolbarOptions,
+                  }}
                 />
               </div>
 
               {/* Goals */}
+              <p className="font-bold text-md mt-2 sm:mt-3 mb-1">Goals</p>
               <div className="flex flex-col flex-grow">
-                <p className="font-bold text-md mb-1">Goals</p>
-                <textarea
-                  onChange={(element) =>
+                <ReactQuill
+                  value={seasonNotesData.goals}
+                  onChange={(goals) =>
                     setSeasonNotesData({
                       ...seasonNotesData,
-                      goals: element.target.value,
+                      goals,
                     })
                   }
-                  className="flex-grow bg-amber-200 hover:bg-[#fadf73] rounded-lg border-none focus:outline-none transition-all shadow-md resize-none p-3 h-full"
-                  value={seasonNotesData.goals}
+                  className="ql-border w-full flex-grow bg-amber-200 rounded-lg hover:bg-[#fadf73] transition shadow"
+                  modules={{
+                    toolbar: toolbarOptions,
+                  }}
                 />
               </div>
 
               {/* Achievements */}
+              <p className="font-bold text-md mt-2 sm:mt-3 mb-1">
+                Achievements
+              </p>
               <div className="flex flex-col flex-grow">
-                <p className="font-bold text-md mb-1">Achievements</p>
-                <textarea
-                  onChange={(element) =>
+                <ReactQuill
+                  value={seasonNotesData.achievements}
+                  onChange={(achievements) =>
                     setSeasonNotesData({
                       ...seasonNotesData,
-                      achievements: element.target.value,
+                      achievements,
                     })
                   }
-                  className="flex-grow bg-amber-200 hover:bg-[#fadf73] rounded-lg border-none focus:outline-none transition-all shadow-md resize-none p-3 h-full"
-                  value={seasonNotesData.achievements}
+                  className="ql-border w-full flex-grow bg-amber-200 rounded-lg hover:bg-[#fadf73] transition shadow"
+                  modules={{
+                    toolbar: toolbarOptions,
+                  }}
                 />
               </div>
             </div>
