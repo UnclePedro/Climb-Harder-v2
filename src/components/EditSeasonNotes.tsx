@@ -46,7 +46,7 @@ const EditSeasonNotes = ({ onClose, seasonNotes, seasonId }: Props) => {
     <>
       <Fade>
         <div className="flex justify-center items-center min-h-screen">
-          <div className="p-4 my-8 sm:p-5 w-11/12 sm:w-4/5 lg:w-3/5 xl:w-2/5 bg-amber-100 bg-opacity-80 rounded-lg shadow-[0px_10px_20px_rgba(0,0,0,0.1),0px_-3px_20px_rgba(0,0,0,0.15)] flex flex-col min-h-[92vh] sm:min-h-[80vh]">
+          <div className="p-4 my-6 sm:p-5 w-11/12 sm:w-4/5 lg:w-3/5 xl:w-2/5 bg-amber-100 bg-opacity-80 rounded-lg shadow-[0px_10px_20px_rgba(0,0,0,0.1),0px_-3px_20px_rgba(0,0,0,0.15)] flex flex-col min-h-[92vh] sm:min-h-[80vh]">
             {/* Close Button */}
             <div className="flex justify-end">
               <button
