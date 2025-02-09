@@ -5,6 +5,8 @@ import { Fade } from "react-awesome-reveal";
 import Icon from "./Icon";
 import close from "/src/assets/iconography/close.svg";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import ReactQuill from "react-quill";
+import { toolbarOptions } from "../config/quillConfig";
 
 interface Props {
   onClose: () => void;
@@ -32,7 +34,7 @@ const EditSeasonNotes = ({ onClose, seasonNotes, seasonId }: Props) => {
   const saveSeasonNotesMutation = useMutation<SeasonNotes, Error, SeasonNotes>({
     mutationFn: saveSeasonNotes,
     onError: (error) => {
-      console.error("Failed to create season", error);
+      console.error("Failed to save season", error);
       queryClient.invalidateQueries({ queryKey: ["seasonNotes"] });
     },
     onSuccess: () => {
@@ -43,53 +45,82 @@ const EditSeasonNotes = ({ onClose, seasonNotes, seasonId }: Props) => {
   return (
     <>
       <Fade>
-        <div className="flex justify-center items-center">
-          <div className="p-3 sm:p-6 font-roboto h-11/12 w-11/12 sm:w-4/5 lg:w-1/2">
+        <div className="flex justify-center items-center min-h-screen">
+          <div className="p-4 my-6 sm:p-5 w-11/12 sm:w-4/5 lg:w-3/5 xl:w-2/5 bg-amber-100 bg-opacity-80 rounded-lg shadow-[0px_10px_20px_rgba(0,0,0,0.1),0px_-3px_20px_rgba(0,0,0,0.15)] flex flex-col min-h-[92vh] sm:min-h-[80vh]">
+            {/* Close Button */}
             <div className="flex justify-end">
               <button
-                className="w-12 mt-3 -mr-2 sm:hover:scale-105 sm:focus:scale-100 transition-all"
+                className="w-10 sm:w-12 -mt-2 -mr-4 -mb-4 z-10 sm:hover:scale-105 transition-all"
                 onClick={onClose}
               >
-                <Icon iconImg={close} alt={"close"} />
+                <Icon iconImg={close} alt="close" />
               </button>
             </div>
-            <p className="font-bold text-lg text-left">Training Focuses</p>
 
-            <textarea
-              onChange={(element) => {
-                setSeasonNotesData({
-                  ...seasonNotesData,
-                  trainingFocuses: element.target.value,
-                });
-              }}
-              className="w-full h-[21vh] sm:h-52 bg-amber-200 sm:hover:bg-[#fadf73] rounded-lg border-none focus:outline-none  transition-all shadow-md resize-y p-3"
-              value={seasonNotesData.trainingFocuses}
-            />
-            <p className="font-bold text-lg text-left mt-2">Goals</p>
-            <textarea
-              onChange={(element) => {
-                setSeasonNotesData({
-                  ...seasonNotesData,
-                  goals: element.target.value,
-                });
-              }}
-              className="w-full h-[21vh] sm:h-52 bg-amber-200 sm:hover:bg-[#fadf73] rounded-lg border-none focus:outline-none  transition-all shadow-md resize-y p-3"
-              value={seasonNotesData.goals}
-            />
+            {/* Form Container */}
+            <div className="flex flex-col flex-grow">
+              {/* Training Focuses */}
+              <p className="font-bold text-md mt-2 sm:mt-3 mb-1">
+                Training Focuses
+              </p>
+              <div className="flex flex-col flex-grow">
+                <ReactQuill
+                  value={seasonNotesData.trainingFocuses}
+                  onChange={(trainingFocuses) =>
+                    setSeasonNotesData({
+                      ...seasonNotesData,
+                      trainingFocuses,
+                    })
+                  }
+                  className="ql-border w-full flex-grow bg-amber-200 rounded-lg hover:bg-[#fadf73] transition shadow"
+                  modules={{
+                    toolbar: toolbarOptions,
+                  }}
+                />
+              </div>
 
-            <p className="font-bold text-lg text-left mt-2">Achievements</p>
-            <textarea
-              onChange={(element) => {
-                setSeasonNotesData({
-                  ...seasonNotesData,
-                  achievements: element.target.value,
-                });
-              }}
-              className="w-full h-[21vh] sm:h-52  bg-amber-200 sm:hover:bg-[#fadf73] border-none focus:outline-none  transition-all rounded-lg shadow-md resize-y p-3"
-              value={seasonNotesData.achievements}
-            />
+              {/* Goals */}
+              <p className="font-bold text-md mt-2 sm:mt-3 mb-1">Goals</p>
+              <div className="flex flex-col flex-grow">
+                <ReactQuill
+                  value={seasonNotesData.goals}
+                  onChange={(goals) =>
+                    setSeasonNotesData({
+                      ...seasonNotesData,
+                      goals,
+                    })
+                  }
+                  className="ql-border w-full flex-grow bg-amber-200 rounded-lg hover:bg-[#fadf73] transition shadow"
+                  modules={{
+                    toolbar: toolbarOptions,
+                  }}
+                />
+              </div>
+
+              {/* Achievements */}
+              <p className="font-bold text-md mt-2 sm:mt-3 mb-1">
+                Achievements
+              </p>
+              <div className="flex flex-col flex-grow">
+                <ReactQuill
+                  value={seasonNotesData.achievements}
+                  onChange={(achievements) =>
+                    setSeasonNotesData({
+                      ...seasonNotesData,
+                      achievements,
+                    })
+                  }
+                  className="ql-border w-full flex-grow bg-amber-200 rounded-lg hover:bg-[#fadf73] transition shadow"
+                  modules={{
+                    toolbar: toolbarOptions,
+                  }}
+                />
+              </div>
+            </div>
+
+            {/* Save Button */}
             <button
-              className="bg-amber-500 font-bold rounded-lg px-2 py-1 mt-3 sm:focus:scale-95 sm:hover:bg-amber-400 focus:bg-amber-400 transition-all"
+              className="bg-amber-500 font-bold rounded-lg px-4 py-2 mt-4 sm:mt-6 sm:active:scale-95 sm:hover:bg-amber-400 transition-all"
               onClick={() => {
                 saveSeasonNotesMutation.mutate(seasonNotesData);
                 onClose();

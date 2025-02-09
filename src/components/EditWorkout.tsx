@@ -7,6 +7,9 @@ import UserConfirmation from "./UserConfirmation.tsx";
 import Icon from "./Icon.tsx";
 import close from "/src/assets/iconography/close.svg";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+import { toolbarOptions } from "../config/quillConfig.ts";
 
 interface Props {
   onClose: () => void;
@@ -87,141 +90,145 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
   });
 
   return (
-    <>
-      <Fade>
-        <div className="flex justify-center items-center">
-          <div className="p-3 sm:p-6 font-roboto w-11/12 sm:w-4/5 lg:w-1/2">
-            <div className="flex justify-end">
-              <button
-                className="w-12 mt-3 -mr-2 sm:hover:scale-105 sm:focus:scale-100  transition-all"
-                onClick={onClose}
-              >
-                <Icon iconImg={close} alt={"close"} />
-              </button>
-            </div>
-            <div>
-              <p className="font-bold text-lg text-left">Workout Name</p>
-              <input
-                onChange={(element) => {
-                  setWorkoutData({
-                    ...workoutData,
-                    name: element.target.value,
-                  });
-                }}
-                className="w-full h-11  bg-amber-200 rounded-lg border-none focus:outline-none sm:hover:bg-[#fadf73] transition-all shadow-md p-3"
-                value={workoutData.name}
-                maxLength={30}
-              />
-
-              <p className="font-bold text-lg text-left mt-2">Training Type</p>
-              <select
-                name="training-type"
-                id="training-type"
-                value={workoutData.trainingType}
-                className="w-full h-11 bg-amber-200 rounded-lg border-none focus:outline-none sm:hover:bg-[#fadf73] transition-all drop-shadow-md resize-y px-3"
-                onChange={(element) => {
-                  setWorkoutData({
-                    ...workoutData,
-                    trainingType: element.target.value as TrainingType,
-                  });
-                }}
-              >
-                <option value={TrainingType.Base}>Base Fitness</option>
-                <option value={TrainingType.Strength}>Strength</option>
-                <option value={TrainingType.Power}>Power</option>
-                <option value={TrainingType.PowerEndurance}>
-                  Power Endurance
-                </option>
-                <option value={TrainingType.Performance}>Performance</option>
-              </select>
-
-              <p className="font-bold text-lg text-left mt-2">Details</p>
-              <textarea
-                onChange={(element) => {
-                  setWorkoutData({
-                    ...workoutData,
-                    details: element.target.value,
-                  });
-                }}
-                className="w-full h-[38vh] sm:h-80 bg-amber-200 rounded-lg border-none focus:outline-none sm:hover:bg-[#fadf73] transition-all shadow-md resize-y p-3"
-                value={workoutData.details}
-              />
-
-              <p className="font-bold text-lg text-left mt-2">
-                Duration of Session (minutes)
-              </p>
-              <input
-                type="number"
-                onChange={(element) => {
-                  const updatedDuration = parseInt(element.target.value);
-                  setWorkoutData({
-                    ...workoutData,
-                    duration: updatedDuration,
-                  });
-                }}
-                className="w-full h-11 bg-amber-200 rounded-lg border-none focus:outline-none sm:hover:bg-[#fadf73] transition-all shadow-md resize-y p-3"
-                value={workoutData.duration}
-              />
-
-              <div className="flex sm:block items-center justify-between">
-                <div>
-                  <p className="font-bold text-lg text-left mt-2 ">Date</p>
-                  <input
-                    type="date"
-                    onChange={(element) => {
-                      const dateTimestamp = new Date(element.target.value); // Convert to timestamp
-                      setWorkoutData({
-                        ...workoutData,
-                        date: dateTimestamp,
-                      });
-                    }}
-                    className="w-full sm:w-full h-11 bg-amber-200 rounded-lg border-none focus:outline-none sm:hover:bg-[#fadf73] transition-all shadow-md resize-y p-3"
-                    value={formatDateForInput(workoutData.date)} // Format the timestamp back to "YYYY-MM-DD" for display
-                  />
-                </div>
-
-                <div className="mt-8 sm:mt-3">
-                  <button
-                    className="bg-amber-500 sm:focus:scale-95 sm:hover:bg-amber-400 focus:bg-amber-400 transition-all font-bold rounded-lg px-2 py-1 mt-2"
-                    onClick={() => {
-                      saveWorkoutMutation.mutate(workoutData);
-                      onClose();
-                    }}
-                    disabled={saveWorkoutMutation.isPending} // Disable button while loading
-                  >
-                    {saveWorkoutMutation.isPending ? "Saving..." : "Save"}
-                  </button>
-
-                  {isExistingWorkout && (
-                    <button
-                      className="bg-amber-500 sm:focus:scale-95 sm:hover:bg-amber-400 focus:bg-amber-400 transition-all font-bold rounded-lg px-2 py-1 ml-4"
-                      onClick={() => {
-                        setDisplayUserConfirmation(true);
-                      }}
-                      disabled={deleteWorkoutMutation.isPending}
-                    >
-                      {deleteWorkoutMutation.isPending
-                        ? "Deleting..."
-                        : "Delete"}
-                    </button>
-                  )}
-                  {displayUserConfirmation && (
-                    <UserConfirmation
-                      userYes={() => (
-                        deleteWorkoutMutation.mutate(workoutId),
-                        onClose(),
-                        setDisplayUserConfirmation(false)
-                      )}
-                      userNo={() => setDisplayUserConfirmation(false)}
-                    />
-                  )}
-                </div>
-              </div>
-            </div>
+    <Fade>
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="p-4 my-6 sm:p-5 w-11/12 sm:w-4/5 lg:w-3/5 xl:w-2/5 bg-amber-100 bg-opacity-80 rounded-lg shadow-[0px_10px_20px_rgba(0,0,0,0.1),0px_-3px_20px_rgba(0,0,0,0.15)] flex flex-col min-h-[92vh] sm:min-h-[80vh]">
+          {/* Close Button */}
+          <div className="flex justify-end">
+            <button
+              className="w-10 -mr-3 -mt-1 sm:w-12 hover:scale-105"
+              onClick={onClose}
+            >
+              <Icon iconImg={close} alt="close" />
+            </button>
           </div>
+
+          {/* Workout Name */}
+          <p className="font-bold text-md mb-1 -mt-3 sm:-mt-0 w-fit">
+            Workout Name
+          </p>
+          <input
+            onChange={(element) => {
+              setWorkoutData({
+                ...workoutData,
+                name: element.target.value,
+              });
+            }}
+            className="w-full h-11  bg-amber-200 rounded-lg border-none focus:outline-none sm:hover:bg-[#fadf73] transition-all shadow p-3"
+            value={workoutData.name}
+            maxLength={30}
+          />
+
+          {/* Training Type */}
+          <p className="font-bold text-md mt-2 sm:mt-3 mb-1">Training Type</p>
+          <select
+            name="training-type"
+            id="training-type"
+            value={workoutData.trainingType}
+            className="w-full h-11 bg-amber-200 rounded-lg border-none focus:outline-none sm:hover:bg-[#fadf73] transition-all drop-shadow resize-y px-3"
+            onChange={(element) => {
+              setWorkoutData({
+                ...workoutData,
+                trainingType: element.target.value as TrainingType,
+              });
+            }}
+          >
+            <option value={TrainingType.Base}>Base Fitness</option>
+            <option value={TrainingType.Strength}>Strength</option>
+            <option value={TrainingType.Power}>Power</option>
+            <option value={TrainingType.PowerEndurance}>Power Endurance</option>
+            <option value={TrainingType.Performance}>Performance</option>
+          </select>
+
+          {/* Details */}
+          <p className="font-bold text-md mt-2 sm:mt-3 mb-1">Details</p>
+          <div className="flex flex-col flex-grow">
+            <ReactQuill
+              value={workoutData.details}
+              onChange={(details) => {
+                setWorkoutData({
+                  ...workoutData,
+                  details,
+                });
+              }}
+              className="ql-border w-full flex-grow bg-amber-200 rounded-lg hover:bg-[#fadf73] transition shadow"
+              modules={{
+                toolbar: toolbarOptions,
+              }}
+            />
+          </div>
+
+          {/* Duration */}
+          <p className="font-bold text-md mt-2 sm:mt-3 mb-1">
+            Duration (minutes)
+          </p>
+          <input
+            type="number"
+            onChange={(element) => {
+              setWorkoutData({
+                ...workoutData,
+                duration: parseInt(element.target.value),
+              });
+            }}
+            className="w-full h-11 bg-amber-200 rounded-lg border-none focus:outline-none hover:bg-[#fadf73] transition shadow p-3"
+            value={workoutData.duration}
+          />
+
+          {/* Date, Save & Delete Row */}
+          <div className="flex gap-2 mt-2 sm:mt-3 items-center">
+            {/* Date Input */}
+            <div className="flex-1">
+              <p className="font-bold text-md mb-1">Date</p>
+              <input
+                type="date"
+                onChange={(element) => {
+                  setWorkoutData({
+                    ...workoutData,
+                    date: new Date(element.target.value), // Convert to timestamp
+                  });
+                }}
+                className="w-full h-11 bg-amber-200 rounded-lg border-none focus:outline-none hover:bg-[#fadf73] transition shadow p-3"
+                value={formatDateForInput(workoutData.date)} // Format the timestamp back to "YYYY-MM-DD" for display
+              />
+            </div>
+
+            {/* Save Button */}
+            <button
+              className="bg-amber-500 hover:bg-amber-400 active:scale-95 transition font-bold rounded-lg text-sm xs:text-base h-11 px-2 xs:h-11 xs:px-4 mt-7"
+              onClick={() => {
+                saveWorkoutMutation.mutate(workoutData);
+                onClose();
+              }}
+              disabled={saveWorkoutMutation.isPending}
+            >
+              {saveWorkoutMutation.isPending ? "Saving..." : "Save"}
+            </button>
+
+            {/* Delete Button (Only if existing workout) */}
+            {isExistingWorkout && (
+              <button
+                className="bg-red-500 hover:bg-red-400 active:scale-95 transition font-bold rounded-lg text-sm xs:text-base h-11 px-2 xs:h-11 xs:px-4 mt-7"
+                onClick={() => setDisplayUserConfirmation(true)}
+                disabled={deleteWorkoutMutation.isPending}
+              >
+                {deleteWorkoutMutation.isPending ? "Deleting..." : "Delete"}
+              </button>
+            )}
+          </div>
+
+          {displayUserConfirmation && (
+            <UserConfirmation
+              userYes={() => {
+                deleteWorkoutMutation.mutate(workoutId);
+                onClose();
+                setDisplayUserConfirmation(false);
+              }}
+              userNo={() => setDisplayUserConfirmation(false)}
+            />
+          )}
         </div>
-      </Fade>
-    </>
+      </div>
+    </Fade>
   );
 };
 
