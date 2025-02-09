@@ -7,6 +7,9 @@ import UserConfirmation from "./UserConfirmation.tsx";
 import Icon from "./Icon.tsx";
 import close from "/src/assets/iconography/close.svg";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+import { toolbarOptions } from "../config/quillConfig.ts";
 
 interface Props {
   onClose: () => void;
@@ -89,7 +92,7 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
   return (
     <Fade>
       <div className="flex justify-center items-center min-h-screen">
-        <div className="p-4 sm:p-5 w-11/12 sm:w-4/5 lg:w-3/5 xl:w-2/5 bg-amber-100 bg-opacity-80 rounded-lg shadow-[0px_10px_20px_rgba(0,0,0,0.1),0px_-3px_20px_rgba(0,0,0,0.15)] flex flex-col min-h-[92vh] sm:min-h-[80vh]">
+        <div className="p-4 my-8 sm:p-5 w-11/12 sm:w-4/5 lg:w-3/5 xl:w-2/5 bg-amber-100 bg-opacity-80 rounded-lg shadow-[0px_10px_20px_rgba(0,0,0,0.1),0px_-3px_20px_rgba(0,0,0,0.15)] flex flex-col min-h-[92vh] sm:min-h-[80vh]">
           {/* Close Button */}
           <div className="flex justify-end">
             <button
@@ -138,7 +141,20 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
           {/* Details */}
           <p className="font-bold text-md mt-2 sm:mt-3 mb-1">Details</p>
           <div className="flex flex-col flex-grow">
-            <textarea
+            <ReactQuill
+              value={workoutData.details}
+              onChange={(details) => {
+                setWorkoutData({
+                  ...workoutData,
+                  details,
+                });
+              }}
+              className="w-full flex-grow bg-amber-200 rounded-lg hover:bg-[#fadf73] transition shadow"
+              modules={{
+                toolbar: toolbarOptions,
+              }}
+            />
+            {/* <textarea
               onChange={(element) => {
                 setWorkoutData({
                   ...workoutData,
@@ -146,7 +162,7 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
                 });
               }}
               className="w-full flex-grow bg-amber-200 rounded-lg border-none focus:outline-none hover:bg-[#fadf73] transition shadow p-3 resize-none"
-            />
+            /> */}
           </div>
 
           {/* Duration */}
