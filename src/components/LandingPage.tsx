@@ -10,7 +10,7 @@ const LandingPage = () => (
     </div>
 
     {/* Features Section */}
-    <div className="bg-amber-200 bg-opacity-80 rounded-2xl shadow-lg p-6 w-full max-w-xl mt-3">
+    <div className="bg-amber-200 bg-opacity-80 rounded-2xl shadow-lg p-4 sm:p-6 mt-1 sm:mt-3 w-full max-w-xl">
       <h2 className="text-2xl font-bold mb-4 text-center">
         Why Use Climb Harder?
       </h2>
@@ -43,26 +43,26 @@ const LandingPage = () => (
         Sign In
       </a>
 
-      <div className="flex mt-4 space-x-2">
+      <div className="flex my-3 space-x-2">
         <img
           src="/assets/social-icons/google.svg"
           alt="Google"
-          className="w-6 h-6"
+          className="w-4 h-4 sm:w-6 sm:h-6"
         />
         <img
           src="/assets/social-icons/microsoft.svg"
           alt="Google"
-          className="w-6 h-6"
+          className="w-4 h-4 sm:w-6 sm:h-6"
         />
         <img
           src="/assets/social-icons/apple.svg"
           alt="Google"
-          className="w-6 h-6"
+          className="w-4 h-4 sm:w-6 sm:h-6"
         />
         <img
           src="/assets/social-icons/github.svg"
           alt="Google"
-          className="w-6 h-6"
+          className="w-4 h-4 sm:w-6 sm:h-6"
         />
       </div>
     </div>
