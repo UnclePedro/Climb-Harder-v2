@@ -19,8 +19,7 @@ interface Props {
 }
 
 const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
-  // Used to prefill new workout with last added or edited workout details
-  const lastWorkout = workouts[workouts.length - 1] as Workout | undefined;
+  const lastWorkout = workouts[workouts.length - 1] as Workout | undefined; // Used to prefill new workout with last added or edited workout details
 
   const newWorkout: Workout = {
     id: workoutId,
@@ -43,9 +42,9 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
       (existingWorkout: Workout) => existingWorkout.id === workoutId
     ) || newWorkout;
 
-  // Used to hold data of the new or existing workout being edited, then passed to onSave
-  const [workoutData, setWorkoutData] = useState<Workout>(workoutToEdit);
-  const [displayUserConfirmation, setDisplayUserConfirmation] = useState(false);
+  const [workoutData, setWorkoutData] = useState<Workout>(workoutToEdit); // Used to hold data of the new or existing workout being edited, then passed to onSave
+
+  const [displayUserConfirmation, setDisplayUserConfirmation] = useState(false); // Triggers modal for user action checks
 
   const queryClient = useQueryClient();
   const saveWorkoutMutation = useMutation<Workout, Error, Workout>({

@@ -43,16 +43,16 @@ function App() {
 
   useEffect(() => {
     if (seasons.length > 0) {
-      setViewingSeason(seasons[seasons.length - 1]);
+      setViewingSeason(seasons[seasons.length - 1]); // Set viewingSeason to most recent season
     }
   }, [seasons]);
 
   const seasonWorkouts = workouts.filter(
-    (workout) => workout.seasonId === viewingSeason?.id
+    (workout) => workout.seasonId === viewingSeason?.id // Display workouts from viewingSeason
   );
 
   if (!cookies["wos-session"]) {
-    return <LandingPage />;
+    return <LandingPage />; // Display user the landing page if no session cookies exist
   }
 
   return (
