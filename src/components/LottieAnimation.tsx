@@ -1,4 +1,3 @@
-import React from "react";
 import Lottie from "react-lottie";
 
 interface LoadingAnimationProps {
@@ -7,18 +6,18 @@ interface LoadingAnimationProps {
   animationData: any;
 }
 
-export default class LoadingAnimation extends React.Component<LoadingAnimationProps> {
-  render() {
-    const { height, width, animationData } = this.props;
-    const defaultOptions = {
-      loop: true,
-      autoplay: true,
-      animationData: animationData,
-      rendererSettings: {
-        preserveAspectRatio: "xMidYMid slice",
-      },
-    };
+const LoadingAnimation = ({
+  height,
+  width,
+  animationData,
+}: LoadingAnimationProps) => {
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData,
+  };
 
-    return <Lottie options={defaultOptions} height={height} width={width} />;
-  }
-}
+  return <Lottie options={defaultOptions} height={height} width={width} />;
+};
+
+export default LoadingAnimation;
