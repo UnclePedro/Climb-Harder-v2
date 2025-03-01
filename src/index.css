@@ -3,7 +3,7 @@
 @tailwind components;
 @tailwind utilities;
 
-.quill.ql-border {
+.quill {
   .ql-toolbar {
     border: none;
     padding-bottom: 0;

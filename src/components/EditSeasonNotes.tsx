@@ -72,7 +72,7 @@ const EditSeasonNotes = ({ onClose, seasonNotes, seasonId }: Props) => {
                       trainingFocuses,
                     })
                   }
-                  className="ql-border w-full flex-grow bg-amber-200 rounded-lg active:bg-[#fadf73] transition shadow"
+                  className="w-full flex-grow bg-amber-200 rounded-lg active:bg-[#fadf73] transition shadow"
                   modules={{
                     toolbar: toolbarOptions,
                   }}
@@ -90,7 +90,7 @@ const EditSeasonNotes = ({ onClose, seasonNotes, seasonId }: Props) => {
                       goals,
                     })
                   }
-                  className="ql-border w-full flex-grow bg-amber-200 rounded-lg active:bg-[#fadf73] transition shadow"
+                  className="w-full flex-grow bg-amber-200 rounded-lg active:bg-[#fadf73] transition shadow"
                   modules={{
                     toolbar: toolbarOptions,
                   }}
@@ -110,7 +110,7 @@ const EditSeasonNotes = ({ onClose, seasonNotes, seasonId }: Props) => {
                       achievements,
                     })
                   }
-                  className="ql-border w-full flex-grow bg-amber-200 rounded-lg active:bg-[#fadf73] transition shadow"
+                  className="w-full flex-grow bg-amber-200 rounded-lg active:bg-[#fadf73] transition shadow"
                   modules={{
                     toolbar: toolbarOptions,
                   }}

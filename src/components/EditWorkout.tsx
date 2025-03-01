@@ -150,7 +150,7 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
                   details,
                 });
               }}
-              className="ql-border w-full flex-grow bg-amber-200 rounded-lg hover:bg-[#fadf73] transition shadow"
+              className="w-full flex-grow bg-amber-200 rounded-lg hover:bg-[#fadf73] transition shadow"
               modules={{
                 toolbar: toolbarOptions,
               }}
