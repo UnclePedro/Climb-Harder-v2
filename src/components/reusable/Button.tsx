@@ -4,6 +4,7 @@ interface Props {
   colour: "primary" | "delete";
   size?: "sm" | "md" | "lg";
   variant?: "filled" | "transparent" | "outlined";
+  radius?: "rounded" | "full" | "none";
   textAlignment?: "start" | "center" | "end";
   width?: "fit" | "full";
   iconOnly?: boolean;
@@ -30,8 +31,14 @@ const variantClasses: Record<
   },
 };
 
+const radiusClass = {
+  rounded: "rounded-lg",
+  full: "rounded-full",
+  none: "rounded-none",
+};
+
 const sizeClass = {
-  sm: "text-sm px-1 py-1",
+  sm: "text-sm px-2 py-1",
   md: "text-md px-2 py-1",
   lg: "text-lg px-4 py-2",
 };
@@ -46,6 +53,7 @@ const Button = ({
   colour,
   size = "md",
   variant = "filled",
+  radius = "rounded",
   textAlignment = "center",
   iconOnly = false,
   isDisabled,
@@ -54,17 +62,25 @@ const Button = ({
 }: Props) => {
   const variantClass = variantClasses[variant][colour];
 
+  if (iconOnly)
+    return (
+      // Need to fix up icon display
+      <></>
+    );
+
   return (
     <button
       onClick={onClick}
       className={`
         ${variantClass}
+        ${radiusClass[radius]}
         ${sizeClass[size]}
         ${alignmentClass[textAlignment]}
         ${iconOnly ? "p-2" : ""}
         rounded-lg
         transition-all
         font-medium
+        focus:scale-[0.98]
       `}
       disabled={isDisabled}
     >

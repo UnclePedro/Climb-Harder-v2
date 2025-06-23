@@ -9,8 +9,6 @@ import UserConfirmation from "./UserConfirmation";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Icon from "./Icon";
 import logo from "/src/assets/climb-harder-logo.svg";
-// import deleteIcon from "/src/assets/iconography/delete.svg";
-
 import EditUserDetails from "./EditUserDetails";
 import Button from "./reusable/button";
 
@@ -125,13 +123,16 @@ const Home = ({
             />
           </div>
 
-          <Button
-            colour={"delete"}
-            onClick={() => setDisplayUserConfirmation(true)}
-            isDisabled={deleteSeasonMutation.isPending}
-          >
-            Delete Season
-          </Button>
+          <div className="mt-4">
+            <Button
+              colour={"delete"}
+              size="sm"
+              onClick={() => setDisplayUserConfirmation(true)}
+              isDisabled={deleteSeasonMutation.isPending}
+            >
+              Delete Season
+            </Button>
+          </div>
 
           {displayUserConfirmation && (
             <UserConfirmation
