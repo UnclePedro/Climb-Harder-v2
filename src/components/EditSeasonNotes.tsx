@@ -7,6 +7,7 @@ import close from "/src/assets/iconography/close.svg";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import ReactQuill from "react-quill";
 import { toolbarOptions } from "../config/quillConfig";
+import Button from "./reusable/button";
 
 interface Props {
   onClose: () => void;
@@ -49,12 +50,9 @@ const EditSeasonNotes = ({ onClose, seasonNotes, seasonId }: Props) => {
           <div className="flex flex-col min-h-[85vh] sm:min-h-[80vh] p-4 my-8 mx-6 sm:p-5 w-11/12 sm:w-4/5 lg:w-3/5 xl:w-2/5 bg-amber-100 bg-opacity-80 rounded-lg shadow-[0px_10px_20px_rgba(0,0,0,0.1),0px_-3px_20px_rgba(0,0,0,0.15)]">
             {/* Close Button */}
             <div className="flex justify-end">
-              <button
-                className="w-10 sm:w-12 -mt-2 -mr-4 -mb-4 z-10 sm:hover:scale-105 transition-all"
-                onClick={onClose}
-              >
-                <Icon iconImg={close} alt="close" />
-              </button>
+              <Button onClick={onClose} iconOnly>
+                <Icon className="w-8" iconImg={close} alt="close" />
+              </Button>
             </div>
 
             {/* Form Container */}
@@ -119,15 +117,15 @@ const EditSeasonNotes = ({ onClose, seasonNotes, seasonId }: Props) => {
             </div>
 
             {/* Save Button */}
-            <button
-              className="bg-amber-500 font-bold rounded-lg px-4 py-2 mt-4 sm:mt-6 sm:active:scale-95 sm:hover:bg-amber-400 transition-all"
+            <Button
               onClick={() => {
                 saveSeasonNotesMutation.mutate(seasonNotesData);
                 onClose();
               }}
+              className="mt-4"
             >
               Save
-            </button>
+            </Button>
           </div>
         </div>
       </Fade>

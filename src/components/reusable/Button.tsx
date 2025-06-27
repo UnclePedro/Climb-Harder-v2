@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 
 interface Props {
-  colour: "primary" | "delete";
+  colour?: "primary" | "delete";
   size?: "sm" | "md" | "lg";
   variant?: "filled" | "transparent" | "outlined";
   radius?: "rounded" | "full" | "none";
@@ -11,6 +11,7 @@ interface Props {
   isDisabled?: boolean;
   onClick?: () => void;
   children?: ReactNode;
+  className?: string;
 }
 
 const variantClasses: Record<
@@ -50,7 +51,7 @@ const alignmentClass = {
 };
 
 const Button = ({
-  colour,
+  colour = "primary",
   size = "md",
   variant = "filled",
   radius = "rounded",
@@ -59,13 +60,15 @@ const Button = ({
   isDisabled,
   onClick,
   children,
+  className,
 }: Props) => {
   const variantClass = variantClasses[variant][colour];
 
   if (iconOnly)
     return (
-      // Need to fix up icon display
-      <></>
+      <button className="transition-all focus:scale-[0.98]" onClick={onClick}>
+        {children}
+      </button>
     );
 
   return (
@@ -76,11 +79,11 @@ const Button = ({
         ${radiusClass[radius]}
         ${sizeClass[size]}
         ${alignmentClass[textAlignment]}
-        ${iconOnly ? "p-2" : ""}
         rounded-lg
         transition-all
         font-medium
         focus:scale-[0.98]
+        ${className}
       `}
       disabled={isDisabled}
     >

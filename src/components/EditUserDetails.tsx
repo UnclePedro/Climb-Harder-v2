@@ -7,6 +7,7 @@ import userIcon from "/src/assets/climbing-edited.svg";
 import { endpointUrl } from "../config/endpointConfig";
 import { useAuth } from "../hooks/AuthProvider";
 import { exportCsv } from "../helpers/exportDataHelper";
+import Button from "./reusable/button";
 
 export const EditUserDetails = () => {
   const [viewUser, setViewUser] = useState(false);
@@ -15,17 +16,13 @@ export const EditUserDetails = () => {
   return (
     <div className="justify-end items-start">
       <Fade duration={400} triggerOnce={true}>
-        <button
-          onClick={() => setViewUser(true)}
-          className="-mt-28 -mr-18  sm:hover:scale-105 transition-all"
-        >
-          <div className="w-11 sm:w-14">
-            <Icon
-              iconImg={user?.profilePictureUrl || userIcon}
-              alt={"open edit modal"}
-            />
-          </div>
-        </button>
+        <Button onClick={() => setViewUser(true)} iconOnly>
+          <Icon
+            className="w-8 sm:w-12 mt-2 sm:mt-6 sm:mr-5 mr-2 "
+            iconImg={user?.profilePictureUrl || userIcon}
+            alt={"open edit modal"}
+          />
+        </Button>
       </Fade>
 
       {viewUser && (

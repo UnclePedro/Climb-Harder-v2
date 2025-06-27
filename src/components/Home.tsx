@@ -63,7 +63,7 @@ const Home = ({
 
   return (
     <>
-      <div className="absolute top-0 right-0 sm:mt-12 mt-6 sm:mr-5 mr-2 z-50">
+      <div className="absolute top-0 right-0 z-50">
         <EditUserDetails />
       </div>
 

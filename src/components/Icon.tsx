@@ -1,9 +1,15 @@
-function Icon(props: { iconImg: string; alt: string }) {
+interface IconProps {
+  iconImg: string;
+  alt: string;
+  className?: string;
+}
+
+const Icon = ({ iconImg, alt, className }: IconProps) => {
   return (
-    <a className="mx-2 block">
-      <img className="rounded-lg" src={props.iconImg} alt={props.alt} />
+    <a className={`block ${className}`}>
+      <img className="rounded-lg" src={iconImg} alt={alt} />
     </a>
   );
-}
+};
 
 export default Icon;

@@ -10,6 +10,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { toolbarOptions } from "../config/quillConfig.ts";
+import Button from "./reusable/button.tsx";
 
 interface Props {
   onClose: () => void;
@@ -94,12 +95,9 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
         <div className="flex flex-col min-h-[85vh] sm:min-h-[80vh] p-4 my-8 mx-6 sm:p-5 w-11/12 sm:w-4/5 lg:w-3/5 xl:w-2/5 bg-amber-100 bg-opacity-80 rounded-lg shadow-[0px_10px_20px_rgba(0,0,0,0.1),0px_-3px_20px_rgba(0,0,0,0.15)] ">
           {/* Close Button */}
           <div className="flex justify-end">
-            <button
-              className="w-10 -mr-3 -mt-1 sm:w-12 hover:scale-105"
-              onClick={onClose}
-            >
-              <Icon iconImg={close} alt="close" />
-            </button>
+            <Button onClick={onClose} iconOnly>
+              <Icon className="w-8" iconImg={close} alt="close" />
+            </Button>
           </div>
 
           {/* Workout Name */}
@@ -190,30 +188,30 @@ const EditWorkout = ({ onClose, workoutId, workouts, seasonId }: Props) => {
                 value={formatDateForInput(workoutData.date)} // Format the timestamp back to "YYYY-MM-DD" for display
               />
             </div>
-
-            {/* Save Button */}
-            <button
-              className="bg-amber-500 hover:bg-amber-400 active:scale-95 transition font-bold rounded-lg text-sm xs:text-base h-11 px-2 xs:h-11 xs:px-4 mt-7"
-              onClick={() => {
-                saveWorkoutMutation.mutate(workoutData);
-                onClose();
-              }}
-              disabled={saveWorkoutMutation.isPending}
-            >
-              {saveWorkoutMutation.isPending ? "Saving..." : "Save"}
-            </button>
-
-            {/* Delete Button (Only if existing workout) */}
-            {isExistingWorkout && (
-              <button
-                className="bg-red-500 hover:bg-red-400 active:scale-95 transition font-bold rounded-lg text-sm xs:text-base h-11 px-2 xs:h-11 xs:px-4 mt-7"
-                onClick={() => setDisplayUserConfirmation(true)}
-                disabled={deleteWorkoutMutation.isPending}
-              >
-                {deleteWorkoutMutation.isPending ? "Deleting..." : "Delete"}
-              </button>
-            )}
           </div>
+          {/* Save Button */}
+          <Button
+            onClick={() => {
+              saveWorkoutMutation.mutate(workoutData);
+              onClose();
+            }}
+            isDisabled={saveWorkoutMutation.isPending}
+            className="mt-4"
+          >
+            {saveWorkoutMutation.isPending ? "Saving..." : "Save"}
+          </Button>
+
+          {/* Delete Button (if existing workout) */}
+          {isExistingWorkout && (
+            <Button
+              onClick={() => setDisplayUserConfirmation(true)}
+              isDisabled={deleteWorkoutMutation.isPending}
+              className="mt-4"
+              colour="delete"
+            >
+              {deleteWorkoutMutation.isPending ? "Deleting..." : "Delete"}
+            </Button>
+          )}
 
           {displayUserConfirmation && (
             <UserConfirmation
