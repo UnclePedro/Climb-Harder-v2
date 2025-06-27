@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 interface Props {
   colour?: "primary" | "delete";
   size?: "sm" | "md" | "lg";
-  variant?: "filled" | "transparent" | "outlined";
+  variant?: "filled" | "transparent" | "outlined" | "none";
   radius?: "rounded" | "full" | "none";
   textAlignment?: "start" | "center" | "end";
   width?: "fit" | "full";
@@ -15,7 +15,7 @@ interface Props {
 }
 
 const variantClasses: Record<
-  "filled" | "outlined" | "transparent",
+  "filled" | "outlined" | "transparent" | "none",
   Record<"primary" | "delete", string>
 > = {
   filled: {
@@ -29,6 +29,10 @@ const variantClasses: Record<
   transparent: {
     primary: "text-amber-400 hover:underline",
     delete: "text-[#cf5630] hover:underline",
+  },
+  none: {
+    primary: "",
+    delete: "",
   },
 };
 

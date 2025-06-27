@@ -10,6 +10,7 @@ import { formatDateForDisplay } from "../utils/helpers";
 import add from "/src/assets/iconography/add.svg";
 import Icon from "./Icon";
 import { Season } from "../models/Season";
+import Button from "./reusable/button";
 
 interface Props {
   workouts: Workout[];
@@ -24,27 +25,29 @@ const WorkoutList = ({ workouts, onEditWorkout }: Props) => {
 
   return (
     <>
-      <div className="bg-amber-200 bg-opacity-65 shadow-md p-1 pb-4 sm:pb-2 rounded-lg min-w-80 max-w-[1100px] w-fit">
-        <p className="text-sm italic p-3">
-          Total training time:{" "}
-          {totalWorkoutTime(filterWorkouts(workouts, trainingTypeFilter))} hours
-        </p>
-        <div className="flex justify-end">
-          <button
-            className="w-12 -mt-8 mr-1 sm:hover:scale-105 sm:focus:scale-100 transition-all"
+      <div className="bg-amber-200 p-3 bg-opacity-65 shadow-md rounded-lg w-fit">
+        <div className="flex place-content-between">
+          <p className="text-sm italic text-center flex items-center">
+            Total training time:{" "}
+            {totalWorkoutTime(filterWorkouts(workouts, trainingTypeFilter))}{" "}
+            hours
+          </p>
+          <Button
             onClick={() => {
               onEditWorkout(-1);
             }}
+            iconOnly
           >
-            <Icon iconImg={add} alt={"newWorkout"} />
-          </button>
+            <Icon className="w-8" iconImg={add} alt={"newWorkout"} />
+          </Button>
         </div>
+
         <div className="pb-1">
           <select
             name="training-type"
             id="training-type"
             value={trainingTypeFilter}
-            className="flex w-56 mx-3 p-2 h-10 bg-amber-300 border-none focus:outline-none hover:bg-amber-300 transition-all shadow-md rounded-lg "
+            className="flex w-56 p-2 h-10 bg-amber-300 shadow-md rounded-lg "
             onChange={(element) => {
               setTrainingTypeFilter(element.target.value as TrainingType);
             }}
@@ -60,10 +63,7 @@ const WorkoutList = ({ workouts, onEditWorkout }: Props) => {
 
         {workoutsByWeek(workouts, trainingTypeFilter).map(
           (workoutsWeekGroup) => (
-            <div
-              key={workoutsWeekGroup.week}
-              className="m-1 mx-3 sm:m-2 w-11/12 sm:w-fit"
-            >
+            <div key={workoutsWeekGroup.week}>
               <p className="text-sm font-bold mt-3 sm:pl-1 sm:w-18">
                 {workoutsWeekGroup.week}
               </p>

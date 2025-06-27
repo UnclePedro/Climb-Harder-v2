@@ -2,8 +2,6 @@ import { useState } from "react";
 import { Fade } from "react-awesome-reveal";
 import Icon from "./Icon";
 import userIcon from "/src/assets/climbing-edited.svg";
-// import LottieAnimation from "./LottieAnimation";
-// import yellowDotLoadingSmall from "../assets/yellow-dot-loading-small.json";
 import { endpointUrl } from "../config/endpointConfig";
 import { useAuth } from "../hooks/AuthProvider";
 import { exportCsv } from "../helpers/exportDataHelper";
@@ -18,50 +16,54 @@ export const EditUserDetails = () => {
       <Fade duration={400} triggerOnce={true}>
         <Button onClick={() => setViewUser(true)} iconOnly>
           <Icon
-            className="w-8 sm:w-12 mt-2 sm:mt-6 sm:mr-5 mr-2 "
+            className="w-8 sm:w-12 mt-2 sm:mt-6 sm:mr-5 mr-2"
             iconImg={user?.profilePictureUrl || userIcon}
-            alt={"open edit modal"}
+            alt={"edit-user-details"}
           />
         </Button>
       </Fade>
 
       {viewUser && (
         <Fade duration={300} triggerOnce={true}>
-          <div className="fixed inset-0 bg-black bg-opacity-65 flex justify-center items-center min-h-screen font-roboto">
+          {/* TODO: Convert this to Modal component */}
+          <div className="fixed inset-0 bg-black bg-opacity-65 flex justify-center items-center p-3">
             <div
-              className={`bg-topography bg-[#FDF1D3] bg-cover rounded-lg p-5 w-fit drop-shadow-lg relative`}
+              className={`bg-topography bg-[#FDF1D3] bg-cover rounded-lg drop-shadow-lg relative`}
             >
-              <button
-                onClick={() => {
-                  setViewUser(false);
-                }}
-                className="absolute top-2 right-2 text-black"
-              >
-                ✖
-              </button>
-              <div className="mt-6">
+              <div className="flex justify-end">
+                <Button
+                  onClick={() => {
+                    setViewUser(false);
+                  }}
+                  variant="none"
+                >
+                  ✖
+                </Button>
+              </div>
+
+              <div className="p-3">
                 {user && (
                   <div className="p-4 bg-amber-200 rounded-lg shadow-md text-center">
                     <p className="text-xs text-gray-800">You are signed in</p>
                     <p className="text-lg font-semibold text-gray-900">{`Hi ${user.firstName}!`}</p>
                   </div>
                 )}
-
-                <button
-                  className="flex items-center justify-center w-full p-2 mt-3 bg-amber-500 sm:active:scale-95 sm:hover:bg-amber-400 font-medium text-sm rounded-lg px-2 py-1 transition-all"
-                  onClick={() => {
-                    if (user) exportCsv(`${user.firstName} ${user.lastName}`);
-                  }}
-                >
-                  Download CSV
-                </button>
-
-                <a
-                  href={`${endpointUrl}/logout`}
-                  className="flex items-center justify-center p-2 mt-2 bg-amber-500 sm:active:scale-95 sm:hover:bg-amber-400 font-medium text-sm rounded-lg px-2 py-1 transition-all"
-                >
-                  Sign out
-                </a>
+                <div className="flex flex-col">
+                  <Button
+                    onClick={() => {
+                      if (user) exportCsv(`${user.firstName} ${user.lastName}`);
+                    }}
+                    className="mt-2"
+                    size="sm"
+                  >
+                    Download CSV
+                  </Button>
+                  <a href={`${endpointUrl}/logout`}>
+                    <Button className="mt-2 w-full" size="sm">
+                      Sign out
+                    </Button>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
