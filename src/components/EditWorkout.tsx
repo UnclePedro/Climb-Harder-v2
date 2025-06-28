@@ -3,14 +3,14 @@ import { deleteWorkout, saveWorkout } from "../helpers/workoutStorageHelper.ts";
 import { useState } from "react";
 import { Fade } from "react-awesome-reveal";
 import { formatDateForInput } from "../utils/helpers.ts";
-import UserConfirmation from "./UserConfirmation.tsx";
+import UserConfirmation from "./reusable/modals/UserConfirmationModal.tsx";
 import Icon from "./Icon.tsx";
 import close from "/src/assets/iconography/close.svg";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { toolbarOptions } from "../config/quillConfig.ts";
-import Button from "./reusable/button.tsx";
+import Button from "./reusable/Button.tsx";
 
 interface Props {
   onClose: () => void;

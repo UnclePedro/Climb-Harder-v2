@@ -10,7 +10,7 @@ import { formatDateForDisplay } from "../utils/helpers";
 import add from "/src/assets/iconography/add.svg";
 import Icon from "./Icon";
 import { Season } from "../models/Season";
-import Button from "./reusable/button";
+import Button from "./reusable/Button";
 
 interface Props {
   workouts: Workout[];

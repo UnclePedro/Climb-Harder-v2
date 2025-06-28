@@ -7,7 +7,7 @@ import close from "/src/assets/iconography/close.svg";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import ReactQuill from "react-quill";
 import { toolbarOptions } from "../config/quillConfig";
-import Button from "./reusable/button";
+import Button from "./reusable/Button";
 
 interface Props {
   onClose: () => void;

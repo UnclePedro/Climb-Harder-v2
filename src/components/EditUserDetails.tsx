@@ -5,7 +5,7 @@ import userIcon from "/src/assets/climbing-edited.svg";
 import { endpointUrl } from "../config/endpointConfig";
 import { useAuth } from "../hooks/AuthProvider";
 import { exportCsv } from "../helpers/exportDataHelper";
-import Button from "./reusable/button";
+import Button from "./reusable/Button";
 
 export const EditUserDetails = () => {
   const [viewUser, setViewUser] = useState(false);

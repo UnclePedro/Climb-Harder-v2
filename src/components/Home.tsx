@@ -5,12 +5,12 @@ import WorkoutList from "./WorkoutList";
 import { Season } from "../models/Season";
 import { deleteSeason, newSeason } from "../helpers/seasonsStorageHelper";
 import { useState } from "react";
-import UserConfirmation from "./UserConfirmation";
+import UserConfirmation from "./reusable/modals/UserConfirmationModal";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Icon from "./Icon";
 import logo from "/src/assets/climb-harder-logo.svg";
 import EditUserDetails from "./EditUserDetails";
-import Button from "./reusable/button";
+import Button from "./reusable/Button";
 
 interface Props {
   seasons: Season[];
@@ -29,7 +29,8 @@ const Home = ({
   viewingSeason,
   setViewingSeason,
 }: Props) => {
-  const [displayUserConfirmation, setDisplayUserConfirmation] = useState(false);
+  const [displayConfirmationModal, setDisplayConfirmationModal] =
+    useState(false);
 
   const queryClient = useQueryClient();
 
@@ -127,21 +128,17 @@ const Home = ({
             <Button
               colour={"delete"}
               size="sm"
-              onClick={() => setDisplayUserConfirmation(true)}
+              onClick={() => setDisplayConfirmationModal(true)}
               isDisabled={deleteSeasonMutation.isPending}
             >
               Delete Season
             </Button>
           </div>
 
-          {displayUserConfirmation && (
+          {displayConfirmationModal && (
             <UserConfirmation
-              userYes={() => (
-                deleteSeasonMutation.mutate(viewingSeason.id),
-                setViewingSeason(seasons[seasons.length - 1]), // set viewingSeason to the previous season
-                setDisplayUserConfirmation(false)
-              )}
-              userNo={() => setDisplayUserConfirmation(false)}
+              userYes={() => deleteSeasonMutation.mutate(viewingSeason.id)}
+              userNo={() => setDisplayConfirmationModal(false)}
             />
           )}
         </div>
